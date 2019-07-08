@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "657322282635",
+    "firebase_url": "https://keepon-7f089.firebaseio.com",
+    "project_id": "keepon-7f089",
+    "storage_bucket": "keepon-7f089.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657322282635:android:5c667f26c5bd9af2",
+        "android_client_info": {
+          "package_name": "com.gil_shiran_or.keepon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657322282635-8vri1eh5p33qvdffnrrf06n5acirfj55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5zSoNUh2ItERoBNoHKIIzP-K4yYo_YIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657322282635-8vri1eh5p33qvdffnrrf06n5acirfj55.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
