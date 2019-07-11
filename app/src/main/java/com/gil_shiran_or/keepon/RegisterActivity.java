@@ -35,6 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mConfirmPasswordView;
     private FirebaseAuth mAuth; // Firebase instance variables
 
+    private boolean mIsTrainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
