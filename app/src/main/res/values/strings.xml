@@ -19,4 +19,6 @@
     </string>
     <string name="sample_message">Hello!</string>
     <string name="time_message">1:25 PM</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
