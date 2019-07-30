@@ -1,8 +1,7 @@
-package com.gil_shiran_or.keepon;
+package com.gil_shiran_or.keepon.traineer.nav;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,6 +9,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.traineer.about.AboutFragment;
+import com.gil_shiran_or.keepon.traineer.profile.ProfileFragment;
+import com.gil_shiran_or.keepon.traineer.ratings.RatingsFragment;
+import com.gil_shiran_or.keepon.traineer.settings.SettingsFragment;
 
 public class TraineerNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -56,7 +61,18 @@ public class TraineerNavActivity extends AppCompatActivity implements Navigation
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
                 break;
-
+            case R.id.nav_ratings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new RatingsFragment()).commit();
+                break;
+            case R.id.nav_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new SettingsFragment()).commit();
+                break;
+            case R.id.nav_about:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new AboutFragment()).commit();
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);

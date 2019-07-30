@@ -7,7 +7,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -276,6 +277,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_margin="25dp"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_profile_edit"
             app:backgroundTint="@color/purple"
             app:elevation="4dp" />

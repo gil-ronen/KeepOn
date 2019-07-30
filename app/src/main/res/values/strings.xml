@@ -21,4 +21,13 @@
     <string name="time_message">1:25 PM</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="ratings_tab_1">My Ratings</string>
+    <string name="ratings_tab_2">Online Ratings</string>
+    <string name="rating_state_very_bad">Very Bad</string>
+    <string name="rating_state_need_improvement">Need Improvement</string>
+    <string name="rating_state_good">Good</string>
+    <string name="rating_state_great">Great</string>
+    <string name="rating_state_awesome">Awesome</string>
+    <string name="rating_review_hint">Tell us more</string>
+    <string name="rating_button_name">Send</string>
 </resources>
