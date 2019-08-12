@@ -30,7 +30,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
-        <activity android:name="com.gil_shiran_or.keepon.traineer.nav.TraineerNavActivity"
+        <activity android:name="com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>

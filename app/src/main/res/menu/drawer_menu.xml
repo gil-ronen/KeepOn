@@ -6,9 +6,19 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/nav_main"
+            android:icon="@drawable/ic_home_page"
+            android:title="Home Page" />
+
+        <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
             android:title="Profile" />
+
+        <item
+            android:id="@+id/nav_status"
+            android:icon="@drawable/ic_status"
+            android:title="My Status" />
 
         <item
             android:id="@+id/nav_ratings"

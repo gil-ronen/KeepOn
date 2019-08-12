@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.traineer.about;
+package com.gil_shiran_or.keepon.trainee.about;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

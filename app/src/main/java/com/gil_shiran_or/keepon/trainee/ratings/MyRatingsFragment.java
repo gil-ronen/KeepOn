@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.traineer.ratings;
+package com.gil_shiran_or.keepon.trainee.ratings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,22 +13,24 @@ import com.gil_shiran_or.keepon.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OnlineRatingsFragment extends Fragment {
+public class MyRatingsFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_online_ratings, container, false);
+        return inflater.inflate(R.layout.fragment_my_ratings, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        LinearLayout rootLayout = getView().findViewById(R.id.online_ratings_cardviews);
-        String trainerName1 = "Trainer 1";
-        String trainerName2 = "Trainer 2";
+        LinearLayout rootLayout = getView().findViewById(R.id.my_ratings_cardviews);
+        List<String> trainersNames = new ArrayList<>(); //TODO: need to get from DB
 
-        new OnlineRatingCard(getContext(), rootLayout, trainerName1);
-        new OnlineRatingCard(getContext(), rootLayout, trainerName2);
+        trainersNames.add("Trainer 1");
+        trainersNames.add("Trainer 2");
+
+        for (String trainerName : trainersNames) {
+            new MyRatingCard(getContext(), rootLayout, trainerName);
+        }
     }
-
 }

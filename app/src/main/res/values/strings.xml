@@ -30,4 +30,6 @@
     <string name="rating_state_awesome">Awesome</string>
     <string name="rating_review_hint">Tell us more</string>
     <string name="rating_button_name">Send</string>
+    <string name="post_replies_expandable_layout_title">Hide replies</string>
+    <string name="post_comment_reply">REPLY</string>
 </resources>

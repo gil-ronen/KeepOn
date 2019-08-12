@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.traineer.profile;
+package com.gil_shiran_or.keepon.trainee.settings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,11 +9,16 @@ import android.view.ViewGroup;
 
 import com.gil_shiran_or.keepon.R;
 
-public class EditProfileFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getActivity().setTitle("Settings");
     }
 }

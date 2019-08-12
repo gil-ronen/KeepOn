@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.traineer.ratings;
+package com.gil_shiran_or.keepon.trainee.ratings;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

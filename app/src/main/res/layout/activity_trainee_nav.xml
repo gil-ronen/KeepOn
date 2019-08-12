@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.gil_shiran_or.keepon.traineer.nav.TraineerNavActivity"
+    tools:context="com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity"
     tools:openDrawer="start">
 
     <LinearLayout

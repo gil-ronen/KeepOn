@@ -1,6 +1,5 @@
-package com.gil_shiran_or.keepon.traineer.ratings;
+package com.gil_shiran_or.keepon.trainee.ratings;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;

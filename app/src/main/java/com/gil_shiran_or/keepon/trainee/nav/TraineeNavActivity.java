@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.traineer.nav;
+package com.gil_shiran_or.keepon.trainee.nav;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,19 +11,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.traineer.about.AboutFragment;
-import com.gil_shiran_or.keepon.traineer.profile.ProfileFragment;
-import com.gil_shiran_or.keepon.traineer.ratings.RatingsFragment;
-import com.gil_shiran_or.keepon.traineer.settings.SettingsFragment;
+import com.gil_shiran_or.keepon.trainee.about.AboutFragment;
+import com.gil_shiran_or.keepon.trainee.main.MainFragment;
+import com.gil_shiran_or.keepon.trainee.profile.ProfileFragment;
+import com.gil_shiran_or.keepon.trainee.ratings.RatingsFragment;
+import com.gil_shiran_or.keepon.trainee.settings.SettingsFragment;
+import com.gil_shiran_or.keepon.trainee.status.StatusFragment;
 
-public class TraineerNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class TraineeNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_traineer_nav);
+        setContentView(R.layout.activity_trainee_nav);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -37,11 +39,10 @@ public class TraineerNavActivity extends AppCompatActivity implements Navigation
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        // TODO: put display of the home page
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ProfileFragment()).commit();
-            navigationView.setCheckedItem((R.id.nav_profile));
+                    new MainFragment()).commit();
+            navigationView.setCheckedItem((R.id.nav_main));
         }
     }
 
@@ -57,9 +58,17 @@ public class TraineerNavActivity extends AppCompatActivity implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.nav_main:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MainFragment()).commit();
+                break;
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
+                break;
+            case R.id.nav_status:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new StatusFragment()).commit();
                 break;
             case R.id.nav_ratings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
