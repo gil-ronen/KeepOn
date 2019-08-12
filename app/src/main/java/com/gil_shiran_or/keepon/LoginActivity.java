@@ -10,7 +10,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,22 +20,28 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
+    private Button btnLogin;
+    private ProgressBar loginProgress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.login_email);
-        mPasswordView = (EditText) findViewById(R.id.login_password);
+        mEmailView = findViewById(R.id.login_mail);
+        mPasswordView = findViewById(R.id.login_password);
+        btnLogin = findViewById(R.id.loginBtn);
+        loginProgress = findViewById(R.id.login_progress);
+        loginProgress.setVisibility(View.INVISIBLE);
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -47,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance(); // Grab an instance of FirebaseAuth
-
     }
 
     // Executed when Sign in button pressed
@@ -67,10 +74,19 @@ public class LoginActivity extends AppCompatActivity {
 
     private void attemptLogin() {
 
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        loginProgress.setVisibility(View.VISIBLE);
+        btnLogin.setVisibility(View.INVISIBLE);
 
-        if(email.equals("") || password.equals("")) return;
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
+
+        if(email.equals("") || password.equals(""))
+        {
+            Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
+            btnLogin.setVisibility(View.VISIBLE);
+            loginProgress.setVisibility(View.INVISIBLE);
+            return;
+        }
         Toast.makeText(this, "Login in progress...", Toast.LENGTH_SHORT).show();
 
         // Use FirebaseAuth to sign in with email & password
@@ -84,10 +100,14 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     Log.d("KeepOn", "Problem signing in: " + task.getException());
                     showErrorDialog("There was a problem signing in");
+                    btnLogin.setVisibility(View.VISIBLE);
+                    loginProgress.setVisibility(View.INVISIBLE);
                 }
                 else
                 {
-                    Intent intent = new Intent(LoginActivity.this, MainChatActivity.class);
+                    btnLogin.setVisibility(View.VISIBLE);
+                    loginProgress.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     finish();
                     startActivity(intent);
                 }
@@ -106,6 +126,16 @@ public class LoginActivity extends AppCompatActivity {
                 .show();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = mAuth.getCurrentUser();
 
-
+        if(user != null) {
+            //user is already connected  so we need to redirect him to home page
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            finish();
+            startActivity(intent);
+        }
+    }
 }

@@ -11,9 +11,12 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.auth.FirebaseAuth;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,7 +28,9 @@ public class MainChatActivity extends AppCompatActivity {
     private ListView mChatListView;
     private EditText mInputText;
     private ImageButton mSendButton;
+    private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseReference;
+    private DatabaseReference mDatabaseUsersReference;
     private ChatListAdapter mAdapter;
 
     @Override
@@ -33,9 +38,12 @@ public class MainChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chat);
 
-        // Set up the display name and get the Firebase reference
-        setupDisplayName();
+
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        mDatabaseUsersReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
+
+        getDisplayName();
 
         // Link the Views in the layout to the Java code
         mInputText = (EditText) findViewById(R.id.messageInput);
@@ -62,14 +70,25 @@ public class MainChatActivity extends AppCompatActivity {
         });
     }
 
-    // Retrieve the display name from the Shared Preferences
-    private void setupDisplayName(){
-        SharedPreferences prefs = getSharedPreferences(RegisterActivity.CHAT_PREFS, MODE_PRIVATE);
 
-        mDisplayName = prefs.getString(RegisterActivity.DISPLAY_NAME_KEY, null);
+    // Retrieve the display name
+    private void getDisplayName(){
 
-        if(mDisplayName == null) mDisplayName = "Anonymous";
+        String user_id = mAuth.getCurrentUser().getUid();
+        DatabaseReference current_user_db = mDatabaseUsersReference.child(user_id).child("username");
+
+        current_user_db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mDisplayName = dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+
     }
+
 
     private void sendMessage() {
 
@@ -85,9 +104,6 @@ public class MainChatActivity extends AppCompatActivity {
             mDatabaseReference.child("messages").push().setValue(chat);
             mInputText.setText("");
         }
-
-        // Grab the text the user typed in and push the message to Firebase
-
     }
 
     // Override the onStart() lifecycle method. Setup the adapter here.

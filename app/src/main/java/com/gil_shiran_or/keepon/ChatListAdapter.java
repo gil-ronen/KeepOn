@@ -17,6 +17,10 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -25,7 +29,13 @@ public class ChatListAdapter extends BaseAdapter {
     private Activity mActivity;
     private DatabaseReference mDatabaseReference;
     private String mDisplayName;
+    private String mUsername = "";
     private ArrayList<DataSnapshot> mSnapshotList;
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabaseUsersReference;
+
+
 
     private ChildEventListener mListener = new ChildEventListener() {
         @Override
@@ -112,7 +122,24 @@ public class ChatListAdapter extends BaseAdapter {
         final  InstantMessage message = getItem(position);
         final ViewHolder holder = (ViewHolder) convertView.getTag();
 
-        boolean isMe = message.getAuthor().equals(mDisplayName);
+        mDatabaseUsersReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        mAuth = FirebaseAuth.getInstance();
+        String user_id = mAuth.getCurrentUser().getUid();
+        DatabaseReference current_user_db = mDatabaseUsersReference.child(user_id).child("username");
+
+        current_user_db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUsername = dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+
+        boolean isMe = mUsername.equals( message.getAuthor());
+
+
         setChatRowApperance(isMe, holder);
 
         String author = message.getAuthor();

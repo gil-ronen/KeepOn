@@ -5,23 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_profile_blur"
-    tools:context="RegisterActivity">
+    tools:context=".UserDetailsActivity">
 
     <ImageView
-        android:id="@+id/logo_photo"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:id="@+id/settings_user_photo"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/register_username"
+        android:src="@drawable/userphoto"
+        app:layout_constraintBottom_toTopOf="@+id/settings_weight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -31,7 +31,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <EditText
-        android:id="@+id/register_username"
+        android:id="@+id/settings_weight"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -41,14 +41,14 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/reg_edittext_style"
         android:ems="10"
-        android:hint="@string/prompt_username"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/register_email"
+        android:hint="@string/prompt_weight"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toTopOf="@+id/settings_height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/register_email"
+        android:id="@+id/settings_height"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -58,14 +58,14 @@
         android:layout_marginBottom="4dp"
         android:background="@drawable/reg_edittext_style"
         android:ems="10"
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress"
+        android:hint="@string/prompt_height"
+        android:inputType="numberSigned"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/register_password"
+        android:id="@+id/settings_residence"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -75,14 +75,14 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/reg_edittext_style"
         android:ems="10"
-        android:hint="@string/prompt_password"
-        android:inputType="textPassword"
+        android:hint="@string/prompt_residence"
+        android:inputType="textPostalAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <EditText
-        android:id="@+id/register_confirm_password"
+        android:id="@+id/settings_mobile_phone"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -92,109 +92,90 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/reg_edittext_style"
         android:ems="10"
-        android:hint="@string/prompt_password_again"
-        android:inputType="textPassword"
+        android:hint="@string/prompt_mobile_phone"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_password" />
+        app:layout_constraintTop_toBottomOf="@+id/settings_residence" />
 
-    <TextView
-        android:id="@+id/register_user_type_text"
-        android:layout_width="69dp"
-        android:layout_height="22dp"
-        android:layout_below="@+id/register_user_type_radioGroup"
-        android:layout_centerHorizontal="true"
+    <EditText
+        android:id="@+id/settings_age"
+        android:layout_width="265dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/reg_edittext_style"
+        android:ems="10"
+        android:hint="@string/prompt_age"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_mobile_phone" />
+
+    <Button
+        android:id="@+id/settings_update_button"
+        android:layout_width="151dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="I Am A: "
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/regProgressBar"
-        app:layout_constraintEnd_toStartOf="@+id/register_user_type_radioGroup"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_confirm_password" />
-
-    <RadioGroup
-        android:id="@+id/register_user_type_radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/register_sign_up_button"
+        android:background="@drawable/reg_btn_style"
+        android:onClick="updateDetails"
+        android:text="@string/action_update_details"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_confirm_password">
+        app:layout_constraintTop_toBottomOf="@+id/settings_age" />
 
-        <RadioButton
-            android:id="@+id/radio_trainee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:onClick="TraineeOrTrainerButton"
-            android:text="Trainee" />
+    <ProgressBar
+        android:id="@+id/settings_ProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/settings_update_button"
+        app:layout_constraintEnd_toEndOf="@+id/settings_update_button"
+        app:layout_constraintStart_toStartOf="@+id/settings_update_button"
+        app:layout_constraintTop_toTopOf="@+id/settings_update_button" />
 
-        <RadioButton
-            android:id="@+id/radio_trainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="TraineeOrTrainerButton"
-            android:text="Trainer" />
-
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/register_sign_up_button"
-        android:layout_width="151dp"
+    <RadioGroup
+        android:id="@+id/settings_user_gender_radioGroup"
+        android:layout_width="276dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/reg_btn_style"
-        android:onClick="signUp"
-        android:text="@string/action_register"
-        android:textColor="#ffffff"
-        app:layout_constraintBottom_toTopOf="@+id/register_login_button"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/settings_ProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_user_type_radioGroup"
-        app:layout_constraintVertical_bias="1" />
+        app:layout_constraintTop_toBottomOf="@+id/settings_age">
 
-    <ProgressBar
-        android:id="@+id/regProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/register_sign_up_button"
-        app:layout_constraintEnd_toEndOf="@+id/register_sign_up_button"
-        app:layout_constraintStart_toStartOf="@+id/register_sign_up_button"
-        app:layout_constraintTop_toTopOf="@+id/register_sign_up_button" />
+        <RadioButton
+            android:id="@+id/femaleRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="maleOrFemaleButton"
+            android:text="I'm female" />
 
-    <Button
-        android:id="@+id/register_login_button"
-        android:layout_width="151dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/reg_btn_style"
-        android:onClick="backToSignIn"
-        android:text="@string/action_sign_in"
-        android:textColor="#ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <RadioButton
+            android:id="@+id/maleRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="maleOrFemaleButton"
+            android:text="I'm male" />
+    </RadioGroup>
+
 
 </android.support.constraint.ConstraintLayout>
