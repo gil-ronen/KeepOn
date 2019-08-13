@@ -1,5 +1,27 @@
 <resources>
     <string name="app_name">KeepOn</string>
+    <string-array name="array_technology">
+        <item>Trainee 1</item>
+        <item>Trainee 2</item>
+        <item>Trainee 3</item>
+        <item>Trainee 4</item>
+        <item>Trainee 5</item>
+        <item>Trainee 6</item>
+        <item>Trainee 7</item>
+        <item>Trainee 8</item>
+        <item>Trainee 9</item>
+        <item>Trainee 10</item>
+        <item>Trainee 11</item>
+        <item>Trainee 12</item>
+        <item>Trainee 13</item>
+        <item>Trainee 14</item>
+        <item>Trainee 15</item>
+        <item>Trainee 16</item>
+        <item>Trainee 17</item>
+        <item>Trainee 18</item>
+        <item>Trainee 19</item>
+        <item>Trainee 20</item>
+    </string-array>
     <string name="prompt_email">Email</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
@@ -19,4 +41,17 @@
     </string>
     <string name="sample_message">Hello!</string>
     <string name="time_message">1:25 PM</string>
+    <string name="close">Close</string>
+
+    <string name="app_name1">Android Custom Calendar</string>
+    <string name="current_date">June, 2016</string>
+    <string name="add_event">ADD CALENDAR EVENT</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thu">THU</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="last_date">30</string>
 </resources>
