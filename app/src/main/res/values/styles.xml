@@ -13,4 +13,42 @@
 
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="RatingBar">
+
+        <item name="colorControlNormal">@color/light_purple</item>
+        <item name="colorControlActivated">@color/purple</item>
+
+    </style>
+
+    <style name="RatingBarReview" parent="RatingBar">
+
+        <item name="android:ratingBarStyle">?android:attr/ratingBarStyleSmall</item>
+
+    </style>
+
+    <style name="ProgressBar">
+
+        <item name="colorControlNormal">@color/light_purple</item>
+        <item name="colorControlActivated">@color/purple</item>
+        <item name="android:progressBarStyle">?android:attr/progressBarStyleHorizontal</item>
+
+    </style>
+
+    <style name="SwitchCompat">
+
+        <item name="colorControlNormal">@color/light_purple</item>
+        <item name="colorControlActivated">@color/purple</item>
+
+    </style>
+
 </resources>

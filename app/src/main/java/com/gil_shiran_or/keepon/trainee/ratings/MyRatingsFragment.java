@@ -1,0 +1,36 @@
+package com.gil_shiran_or.keepon.trainee.ratings;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.gil_shiran_or.keepon.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MyRatingsFragment extends Fragment {
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_my_ratings, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        LinearLayout rootLayout = getView().findViewById(R.id.my_ratings_cardviews);
+        List<String> trainersNames = new ArrayList<>(); //TODO: need to get from DB
+
+        trainersNames.add("Trainer 1");
+        trainersNames.add("Trainer 2");
+
+        for (String trainerName : trainersNames) {
+            new MyRatingCard(getContext(), rootLayout, trainerName);
+        }
+    }
+}

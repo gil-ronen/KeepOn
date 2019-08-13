@@ -35,4 +35,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="purple">#D362FF</color>
+    <color name="transparent">#00000000</color>
+    <color name="dark_gray">#A9A9A9</color>
+    <color name="gold">#F9A602</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="bronze">#B1560F</color>
 </resources>
