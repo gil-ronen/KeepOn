@@ -1,47 +1,48 @@
 package com.gil_shiran_or.keepon;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.Manifest;
+        import android.content.Intent;
+        import android.content.pm.PackageManager;
+        import android.net.Uri;
+        import android.os.Build;
+        import android.os.Bundle;
+        import android.support.v4.app.ActivityCompat;
+        import android.support.v4.content.ContextCompat;
+        import android.support.v7.app.AppCompatActivity;
+        import android.text.TextUtils;
+        import android.util.Log;
+        import android.view.KeyEvent;
+        import android.view.View;
+        import android.view.inputmethod.EditorInfo;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.ImageView;
+        import android.widget.ProgressBar;
+        import android.widget.RadioButton;
+        import android.widget.RadioGroup;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+        import android.support.annotation.NonNull;
+        import android.support.v7.app.AlertDialog;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.OnSuccessListener;
+        import com.google.android.gms.tasks.Task;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+        import com.google.firebase.auth.AuthResult;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.auth.UserProfileChangeRequest;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.storage.FirebaseStorage;
+        import com.google.firebase.storage.StorageReference;
+        import com.google.firebase.storage.UploadTask;
 
 
-public class UserDetailsActivity extends AppCompatActivity {
+public class TraineeDetailsRegister extends AppCompatActivity {
 
     private static int PReqCode = 1;
     private static int REQUESCODE = 1;
@@ -62,10 +63,15 @@ public class UserDetailsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
+    private String mEmail;
+    private String mPassword;
+    private String mUsername;
+    private String mUserType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_details);
+        setContentView(R.layout.activity_trainee_details_register);
 
         mImageUserPhoto = findViewById(R.id.settings_user_photo);
         mWeightView = findViewById(R.id.settings_weight);
@@ -75,22 +81,22 @@ public class UserDetailsActivity extends AppCompatActivity {
         mAgeView = findViewById(R.id.settings_age);
         mGender = "";
         mRadioUserGenderGroup = findViewById(R.id.settings_user_gender_radioGroup);
-
-
         loadingProgress = findViewById(R.id.settings_ProgressBar);
         updateButton = findViewById(R.id.settings_update_button);
 
         loadingProgress.setVisibility(View.INVISIBLE);
 
-
         //TODO: Bundle from the previous intent
         //Get the bundle
         Bundle bundle = getIntent().getExtras();
         //Extract the data…
-        String currentUserDb = bundle.getString("currentUserDb");
+        mEmail = bundle.getString("email");
+        mPassword = bundle.getString("password");
+        mUsername = bundle.getString("username");
+        mUserType = bundle.getString("userType");
 
         mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
-        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl(currentUserDb);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees");
 
         mImageUserPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,28 +210,54 @@ public class UserDetailsActivity extends AppCompatActivity {
     }
 
     private void uploadUserDetailsToFirebase() {
-        String weight = mWeightView.getText().toString();
-        String height = mHeightView.getText().toString();
-        String residence = mResidenceView.getText().toString();
-        String phoneNumber = mPhoneNumberView.getText().toString();
-        String age = mAgeView.getText().toString();
-        String gender = mGender;
+        final String weight = mWeightView.getText().toString();
+        final String height = mHeightView.getText().toString();
+        final String residence = mResidenceView.getText().toString();
+        final String phoneNumber = mPhoneNumberView.getText().toString();
+        final String age = mAgeView.getText().toString();
+        final String gender = mGender;
 
         if (mPickedImgUri != null) {
-            mDatabase.child("weight").setValue(weight);
-            mDatabase.child("height").setValue(height);
-            mDatabase.child("residence").setValue(residence);
-            mDatabase.child("phoneNumber").setValue(phoneNumber);
-            mDatabase.child("age").setValue(age);
-            mDatabase.child("gender").setValue(gender);
+            mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    Log.d("KeepOn", "createUser onComplete: " + task.isSuccessful());
 
+                    if(!task.isSuccessful())
+                    {
+                        Log.d("KeepOn", "user creation failed");
+                        showErrorDialog("Registration attempt failed");
+                        //updateButton.setVisibility(View.VISIBLE);
+                        //loadingProgress.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                    {
+                        Log.d("KeepOn", "user creation success");
+                        String user_id = mAuth.getCurrentUser().getUid();
+                        DatabaseReference current_user_db = mDatabase.child(user_id);
 
-            uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
+                        current_user_db.child("username").setValue(mUsername);
+                        current_user_db.child("email").setValue(mEmail);
+                        current_user_db.child("user_type").setValue(mUserType);
+                        current_user_db.child("weight").setValue(weight);
+                        current_user_db.child("height").setValue(height);
+                        current_user_db.child("residence").setValue(residence);
+                        current_user_db.child("phoneNumber").setValue(phoneNumber);
+                        current_user_db.child("age").setValue(age);
+                        current_user_db.child("gender").setValue(gender);
+                        current_user_db.child("profile_photo").setValue(mPickedImgUri.toString());
 
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
+                        uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
+
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            });
+
+        }
+        else {
             showErrorDialog("Must Upload A Profile Photo Of You");
         }
     }
@@ -250,7 +282,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                         // uri contain user image url
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
-                                .setDisplayName("username")
+                                .setDisplayName(mUsername)
                                 .setPhotoUri(uri)
                                 .build();
 
@@ -285,13 +317,13 @@ public class UserDetailsActivity extends AppCompatActivity {
 
     private void checkAndRequestForPermission() {
 
-        if (ContextCompat.checkSelfPermission(UserDetailsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(TraineeDetailsRegister.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(UserDetailsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(TraineeDetailsRegister.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-                Toast.makeText(UserDetailsActivity.this, "Please accept for required permission", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TraineeDetailsRegister.this, "Please accept for required permission", Toast.LENGTH_SHORT).show();
             } else {
-                ActivityCompat.requestPermissions(UserDetailsActivity.this,
+                ActivityCompat.requestPermissions(TraineeDetailsRegister.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         PReqCode);
             }

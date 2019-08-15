@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.gil_shiran_or.keepon"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gil_shiran_or.keepon">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -11,40 +10,32 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-
-        <activity android:name=".UserDetailsActivity"></activity>
-
+        android:theme="@style/AppTheme">
+        <activity android:name=".TrainerDetailsRegister"></activity>
+        <activity android:name=".TraineeDetailsRegister" />
+        <activity android:name=".UserDetailsActivity" />
         <activity android:name=".HomeActivity" />
-
         <activity
-            android:name="com.gil_shiran_or.keepon.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" >
-
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
-            android:name="com.gil_shiran_or.keepon.RegisterActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:name=".RegisterActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.gil_shiran_or.keepon.MainChatActivity"
+            android:name=".MainChatActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
-
-        <activity android:name="com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".trainee.nav.TraineeNavActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

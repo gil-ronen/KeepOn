@@ -67,8 +67,8 @@ public class LoginActivity extends AppCompatActivity {
     // Executed when Register button pressed
     public void registerNewUser(View v) {
         Intent intent = new Intent(this, com.gil_shiran_or.keepon.RegisterActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
 
 
@@ -108,8 +108,8 @@ public class LoginActivity extends AppCompatActivity {
                     btnLogin.setVisibility(View.VISIBLE);
                     loginProgress.setVisibility(View.INVISIBLE);
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    finish();
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -134,8 +134,8 @@ public class LoginActivity extends AppCompatActivity {
         if(user != null) {
             //user is already connected  so we need to redirect him to home page
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            finish();
             startActivity(intent);
+            finish();
         }
     }
 }
