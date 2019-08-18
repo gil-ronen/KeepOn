@@ -66,6 +66,21 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <Button
+        android:id="@+id/forgotPasswordBtn"
+        android:layout_width="247dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/transparent"
+        android:onClick="forgotPasswordClicked"
+        android:text="@string/action_forgot_password"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_password" />
+
+    <Button
         android:id="@+id/loginBtn"
         android:layout_width="136dp"
         android:layout_height="wrap_content"
@@ -82,7 +97,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password" />
+        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordBtn" />
 
     <ProgressBar
         android:id="@+id/login_progress"

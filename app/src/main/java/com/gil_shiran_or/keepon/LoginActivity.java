@@ -64,6 +64,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void forgotPasswordClicked(View v)
+    {
+        Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     // Executed when Register button pressed
     public void registerNewUser(View v) {
         Intent intent = new Intent(this, com.gil_shiran_or.keepon.RegisterActivity.class);
