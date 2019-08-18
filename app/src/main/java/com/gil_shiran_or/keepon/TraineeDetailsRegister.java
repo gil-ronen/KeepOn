@@ -1,8 +1,11 @@
 package com.gil_shiran_or.keepon;
 
         import android.Manifest;
+        import android.app.DatePickerDialog;
         import android.content.Intent;
         import android.content.pm.PackageManager;
+        import android.graphics.Color;
+        import android.graphics.drawable.ColorDrawable;
         import android.net.Uri;
         import android.os.Build;
         import android.os.Bundle;
@@ -11,16 +14,17 @@ package com.gil_shiran_or.keepon;
         import android.support.v7.app.AppCompatActivity;
         import android.text.TextUtils;
         import android.util.Log;
-        import android.view.KeyEvent;
         import android.view.View;
-        import android.view.inputmethod.EditorInfo;
+        import android.widget.AdapterView;
+        import android.widget.ArrayAdapter;
         import android.widget.Button;
+        import android.widget.DatePicker;
         import android.widget.EditText;
         import android.widget.ImageView;
         import android.widget.ProgressBar;
         import android.widget.RadioButton;
         import android.widget.RadioGroup;
-        import android.widget.TextView;
+        import android.widget.Spinner;
         import android.widget.Toast;
 
 
@@ -41,24 +45,31 @@ package com.gil_shiran_or.keepon;
         import com.google.firebase.storage.StorageReference;
         import com.google.firebase.storage.UploadTask;
 
+        import java.util.Calendar;
 
-public class TraineeDetailsRegister extends AppCompatActivity {
+
+public class TraineeDetailsRegister extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private static int PReqCode = 1;
     private static int REQUESCODE = 1;
     private Uri mPickedImgUri;
 
     private ImageView mImageUserPhoto;
+    private EditText mFullName;
     private EditText mWeightView;
     private EditText mHeightView;
     private EditText mResidenceView;
     private EditText mPhoneNumberView;
+    private Spinner mSpinner;
+    private String mPhoneCode;
     private ProgressBar loadingProgress;
     private Button updateButton;
-    private EditText mAgeView;
+    private Button mBirthDate;
     private String mGender;
     private RadioGroup mRadioUserGenderGroup;
     private RadioButton mRadioUserGenderButton;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private EditText mAboutMe;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -74,13 +85,18 @@ public class TraineeDetailsRegister extends AppCompatActivity {
         setContentView(R.layout.activity_trainee_details_register);
 
         mImageUserPhoto = findViewById(R.id.settings_user_photo);
+        mFullName = findViewById(R.id.settings_fullname);
         mWeightView = findViewById(R.id.settings_weight);
         mHeightView = findViewById(R.id.settings_height);
         mResidenceView = findViewById(R.id.settings_residence);
-        mPhoneNumberView = findViewById(R.id.settings_mobile_phone);
-        mAgeView = findViewById(R.id.settings_age);
+
+        mPhoneNumberView = findViewById(R.id.phoneText);
+        mSpinner = findViewById(R.id.spinnerPhoneCode);
+        mPhoneCode = "050";
+        mBirthDate = findViewById(R.id.settings_birthdate);
         mGender = "";
         mRadioUserGenderGroup = findViewById(R.id.settings_user_gender_radioGroup);
+        mAboutMe =  findViewById(R.id.settings_aboutme);
         loadingProgress = findViewById(R.id.settings_ProgressBar);
         updateButton = findViewById(R.id.settings_update_button);
 
@@ -108,6 +124,51 @@ public class TraineeDetailsRegister extends AppCompatActivity {
                 }
             }
         });
+
+        mBirthDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        TraineeDetailsRegister.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                Log.d("KeepOn: ", "onDateSet: dd/mm/yyy: " + day + "/" + month + "/" + year);
+
+                String date = day + "/" + month + "/" + year;
+                mBirthDate.setText(date);
+            }
+        };
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.phoneCode, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(adapter);
+        mSpinner.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        mPhoneCode = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     public void maleOrFemaleButton(View v) {
@@ -134,31 +195,60 @@ public class TraineeDetailsRegister extends AppCompatActivity {
         loadingProgress.setVisibility(View.VISIBLE);
 
         // Reset errors displayed in the form.
+        mFullName.setError(null);
         mWeightView.setError(null);
         mHeightView.setError(null);
         mResidenceView.setError(null);
         mPhoneNumberView.setError(null);
-        mAgeView.setError(null);
+        mBirthDate.setError(null);
 
         // Store values at the time of the login attempt.
+        String fullname = mFullName.getText().toString();
         String weight = mWeightView.getText().toString();
         String height = mHeightView.getText().toString();
         String residence = mResidenceView.getText().toString();
         String phoneNumber = mPhoneNumberView.getText().toString();
-        String age = mAgeView.getText().toString();
+        String birthDate = mBirthDate.getText().toString();
         String gender = mGender;
+        String aboutMe = mAboutMe.getText().toString();
+
+        int wightInt;
+        int heightInt;
+
+        if(weight.equals("") || weight.isEmpty())
+        {
+            wightInt = 0;
+        }
+        else
+        {
+            wightInt = Integer.parseInt(weight);
+        }
+        if(height.equals("") || height.isEmpty())
+        {
+            heightInt = 0;
+        }
+        else
+        {
+            heightInt = Integer.parseInt(height);
+        }
 
         boolean cancel = false;
         View focusView = null;
 
-        if (TextUtils.isEmpty(weight)) {
-            mWeightView.setError(getString(R.string.error_field_required));
+        if (TextUtils.isEmpty(fullname)) {
+            mFullName.setError(getString(R.string.error_field_required));
+            focusView = mFullName;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(weight) || wightInt < 20 || wightInt > 300) {
+            mWeightView.setError(getString(R.string.error_invalid_weight));
             focusView = mWeightView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(height)) {
-            mHeightView.setError(getString(R.string.error_field_required));
+        if (TextUtils.isEmpty(height) || heightInt < 50 || heightInt > 250) {
+            mHeightView.setError(getString(R.string.error_invalid_height));
             focusView = mHeightView;
             cancel = true;
         }
@@ -169,20 +259,26 @@ public class TraineeDetailsRegister extends AppCompatActivity {
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(phoneNumber)) {
-            mPhoneNumberView.setError(getString(R.string.error_field_required));
+        if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() != 7) {
+            mPhoneNumberView.setError(getString(R.string.error_invalid_phone));
             focusView = mPhoneNumberView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(age)) {
-            mAgeView.setError(getString(R.string.error_field_required));
-            focusView = mAgeView;
+        if (TextUtils.isEmpty(birthDate)) {
+            mBirthDate.setError(getString(R.string.error_field_required));
+            focusView = mBirthDate;
             cancel = true;
         }
 
         if (gender.isEmpty() || gender.equals("")) {
-            showErrorDialog("Please Verify Your Gender");
+            showErrorDialog("Please verify your gender");
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(aboutMe)) {
+            mAboutMe.setError(getString(R.string.error_field_required));
+            focusView = mAboutMe;
             cancel = true;
         }
 
@@ -210,12 +306,15 @@ public class TraineeDetailsRegister extends AppCompatActivity {
     }
 
     private void uploadUserDetailsToFirebase() {
+        final String fullname = mFullName.getText().toString();
         final String weight = mWeightView.getText().toString();
         final String height = mHeightView.getText().toString();
         final String residence = mResidenceView.getText().toString();
         final String phoneNumber = mPhoneNumberView.getText().toString();
-        final String age = mAgeView.getText().toString();
+        //final String PhoneCode = mSpinner.getPrompt().toString();
+        final String age = mBirthDate.getText().toString();
         final String gender = mGender;
+        final String aboutMe = mAboutMe.getText().toString();
 
         if (mPickedImgUri != null) {
             mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -239,12 +338,14 @@ public class TraineeDetailsRegister extends AppCompatActivity {
                         current_user_db.child("username").setValue(mUsername);
                         current_user_db.child("email").setValue(mEmail);
                         current_user_db.child("user_type").setValue(mUserType);
+                        current_user_db.child("fullname").setValue(fullname);
                         current_user_db.child("weight").setValue(weight);
                         current_user_db.child("height").setValue(height);
                         current_user_db.child("residence").setValue(residence);
-                        current_user_db.child("phoneNumber").setValue(phoneNumber);
+                        current_user_db.child("phoneNumber").setValue(mPhoneCode + phoneNumber);
                         current_user_db.child("age").setValue(age);
                         current_user_db.child("gender").setValue(gender);
+                        current_user_db.child("about_me").setValue(aboutMe);
                         current_user_db.child("profile_photo").setValue(mPickedImgUri.toString());
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
@@ -258,7 +359,7 @@ public class TraineeDetailsRegister extends AppCompatActivity {
 
         }
         else {
-            showErrorDialog("Must Upload A Profile Photo Of You");
+            showErrorDialog("must upload a profile photo of you");
         }
     }
 

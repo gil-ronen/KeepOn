@@ -14,7 +14,6 @@
         <activity android:name=".ResetPasswordActivity"></activity>
         <activity android:name=".TrainerDetailsRegister" />
         <activity android:name=".TraineeDetailsRegister" />
-        <activity android:name=".UserDetailsActivity" />
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".LoginActivity"

@@ -13,14 +13,14 @@
 
         <ImageView
             android:id="@+id/settings_user_photo"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/userphoto"
-            app:layout_constraintBottom_toTopOf="@+id/settings_weight"
+            app:layout_constraintBottom_toTopOf="@+id/settings_fullname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_percent="0.44" />
+
+        <EditText
+            android:id="@+id/settings_fullname"
+            android:layout_width="265dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/reg_edittext_style"
+            android:ems="10"
+            android:hint="@string/prompt_fullname"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/settings_weight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/settings_weight"
@@ -44,10 +61,11 @@
             android:background="@drawable/reg_edittext_style"
             android:ems="10"
             android:hint="@string/prompt_weight"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned"
             app:layout_constraintBottom_toTopOf="@+id/settings_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
 
         <EditText
             android:id="@+id/settings_height"
@@ -83,6 +101,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
+        <!--
         <EditText
             android:id="@+id/settings_mobile_phone"
             android:layout_width="265dp"
@@ -99,9 +118,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settings_residence" />
+            -->
 
-        <EditText
-            android:id="@+id/settings_age"
+        <RelativeLayout
+            android:id="@+id/settings_mobile_phone"
             android:layout_width="265dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -109,10 +129,51 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_residence" >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <Spinner
+                        android:id="@+id/spinnerPhoneCode"
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/reg_edittext_style" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint=" - "
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/phoneText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="phone"
+                        android:inputType="phone"
+                        android:background="@drawable/reg_edittext_style"
+                        android:singleLine="true" />
+                </LinearLayout>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/settings_birthdate"
+            android:layout_width="265dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/reg_edittext_style"
             android:ems="10"
-            android:hint="@string/prompt_age"
-            android:inputType="numberDecimal"
+            android:hint="@string/prompt_birthdate"
+            android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settings_mobile_phone" />
@@ -134,7 +195,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_age" />
+            app:layout_constraintTop_toBottomOf="@+id/settings_aboutme" />
 
         <ProgressBar
             android:id="@+id/settings_ProgressBar"
@@ -157,10 +218,10 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/settings_ProgressBar"
+            app:layout_constraintBottom_toTopOf="@+id/settings_aboutme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_age">
+            app:layout_constraintTop_toBottomOf="@+id/settings_birthdate">
 
             <RadioButton
                 android:id="@+id/femaleRadioButton"
@@ -178,6 +239,26 @@
                 android:onClick="maleOrFemaleButton"
                 android:text="I'm male" />
         </RadioGroup>
+
+        <EditText
+            android:id="@+id/settings_aboutme"
+            android:layout_width="265dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/reg_edittext_style"
+            android:ems="10"
+            android:lines="5"
+            android:hint="@string/prompt_aboutme"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toTopOf="@+id/settings_update_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_user_gender_radioGroup" />
+
+
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
