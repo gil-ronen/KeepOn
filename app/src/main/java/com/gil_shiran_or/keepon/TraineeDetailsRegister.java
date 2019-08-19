@@ -311,7 +311,6 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         final String height = mHeightView.getText().toString();
         final String residence = mResidenceView.getText().toString();
         final String phoneNumber = mPhoneNumberView.getText().toString();
-        //final String PhoneCode = mSpinner.getPrompt().toString();
         final String age = mBirthDate.getText().toString();
         final String gender = mGender;
         final String aboutMe = mAboutMe.getText().toString();
@@ -346,7 +345,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         current_user_db.child("age").setValue(age);
                         current_user_db.child("gender").setValue(gender);
                         current_user_db.child("about_me").setValue(aboutMe);
-                        current_user_db.child("profile_photo").setValue(mPickedImgUri.toString());
+                        //current_user_db.child("profile_photo").setValue(mPickedImgUri.toString());
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
@@ -381,6 +380,10 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                     public void onSuccess(Uri uri) {
 
                         // uri contain user image url
+                        String user_id = mAuth.getCurrentUser().getUid();
+                        DatabaseReference current_user_db = mDatabase.child(user_id);
+                        Log.d("KeepOn: ", "download photo uri: "+ uri.toString());
+                        current_user_db.child("profile_photo").setValue(uri.toString());
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(mUsername)
@@ -401,8 +404,6 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                 });
             }
         });
-        //Log.d("KeepOn: ", "download photo uri: " + imageFilePath.getDownloadUrl().toString());
-        //mDatabase.child("profile_photo").setValue(imageFilePath.getDownloadUrl().toString());
     }
 
 
