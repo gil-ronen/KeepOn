@@ -12,6 +12,12 @@
     <string name="prompt_password_again">Confirm Password</string>
     <string name="prompt_aboutme">a little about me...</string>
     <string name="prompt_msg">Type a message</string>
+    <string name="prompt_phone">phone</string>
+    <string name="prompt_female">I am female</string>
+    <string name="prompt_male">I am male</string>
+    <string name="prompt_company_name">My company I work for</string>
+    <string name="prompt_price">The price for  training hour (₪)</string>
+    <string name="prompt_working_place">Address of training place</string>
     <string name="action_login">Login</string>
     <string name="action_register">Register</string>
     <string name="action_back_sign_in">Back to Sign in</string>

@@ -155,6 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
             mRegBtn.setVisibility(View.VISIBLE);
             mLoadingProgress.setVisibility(View.INVISIBLE);
             focusView.requestFocus();
+            Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
         }
         else {
             //createFirebaseUser();

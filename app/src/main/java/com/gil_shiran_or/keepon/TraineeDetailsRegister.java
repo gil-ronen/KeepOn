@@ -68,6 +68,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     private String mGender;
     private RadioGroup mRadioUserGenderGroup;
     private RadioButton mRadioUserGenderButton;
+    private RadioButton mRadioMale;
+    private RadioButton mRadioFemale;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private EditText mAboutMe;
 
@@ -96,6 +98,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         mBirthDate = findViewById(R.id.settings_birthdate);
         mGender = "";
         mRadioUserGenderGroup = findViewById(R.id.settings_user_gender_radioGroup);
+        mRadioMale = findViewById(R.id.maleRadioButton);
+        mRadioFemale = findViewById(R.id.femaleRadioButton);
         mAboutMe =  findViewById(R.id.settings_aboutme);
         loadingProgress = findViewById(R.id.settings_ProgressBar);
         updateButton = findViewById(R.id.settings_update_button);
@@ -174,10 +178,10 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     public void maleOrFemaleButton(View v) {
         int radioId = mRadioUserGenderGroup.getCheckedRadioButtonId();
         mRadioUserGenderButton = findViewById(radioId);
-        if (mRadioUserGenderButton.getText().toString().equals("I'm female")) {
+        if (mRadioUserGenderButton.getText().toString().equals(mRadioFemale.getText().toString())) {
             Log.d("KeepOn", "User gender is female");
             mGender = "female";
-        } else if (mRadioUserGenderButton.getText().toString().equals("I'm male")) {
+        } else if (mRadioUserGenderButton.getText().toString().equals(mRadioMale.getText().toString())) {
             Log.d("KeepOn", "User gender is male");
             mGender = "male";
         }
@@ -291,6 +295,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
             if (focusView != null) {
                 focusView.requestFocus();
             }
+            Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
         } else {
             try {
                 uploadUserDetailsToFirebase();
@@ -311,7 +316,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         final String height = mHeightView.getText().toString();
         final String residence = mResidenceView.getText().toString();
         final String phoneNumber = mPhoneNumberView.getText().toString();
-        final String age = mBirthDate.getText().toString();
+        final String birthDate = mBirthDate.getText().toString();
         final String gender = mGender;
         final String aboutMe = mAboutMe.getText().toString();
 
@@ -342,7 +347,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         current_user_db.child("height").setValue(height);
                         current_user_db.child("residence").setValue(residence);
                         current_user_db.child("phoneNumber").setValue(mPhoneCode + phoneNumber);
-                        current_user_db.child("age").setValue(age);
+                        current_user_db.child("age").setValue(birthDate);
                         current_user_db.child("gender").setValue(gender);
                         current_user_db.child("about_me").setValue(aboutMe);
                         //current_user_db.child("profile_photo").setValue(mPickedImgUri.toString());
