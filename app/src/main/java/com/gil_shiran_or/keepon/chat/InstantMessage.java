@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon;
+package com.gil_shiran_or.keepon.chat;
 
 public class InstantMessage {
 

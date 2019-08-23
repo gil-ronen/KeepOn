@@ -1,54 +1,56 @@
-package com.gil_shiran_or.keepon;
+package com.gil_shiran_or.keepon.login_register;
 
-        import android.Manifest;
-        import android.app.DatePickerDialog;
-        import android.content.Intent;
-        import android.content.pm.PackageManager;
-        import android.graphics.Color;
-        import android.graphics.drawable.ColorDrawable;
-        import android.net.Uri;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.support.v4.app.ActivityCompat;
-        import android.support.v4.content.ContextCompat;
-        import android.support.v7.app.AppCompatActivity;
-        import android.text.TextUtils;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.DatePicker;
-        import android.widget.EditText;
-        import android.widget.ImageView;
-        import android.widget.ProgressBar;
-        import android.widget.RadioButton;
-        import android.widget.RadioGroup;
-        import android.widget.Spinner;
-        import android.widget.Toast;
-
-
-        import android.support.annotation.NonNull;
-        import android.support.v7.app.AlertDialog;
-
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.OnSuccessListener;
-        import com.google.android.gms.tasks.Task;
-
-        import com.google.firebase.auth.AuthResult;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.auth.FirebaseUser;
-        import com.google.firebase.auth.UserProfileChangeRequest;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.storage.FirebaseStorage;
-        import com.google.firebase.storage.StorageReference;
-        import com.google.firebase.storage.UploadTask;
-
-        import java.util.Calendar;
+import android.Manifest;
+import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 
-public class TraineeDetailsRegister extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+
+import com.gil_shiran_or.keepon.HomeActivity;
+import com.gil_shiran_or.keepon.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.Calendar;
+
+
+public class TrainerDetailsRegister extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private static int PReqCode = 1;
     private static int REQUESCODE = 1;
@@ -56,9 +58,9 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
 
     private ImageView mImageUserPhoto;
     private EditText mFullName;
-    private EditText mWeightView;
-    private EditText mHeightView;
-    private EditText mResidenceView;
+    private EditText mCompanyName;
+    private EditText mPrice;
+    private EditText mTrainingPlaceAddress;
     private EditText mPhoneNumberView;
     private Spinner mSpinner;
     private String mPhoneCode;
@@ -84,13 +86,13 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainee_details_register);
+        setContentView(R.layout.activity_trainer_details_register);
 
         mImageUserPhoto = findViewById(R.id.settings_user_photo);
         mFullName = findViewById(R.id.settings_fullname);
-        mWeightView = findViewById(R.id.settings_weight);
-        mHeightView = findViewById(R.id.settings_height);
-        mResidenceView = findViewById(R.id.settings_residence);
+        mCompanyName = findViewById(R.id.settings_company_name);
+        mPrice = findViewById(R.id.settings_price);
+        mTrainingPlaceAddress = findViewById(R.id.settings_working_place_address);
 
         mPhoneNumberView = findViewById(R.id.phoneText);
         mSpinner = findViewById(R.id.spinnerPhoneCode);
@@ -116,7 +118,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         mUserType = bundle.getString("userType");
 
         mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers");
 
         mImageUserPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +140,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        TraineeDetailsRegister.this,
+                        TrainerDetailsRegister.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         year,month,day);
@@ -200,41 +202,21 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
 
         // Reset errors displayed in the form.
         mFullName.setError(null);
-        mWeightView.setError(null);
-        mHeightView.setError(null);
-        mResidenceView.setError(null);
+        mCompanyName.setError(null);
+        mPrice.setError(null);
+        mTrainingPlaceAddress.setError(null);
         mPhoneNumberView.setError(null);
         mBirthDate.setError(null);
 
         // Store values at the time of the login attempt.
         String fullname = mFullName.getText().toString();
-        String weight = mWeightView.getText().toString();
-        String height = mHeightView.getText().toString();
-        String residence = mResidenceView.getText().toString();
+        String companyName = mCompanyName.getText().toString();
+        String price = mPrice.getText().toString();
+        String trainingPlaceAddress = mTrainingPlaceAddress.getText().toString();
         String phoneNumber = mPhoneNumberView.getText().toString();
         String birthDate = mBirthDate.getText().toString();
         String gender = mGender;
         String aboutMe = mAboutMe.getText().toString();
-
-        int wightInt;
-        int heightInt;
-
-        if(weight.equals("") || weight.isEmpty())
-        {
-            wightInt = 0;
-        }
-        else
-        {
-            wightInt = Integer.parseInt(weight);
-        }
-        if(height.equals("") || height.isEmpty())
-        {
-            heightInt = 0;
-        }
-        else
-        {
-            heightInt = Integer.parseInt(height);
-        }
 
         boolean cancel = false;
         View focusView = null;
@@ -245,21 +227,21 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(weight) || wightInt < 20 || wightInt > 300) {
-            mWeightView.setError(getString(R.string.error_invalid_weight));
-            focusView = mWeightView;
+        if (TextUtils.isEmpty(companyName)) {
+            mCompanyName.setError(getString(R.string.error_field_required));
+            focusView = mCompanyName;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(height) || heightInt < 50 || heightInt > 250) {
-            mHeightView.setError(getString(R.string.error_invalid_height));
-            focusView = mHeightView;
+        if (TextUtils.isEmpty(price)) {
+            mPrice.setError(getString(R.string.error_field_required));
+            focusView = mPrice;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(residence)) {
-            mResidenceView.setError(getString(R.string.error_field_required));
-            focusView = mResidenceView;
+        if (TextUtils.isEmpty(trainingPlaceAddress)) {
+            mTrainingPlaceAddress.setError(getString(R.string.error_field_required));
+            focusView = mTrainingPlaceAddress;
             cancel = true;
         }
 
@@ -296,6 +278,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                 focusView.requestFocus();
             }
             Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
+
         } else {
             try {
                 uploadUserDetailsToFirebase();
@@ -312,9 +295,9 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
 
     private void uploadUserDetailsToFirebase() {
         final String fullname = mFullName.getText().toString();
-        final String weight = mWeightView.getText().toString();
-        final String height = mHeightView.getText().toString();
-        final String residence = mResidenceView.getText().toString();
+        final String companyName = mCompanyName.getText().toString();
+        final String price = mPrice.getText().toString();
+        final String trainingPlaceAddress = mTrainingPlaceAddress.getText().toString();
         final String phoneNumber = mPhoneNumberView.getText().toString();
         final String birthDate = mBirthDate.getText().toString();
         final String gender = mGender;
@@ -330,8 +313,6 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                     {
                         Log.d("KeepOn", "user creation failed");
                         showErrorDialog("Registration attempt failed");
-                        //updateButton.setVisibility(View.VISIBLE);
-                        //loadingProgress.setVisibility(View.INVISIBLE);
                     }
                     else
                     {
@@ -343,14 +324,13 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         current_user_db.child("email").setValue(mEmail);
                         current_user_db.child("user_type").setValue(mUserType);
                         current_user_db.child("fullname").setValue(fullname);
-                        current_user_db.child("weight").setValue(weight);
-                        current_user_db.child("height").setValue(height);
-                        current_user_db.child("residence").setValue(residence);
+                        current_user_db.child("companyName").setValue(companyName);
+                        current_user_db.child("price").setValue(price);
+                        current_user_db.child("trainingPlaceAddress").setValue(trainingPlaceAddress);
                         current_user_db.child("phoneNumber").setValue(mPhoneCode + phoneNumber);
-                        current_user_db.child("age").setValue(birthDate);
+                        current_user_db.child("birthDate").setValue(birthDate);
                         current_user_db.child("gender").setValue(gender);
                         current_user_db.child("about_me").setValue(aboutMe);
-                        //current_user_db.child("profile_photo").setValue(mPickedImgUri.toString());
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
@@ -424,13 +404,13 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
 
     private void checkAndRequestForPermission() {
 
-        if (ContextCompat.checkSelfPermission(TraineeDetailsRegister.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(TrainerDetailsRegister.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(TraineeDetailsRegister.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(TrainerDetailsRegister.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-                Toast.makeText(TraineeDetailsRegister.this, "Please accept for required permission", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TrainerDetailsRegister.this, "Please accept for required permission", Toast.LENGTH_SHORT).show();
             } else {
-                ActivityCompat.requestPermissions(TraineeDetailsRegister.this,
+                ActivityCompat.requestPermissions(TrainerDetailsRegister.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         PReqCode);
             }

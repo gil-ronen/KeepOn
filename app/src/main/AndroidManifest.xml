@@ -11,12 +11,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ResetPasswordActivity"></activity>
-        <activity android:name=".TrainerDetailsRegister" />
-        <activity android:name=".TraineeDetailsRegister" />
+        <activity android:name=".login_register.ResetPasswordActivity"></activity>
+        <activity android:name=".login_register.TrainerDetailsRegister" />
+        <activity android:name=".login_register.TraineeDetailsRegister" />
         <activity android:name=".HomeActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login_register.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan">
@@ -27,10 +27,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".login_register.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainChatActivity"
+            android:name=".chat.MainChatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
