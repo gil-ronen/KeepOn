@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RatingBar
+        android:id="@+id/my_trainer_review_item_rating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:rating="5"
+        android:theme="@style/RatingBar" />
+
+    <TextView
+        android:id="@+id/my_trainer_review_item_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I think this trainer is the best. I improved myself so much because of him!!!" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/darker_gray" />
+
+</LinearLayout>

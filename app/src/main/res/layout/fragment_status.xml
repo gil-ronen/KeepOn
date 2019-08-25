@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_trainee"
     android:orientation="vertical">
 
     <LinearLayout
@@ -93,7 +92,6 @@
             app:contentPaddingTop="15dp">
 
             <LinearLayout
-                android:id="@+id/weekly_tasks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -111,115 +109,12 @@
                     android:layout_height="1dp"
                     android:background="@android:color/darker_gray" />
 
-                <!--<RelativeLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/weekly_tasks_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center|start"
-                        android:orientation="horizontal">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginRight="10dp"
-                            android:elevation="1dp"
-                            android:src="@drawable/default_profile_img" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="go to the gym 2 times this week"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="25"
-                            android:textAlignment="textEnd"
-                            android:textSize="25sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:src="@drawable/completed_task_stamp"
-                            android:visibility="gone" />
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center|start"
-                        android:orientation="horizontal">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginRight="10dp"
-                            android:elevation="1dp"
-                            android:src="@drawable/default_profile_img" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="go to the gym 3 times this week"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="50"
-                            android:textAlignment="textEnd"
-                            android:textSize="25sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:src="@drawable/completed_task_stamp"
-                            android:visibility="gone" />
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />-->
+                    android:layout_height="match_parent"
+                    android:padding="4dp"
+                    android:scrollbars="vertical" />
 
             </LinearLayout>
 

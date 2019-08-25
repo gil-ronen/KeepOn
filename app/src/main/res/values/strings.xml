@@ -117,10 +117,23 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+
+    <!-- ################## pages titles ################## -->
+
+    <string name="main_page_title">KeepOn</string>
+    <string name="profile_page_title">Profile</string>
+    <string name="ratings_page_title">Ratings</string>
+    <string name="status_page_title">My Status</string>
+    <string name="search_trainer_page_title">Search Trainer</string>
+    <string name="settings_page_title">Settings</string>
+    <string name="about_page_title">About</string>
+
+    <!-- ################################################## -->
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="ratings_tab_1">My Ratings</string>
-    <string name="ratings_tab_2">Online Ratings</string>
+    <string name="ratings_tab_1">Profile</string>
+    <string name="ratings_tab_2">Rating</string>
     <string name="rating_state_very_bad">Very Bad</string>
     <string name="rating_state_need_improvement">Need Improvement</string>
     <string name="rating_state_good">Good</string>
@@ -130,4 +143,36 @@
     <string name="rating_button_name">Send</string>
     <string name="post_replies_expandable_layout_title">Hide replies</string>
     <string name="post_comment_reply">REPLY</string>
+
+
+    <!-- ################## trainee search trainer ################## -->
+    <string name="filter_options_expanding_label">Filter Options</string>
+    <string name="filter_options_collapsing_label">Filter Options</string>
+    <string name="order_by_none">None</string>
+    <string name="order_by_newest_first">Newest First</string>
+    <string name="order_by_highest_price">Highest Price</string>
+    <string name="order_by_lowest_price">Lowest Price</string>
+    <string name="order_by_best_rating">Best Rating</string>
+
+    <string name="new_shekel_symbol">\u20aa</string>
+
+    <string-array name="filter_order_by_options">
+        <item>None</item>
+        <item>Newest First</item>
+        <item>Highest Price</item>
+        <item>Lowest Price</item>
+        <item>Best Rating</item>
+    </string-array>
+
+    <string-array name="test1">
+        <item>None</item>
+        <item>Rishon Le Zion</item>
+    </string-array>
+
+    <string-array name="test2">
+        <item>None</item>
+        <item>Israel</item>
+    </string-array>
+    <!-- ############################################################# -->
+
 </resources>
