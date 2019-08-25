@@ -7,7 +7,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:background="@color/light_purple"
-                tools:context="com.gil_shiran_or.keepon.MainChatActivity">
+                tools:context="com.gil_shiran_or.keepon.chat.MainChatActivity">
 
     <ListView
         android:id="@+id/chat_list_view"

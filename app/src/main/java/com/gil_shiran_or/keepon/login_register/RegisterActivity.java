@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon;
+package com.gil_shiran_or.keepon.login_register;
 
 
 import android.content.Intent;
@@ -17,12 +17,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.gil_shiran_or.keepon.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.SignInMethodQueryResult;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -37,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     RadioButton mRadioUserTypeButton;
 
     private FirebaseAuth mAuth; // Firebase instance variables
-    private DatabaseReference mDatabase;
+    //private DatabaseReference mDatabase;
     private boolean mIsTrainer;
 
 
@@ -70,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        //mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
     }
 
@@ -99,8 +100,8 @@ public class RegisterActivity extends AppCompatActivity {
     public void backToSignIn(View v)
     {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private void attemptRegistration() {
@@ -152,9 +153,12 @@ public class RegisterActivity extends AppCompatActivity {
             mRegBtn.setVisibility(View.VISIBLE);
             mLoadingProgress.setVisibility(View.INVISIBLE);
             focusView.requestFocus();
+            Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
         }
         else {
-            createFirebaseUser();
+            //createFirebaseUser();
+            checkIfEmailExistInDB();
+
         }
     }
 
@@ -166,67 +170,61 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         // add more logic to check for a valid password (minimum 6 characters)
         String confirmPassword = mConfirmPasswordView.getText().toString();
-        return confirmPassword.equals(password) && password.length() > 4;
+        return confirmPassword.equals(password) && password.length() > 7;
     }
 
-    // Create a Firebase user
-    private void createFirebaseUser() {
+    private void checkIfEmailExistInDB()
+    {
+        mEmailView.setError(null);
+        final View focusView = mEmailView;
 
         final String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String password = mPasswordView.getText().toString();
         final String username = mUsernameView.getText().toString();
-        final String emptyString = "";
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
+        mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d("KeepOn", "createUser onComplete: " + task.isSuccessful());
+            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
 
-                if(!task.isSuccessful())
+                boolean isEmailExist = !task.getResult().getSignInMethods().isEmpty();
+
+                mRegBtn.setVisibility(View.VISIBLE);
+                mLoadingProgress.setVisibility(View.INVISIBLE);
+
+                if(!isEmailExist)
                 {
-                    Log.d("KeepOn", "user creation failed");
-                    showErrorDialog("Registration attempt failed");
-                    mRegBtn.setVisibility(View.VISIBLE);
-                    mLoadingProgress.setVisibility(View.INVISIBLE);
-                }
-                else
-                {
-                    Log.d("KeepOn", "user creation success");
-                    String user_id = mAuth.getCurrentUser().getUid();
-                    DatabaseReference current_user_db;
+                    Intent intent;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("email", email);
+                    bundle.putString("password", password);
+                    bundle.putString("username", username);
 
                     if(mIsTrainer)
                     {
-                        current_user_db = mDatabase.child("Trainers").child(user_id);
+                        bundle.putString("userType", "Trainer");
+                        intent = new Intent(getApplicationContext(), TrainerDetailsRegister.class);
                     }
                     else
                     {
-                        current_user_db = mDatabase.child("Trainees").child(user_id);
+                        bundle.putString("userType", "Trainee");
+                        intent = new Intent(getApplicationContext(), TraineeDetailsRegister.class);
                     }
 
-                    current_user_db.child("username").setValue(username);
-                    current_user_db.child("email").setValue(email);
-                    current_user_db.child("is_trainer").setValue(mIsTrainer);
-                    current_user_db.child("weight").setValue(emptyString);
-                    current_user_db.child("height").setValue(emptyString);
-                    current_user_db.child("residence").setValue(emptyString);
-                    current_user_db.child("phoneNumber").setValue(emptyString);
-                    current_user_db.child("age").setValue(emptyString);
-                    current_user_db.child("gender").setValue(emptyString);
-                    current_user_db.child("profile_photo").setValue(emptyString);
-
-                    Intent detailsActivity = new Intent(getApplicationContext(), UserDetailsActivity.class);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("currentUserDb", current_user_db.toString());
-                    detailsActivity.putExtras(bundle);
-                    startActivity(detailsActivity);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     finish();
+                }
+                else
+                {
+                    mEmailView.setError("This email already exist");
+                    focusView.requestFocus();
+                    showErrorDialog("Another user has already signed up with this email.\n" +
+                            "Please register with another email.");
                 }
             }
         });
     }
-
 
     // Create an alert dialog to show in case registration failed
     private void showErrorDialog(String message)
@@ -238,5 +236,4 @@ public class RegisterActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-
 }

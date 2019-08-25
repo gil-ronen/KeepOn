@@ -1,6 +1,5 @@
-package com.gil_shiran_or.keepon;
+package com.gil_shiran_or.keepon.chat;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,6 +10,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.chat.ChatListAdapter;
+import com.gil_shiran_or.keepon.chat.InstantMessage;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
