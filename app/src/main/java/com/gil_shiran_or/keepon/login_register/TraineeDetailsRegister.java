@@ -33,6 +33,8 @@ package com.gil_shiran_or.keepon.login_register;
 
         import com.gil_shiran_or.keepon.HomeActivity;
         import com.gil_shiran_or.keepon.R;
+        import com.gil_shiran_or.keepon.Trainee;
+        import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.OnSuccessListener;
         import com.google.android.gms.tasks.Task;
@@ -83,6 +85,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     private String mUsername;
     private String mUserType;
 
+    private Trainee mTrainee;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +123,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
 
         mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees");
+
+        //mTrainee = new Trainee();
 
         mImageUserPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -341,23 +347,15 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
 
-                        current_user_db.child("username").setValue(mUsername);
-                        current_user_db.child("email").setValue(mEmail);
-                        current_user_db.child("user_type").setValue(mUserType);
-                        current_user_db.child("fullname").setValue(fullname);
-                        current_user_db.child("weight").setValue(weight);
-                        current_user_db.child("height").setValue(height);
-                        current_user_db.child("residence").setValue(residence);
-                        current_user_db.child("phoneNumber").setValue(mPhoneCode + phoneNumber);
-                        current_user_db.child("age").setValue(birthDate);
-                        current_user_db.child("gender").setValue(gender);
-                        current_user_db.child("about_me").setValue(aboutMe);
-                        //current_user_db.child("profile_photo").setValue(mPickedImgUri.toString());
+                        mTrainee = new Trainee(user_id, mUserType, fullname, mUsername, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, aboutMe, "", weight, height, residence);
+
+                        current_user_db.setValue(mTrainee);
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
+                        Intent traineeIntent = new Intent(getApplicationContext(), TraineeNavActivity.class);
+                        traineeIntent.putExtra("traineeDetails", mTrainee);
+                        startActivity(traineeIntent);
                         finish();
                     }
                 }
@@ -390,7 +388,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
                         Log.d("KeepOn: ", "download photo uri: "+ uri.toString());
-                        current_user_db.child("profile_photo").setValue(uri.toString());
+                        current_user_db.child("profilePhotoUri").setValue(uri.toString());
+                        mTrainee.setProfilePhotoUri(uri.toString());
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(mUsername)
