@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
@@ -91,16 +91,53 @@
 
                 </TableRow>
 
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/gold_place_trainee_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="250" />
+
+                    <TextView
+                        android:id="@+id/silver_place_trainee_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="125" />
+
+                    <TextView
+                        android:id="@+id/bronze_place_trainee_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="100" />
+
+                </TableRow>
+
             </TableLayout>
 
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.RecyclerView
+        <!--<android.support.v7.widget.RecyclerView
             android:id="@+id/posts_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="4dp"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical" />-->
+
+        <ListView
+            android:id="@+id/posts_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:padding="4dp"
+            android:transcriptMode="alwaysScroll" />
 
     </LinearLayout>
 

@@ -20,11 +20,11 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".login_register.RegisterActivity"
@@ -35,11 +35,18 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
-        <activity android:name=".trainee.ui.nav.TraineeNavActivity"
+        <activity android:name=".trainee.nav.TraineeNavActivity"
             android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
 
-        <activity android:name=".trainee.ui.my_trainers.MyTrainerActivity"
+        <activity android:name=".trainee.my_trainers.MyTrainerActivity"
             android:screenOrientation="portrait">
 
         </activity>

@@ -28,6 +28,7 @@ dependencies {
     implementation 'com.beardedhen:androidbootstrap:2.3.+'
     implementation 'com.crystal:crystalrangeseekbar:1.1.3'
     implementation 'com.edmodo:rangebar:1.0.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.google.firebase:firebase-database:17.0.0'
     implementation 'com.google.firebase:firebase-auth:17.0.0'
