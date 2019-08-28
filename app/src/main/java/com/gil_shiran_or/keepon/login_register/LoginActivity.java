@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.trainer_weekly_planner.MainWeeklyScheduleActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -115,6 +116,9 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     btnLogin.setVisibility(View.VISIBLE);
                     loginProgress.setVisibility(View.INVISIBLE);
+
+                    //TODO: check if user is trainer or trainee
+                    //Intent intent = new Intent(LoginActivity.this, MainWeeklyScheduleActivity.class);
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
@@ -139,8 +143,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
 
+        //TODO: check if user is trainer or trainee
         if(user != null) {
             //user is already connected  so we need to redirect him to home page
+            //Intent intent = new Intent(LoginActivity.this, MainWeeklyScheduleActivity.class);
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();

@@ -34,7 +34,7 @@ package com.gil_shiran_or.keepon.login_register;
         import com.gil_shiran_or.keepon.HomeActivity;
         import com.gil_shiran_or.keepon.R;
         import com.gil_shiran_or.keepon.Trainee;
-        import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
+        import com.gil_shiran_or.keepon.trainee.ui.nav.TraineeNavActivity;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.OnSuccessListener;
         import com.google.android.gms.tasks.Task;
@@ -347,7 +347,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
 
-                        mTrainee = new Trainee(user_id, mUserType, fullname, mUsername, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, aboutMe, "", weight, height, residence);
+                        mTrainee = new Trainee(user_id, mUserType, fullname, mUsername, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, aboutMe, "", weight, height, residence, 0, 0, 0);
 
                         current_user_db.setValue(mTrainee);
 
