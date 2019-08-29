@@ -354,7 +354,6 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
                         Intent traineeIntent = new Intent(getApplicationContext(), TraineeNavActivity.class);
-                        traineeIntent.putExtra("traineeDetails", mTrainee);
                         startActivity(traineeIntent);
                         finish();
                     }
@@ -465,6 +464,4 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
             mImageUserPhoto.setImageURI(mPickedImgUri);
         }
     }
-
-
 }

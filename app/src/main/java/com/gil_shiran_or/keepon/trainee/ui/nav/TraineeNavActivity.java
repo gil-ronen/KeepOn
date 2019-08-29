@@ -1,5 +1,6 @@
 package com.gil_shiran_or.keepon.trainee.ui.nav;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.login_register.LoginActivity;
 import com.gil_shiran_or.keepon.trainee.ui.about.AboutFragment;
 import com.gil_shiran_or.keepon.trainee.ui.main.MainFragment;
 import com.gil_shiran_or.keepon.trainee.ui.my_trainers.MyTrainersFragment;
@@ -18,6 +20,7 @@ import com.gil_shiran_or.keepon.trainee.ui.profile.ProfileFragment;
 import com.gil_shiran_or.keepon.trainee.ui.search_trainer.SearchTrainerFragment;
 import com.gil_shiran_or.keepon.trainee.ui.settings.SettingsFragment;
 import com.gil_shiran_or.keepon.trainee.ui.status.StatusFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class TraineeNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -89,6 +92,12 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new AboutFragment()).commit();
                 break;
+            case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(loginActivity);
+                finish();
+
         }
 
         drawer.closeDrawer(GravityCompat.START);
