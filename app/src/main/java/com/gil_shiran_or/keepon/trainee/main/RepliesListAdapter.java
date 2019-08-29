@@ -132,7 +132,7 @@ public class RepliesListAdapter extends BaseAdapter {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String author = dataSnapshot.child(reply.getUserId() + "/username").getValue(String.class);
-                String authorImageUrl = dataSnapshot.child(reply.getUserId() + "/profile_photo").getValue(String.class);
+                String authorImageUrl = dataSnapshot.child(reply.getUserId() + "/profilePhotoUri").getValue(String.class);
 
                 holder.authorTextView.setText(author);
                 Picasso.with(mMainFragment.getContext()).load(authorImageUrl).fit().into(holder.authorCircleImageView);
@@ -178,7 +178,7 @@ public class RepliesListAdapter extends BaseAdapter {
         holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like));
         holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike));
 
-        if (reply.getUsersLiked().containsValue("5xpO2eIuy8S3bvxI34B8S973zi12")) {
+        if (reply.getUsersLiked().containsValue("E0NB5lGKN2dCULl6yzAHTLCut862")) {
             holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
@@ -186,7 +186,7 @@ public class RepliesListAdapter extends BaseAdapter {
             holder.dislikeImageView.setFocusable(false);
         }
 
-        if (reply.getUsersDisliked().containsValue("5xpO2eIuy8S3bvxI34B8S973zi12")) {
+        if (reply.getUsersDisliked().containsValue("E0NB5lGKN2dCULl6yzAHTLCut862")) {
             holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
@@ -202,7 +202,7 @@ public class RepliesListAdapter extends BaseAdapter {
 
         childUpdates.put(reply.getReplyId() + "/likes", reply.getLikes() + 1);
         mDatabaseRepliesReference.updateChildren(childUpdates);
-        mDatabaseRepliesReference.child(reply.getReplyId() + "/usersLiked/userId").setValue("5xpO2eIuy8S3bvxI34B8S973zi12");
+        mDatabaseRepliesReference.child(reply.getReplyId() + "/usersLiked/userId").setValue("E0NB5lGKN2dCULl6yzAHTLCut862");
     }
 
     private void changePostDislikesInFirebase(Reply reply) {
@@ -210,6 +210,6 @@ public class RepliesListAdapter extends BaseAdapter {
 
         childUpdates.put(reply.getReplyId() + "/dislikes", reply.getDislikes() + 1);
         mDatabaseRepliesReference.updateChildren(childUpdates);
-        mDatabaseRepliesReference.child(reply.getReplyId() + "/usersDisliked/userId").setValue("5xpO2eIuy8S3bvxI34B8S973zi12");
+        mDatabaseRepliesReference.child(reply.getReplyId() + "/usersDisliked/userId").setValue("E0NB5lGKN2dCULl6yzAHTLCut862");
     }
 }

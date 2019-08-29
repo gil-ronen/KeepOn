@@ -43,8 +43,16 @@ public class PostsListAdapter extends BaseAdapter {
         mDatabasePostsReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                mPostsList.add(dataSnapshot);
+                mPostsList.add(0, dataSnapshot);
                 notifyDataSetChanged();
+
+                final ListView postsListView = mainFragment.getView().findViewById(R.id.posts_list);
+                postsListView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        postsListView.setSelection(0);
+                    }
+                });
             }
 
             @Override
@@ -142,7 +150,7 @@ public class PostsListAdapter extends BaseAdapter {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String author = dataSnapshot.child(post.getUserId() + "/username").getValue(String.class);
-                String authorImageUrl = dataSnapshot.child(post.getUserId() + "/profile_photo").getValue(String.class);
+                String authorImageUrl = dataSnapshot.child(post.getUserId() + "/profilePhotoUri").getValue(String.class);
 
                 holder.authorTextView.setText(author);
                 Picasso.with(mMainFragment.getContext()).load(authorImageUrl).fit().into(holder.authorCircleImageView);
@@ -189,7 +197,7 @@ public class PostsListAdapter extends BaseAdapter {
         holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like));
         holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike));
 
-        if (post.getUsersLiked().containsValue("5xpO2eIuy8S3bvxI34B8S973zi12")) {
+        if (post.getUsersLiked().containsValue("E0NB5lGKN2dCULl6yzAHTLCut862")) {
             holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
@@ -197,7 +205,7 @@ public class PostsListAdapter extends BaseAdapter {
             holder.dislikeImageView.setFocusable(false);
         }
 
-        if (post.getUsersDisliked().containsValue("5xpO2eIuy8S3bvxI34B8S973zi12")) {
+        if (post.getUsersDisliked().containsValue("E0NB5lGKN2dCULl6yzAHTLCut862")) {
             holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
@@ -244,7 +252,7 @@ public class PostsListAdapter extends BaseAdapter {
 
         childUpdates.put(post.getPostId() + "/likes", post.getLikes() + 1);
         mDatabasePostsReference.updateChildren(childUpdates);
-        mDatabasePostsReference.child(post.getPostId() + "/usersLiked/userId").setValue("5xpO2eIuy8S3bvxI34B8S973zi12");
+        mDatabasePostsReference.child(post.getPostId() + "/usersLiked/userId").setValue("E0NB5lGKN2dCULl6yzAHTLCut862");
     }
 
     private void changePostDislikesInFirebase(Post post) {
@@ -252,6 +260,6 @@ public class PostsListAdapter extends BaseAdapter {
 
         childUpdates.put(post.getPostId() + "/dislikes", post.getDislikes() + 1);
         mDatabasePostsReference.updateChildren(childUpdates);
-        mDatabasePostsReference.child(post.getPostId() + "/usersDisliked/userId").setValue("5xpO2eIuy8S3bvxI34B8S973zi12");
+        mDatabasePostsReference.child(post.getPostId() + "/usersDisliked/userId").setValue("E0NB5lGKN2dCULl6yzAHTLCut862");
     }
 }
