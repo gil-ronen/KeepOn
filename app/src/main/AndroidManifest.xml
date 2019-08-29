@@ -11,12 +11,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".login_register.ResetPasswordActivity"></activity>
-        <activity android:name=".login_register.TrainerDetailsRegister" />
-        <activity android:name=".login_register.TraineeDetailsRegister" />
-        <activity android:name=".HomeActivity" />
         <activity
-            android:name=".login_register.LoginActivity"
+            android:name=".login_register.LandingScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan">
@@ -26,31 +22,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
         </activity>
+        <activity android:name=".trainer_weekly_planner.EditSlotActivity" />
+        <activity android:name=".trainer_weekly_planner.AddNewSlotActivity" />
+        <activity android:name=".trainer_weekly_planner.MainWeeklyScheduleActivity" />
+        <activity android:name=".login_register.ResetPasswordActivity" />
+        <activity android:name=".login_register.TrainerDetailsRegister" />
+        <activity android:name=".login_register.TraineeDetailsRegister" />
+        <activity android:name=".HomeActivity" />
+        <activity
+            android:name=".login_register.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+        </activity>
         <activity
             android:name=".login_register.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".chat.MainChatActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
-
-        <activity android:name=".trainee.nav.TraineeNavActivity"
-            android:screenOrientation="portrait">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-
-        <activity android:name=".trainee.my_trainers.MyTrainerActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".trainee.ui.nav.TraineeNavActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".trainee.ui.my_trainers.MyTrainerActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

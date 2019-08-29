@@ -17,16 +17,24 @@ import android.widget.Toast;
 
 import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.trainee.ui.nav.TraineeNavActivity;
+import com.gil_shiran_or.keepon.trainer_weekly_planner.MainWeeklyScheduleActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private EditText mEmailView;
     private EditText mPasswordView;
     private Button btnLogin;
@@ -56,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance(); // Grab an instance of FirebaseAuth
+        mUser = mAuth.getCurrentUser();
     }
 
     // Executed when Sign in button pressed
@@ -115,13 +124,45 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     btnLogin.setVisibility(View.VISIBLE);
                     loginProgress.setVisibility(View.INVISIBLE);
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
+
+                    mAuth = FirebaseAuth.getInstance(); // Grab an instance of FirebaseAuth
+                    mUser = mAuth.getCurrentUser();
+
+                    String user_id = mUser.getUid();
+
+                    Query query = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees")
+                            .orderByChild("userId")
+                            .equalTo(user_id);
+                    query.addValueEventListener(valueEventListener);
                 }
             }
         });
     }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+            Intent intent;
+
+            if (dataSnapshot.exists()) //the user is connected as Trainee
+            {
+                intent = new Intent(getApplicationContext(), TraineeNavActivity.class);
+            }
+            else //the user is connected as Trainer
+            {
+                intent = new Intent(getApplicationContext(), HomeActivity.class);
+            }
+
+            startActivity(intent);
+            finish();
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 
     // Show error on screen with an alert dialog
     private void showErrorDialog(String message)
@@ -134,16 +175,4 @@ public class LoginActivity extends AppCompatActivity {
                 .show();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        if(user != null) {
-            //user is already connected  so we need to redirect him to home page
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
 }

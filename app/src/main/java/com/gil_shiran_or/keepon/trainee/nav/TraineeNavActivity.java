@@ -13,13 +13,13 @@ import android.view.MenuItem;
 
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.login_register.LoginActivity;
-import com.gil_shiran_or.keepon.trainee.about.AboutFragment;
-import com.gil_shiran_or.keepon.trainee.main.MainFragment;
-import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainersFragment;
-import com.gil_shiran_or.keepon.trainee.profile.ProfileFragment;
-import com.gil_shiran_or.keepon.trainee.search_trainer.SearchTrainerFragment;
-import com.gil_shiran_or.keepon.trainee.settings.SettingsFragment;
-import com.gil_shiran_or.keepon.trainee.status.StatusFragment;
+import com.gil_shiran_or.keepon.trainee.ui.about.AboutFragment;
+import com.gil_shiran_or.keepon.trainee.ui.main.MainFragment;
+import com.gil_shiran_or.keepon.trainee.ui.my_trainers.MyTrainersFragment;
+import com.gil_shiran_or.keepon.trainee.ui.profile.ProfileFragment;
+import com.gil_shiran_or.keepon.trainee.ui.search_trainer.SearchTrainerFragment;
+import com.gil_shiran_or.keepon.trainee.ui.settings.SettingsFragment;
+import com.gil_shiran_or.keepon.trainee.ui.status.StatusFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class TraineeNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -94,10 +94,10 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-
                 Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(loginActivity);
                 finish();
+
         }
 
         drawer.closeDrawer(GravityCompat.START);

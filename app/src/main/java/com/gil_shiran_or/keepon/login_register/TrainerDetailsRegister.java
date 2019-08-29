@@ -33,6 +33,7 @@ import android.support.v7.app.AlertDialog;
 
 import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.Trainer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -77,6 +78,8 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+
+    private Trainer mTrainer;
 
     private String mEmail;
     private String mPassword;
@@ -320,17 +323,9 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
 
-                        current_user_db.child("username").setValue(mUsername);
-                        current_user_db.child("email").setValue(mEmail);
-                        current_user_db.child("user_type").setValue(mUserType);
-                        current_user_db.child("fullname").setValue(fullname);
-                        current_user_db.child("companyName").setValue(companyName);
-                        current_user_db.child("price").setValue(price);
-                        current_user_db.child("trainingPlaceAddress").setValue(trainingPlaceAddress);
-                        current_user_db.child("phoneNumber").setValue(mPhoneCode + phoneNumber);
-                        current_user_db.child("birthDate").setValue(birthDate);
-                        current_user_db.child("gender").setValue(gender);
-                        current_user_db.child("about_me").setValue(aboutMe);
+                        mTrainer = new Trainer(user_id, mUserType, fullname, mUsername, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, aboutMe, "", companyName, price, trainingPlaceAddress);
+
+                        current_user_db.setValue(mTrainer);
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
@@ -368,7 +363,9 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
                         Log.d("KeepOn: ", "download photo uri: "+ uri.toString());
-                        current_user_db.child("profile_photo").setValue(uri.toString());
+
+                        current_user_db.child("profilePhotoUri").setValue(uri.toString());
+                        mTrainer.setProfilePhotoUri(uri.toString());
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(mUsername)
