@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.Trainee;
-import com.gil_shiran_or.keepon.trainee.ui.nav.TraineeNavActivity;
+import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
 import com.gil_shiran_or.keepon.trainer_weekly_planner.MainWeeklyScheduleActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
