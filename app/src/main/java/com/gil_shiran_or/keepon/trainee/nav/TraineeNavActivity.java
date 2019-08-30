@@ -1,26 +1,40 @@
 package com.gil_shiran_or.keepon.trainee.nav;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.login_register.LoginActivity;
-import com.gil_shiran_or.keepon.trainee.ui.about.AboutFragment;
-import com.gil_shiran_or.keepon.trainee.ui.main.MainFragment;
-import com.gil_shiran_or.keepon.trainee.ui.my_trainers.MyTrainersFragment;
-import com.gil_shiran_or.keepon.trainee.ui.profile.ProfileFragment;
-import com.gil_shiran_or.keepon.trainee.ui.search_trainer.SearchTrainerFragment;
-import com.gil_shiran_or.keepon.trainee.ui.settings.SettingsFragment;
-import com.gil_shiran_or.keepon.trainee.ui.status.StatusFragment;
+import com.gil_shiran_or.keepon.trainee.about.AboutFragment;
+import com.gil_shiran_or.keepon.trainee.main.MainFragment;
+import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainersFragment;
+import com.gil_shiran_or.keepon.trainee.profile.ProfileFragment;
+import com.gil_shiran_or.keepon.trainee.search_trainer.SearchTrainerFragment;
+import com.gil_shiran_or.keepon.trainee.settings.SettingsFragment;
+import com.gil_shiran_or.keepon.trainee.status.StatusFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TraineeNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -50,6 +64,29 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
                     new MainFragment()).commit();
             navigationView.setCheckedItem((R.id.nav_main));
         }
+
+        //final View header = navigationView.getHeaderView(0);
+        //String currentUserId = FirebaseAuth.getInstance().getUid();
+        //DatabaseReference databaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees").child(currentUserId);
+
+        /*databaseTraineesReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                CircleImageView traineeCircleImageView = header.findViewById(R.id.nav_header_trainee_profile_img);
+                TextView traineeNameTextView = header.findViewById(R.id.nav_header_trainee_name);
+                TextView traineeEmailTextView = header.findViewById(R.id.nav_header_trainee_email);
+
+                Picasso.with(TraineeNavActivity.this).load(dataSnapshot.child("profilePhotoUri").getValue(String.class)).fit().into(traineeCircleImageView);
+                traineeNameTextView.setText(dataSnapshot.child("username").getValue(String.class));
+                traineeEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+
     }
 
     @Override

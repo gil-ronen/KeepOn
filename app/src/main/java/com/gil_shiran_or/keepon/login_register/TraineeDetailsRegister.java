@@ -34,7 +34,7 @@ package com.gil_shiran_or.keepon.login_register;
         import com.gil_shiran_or.keepon.HomeActivity;
         import com.gil_shiran_or.keepon.R;
         import com.gil_shiran_or.keepon.Trainee;
-        import com.gil_shiran_or.keepon.trainee.ui.nav.TraineeNavActivity;
+        import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.OnSuccessListener;
         import com.google.android.gms.tasks.Task;

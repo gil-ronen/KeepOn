@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gil_shiran_or.keepon.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +30,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainFragment extends Fragment implements AddPostDialog.AddPostListener, AddReplyDialog.AddReplyListener {
 
     private PostsListAdapter mPostsListAdapter;
+    //private DatabaseReference mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
+    //private ValueEventListener mValueEventListener;
+    private String mCurrentUserId;
 
     @Nullable
     @Override
@@ -40,18 +44,21 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(getResources().getString(R.string.main_page_title));
 
-        buildPostsListView();
-        getMvpTrainees();
+        /*FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        mCurrentUserId = firebaseAuth.getCurrentUser().getUid();*/
+
+        //buildPostsListView();
+        //getMvpTrainees();
         adjustAddPostButton();
 
         Toast.makeText(getContext(), "Loading Posts...", Toast.LENGTH_SHORT).show();
     }
 
     private void buildPostsListView() {
-        ListView mPostsListView = getView().findViewById(R.id.posts_list);
+        ListView postsListView = getView().findViewById(R.id.posts_list);
         mPostsListAdapter = new PostsListAdapter(this);
 
-        mPostsListView.setAdapter(mPostsListAdapter);
+        postsListView.setAdapter(mPostsListAdapter);
     }
 
     private void adjustAddPostButton() {
@@ -74,7 +81,7 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
-        mPostsListAdapter.setPostToFirebase(new Post("E0NB5lGKN2dCULl6yzAHTLCut862", formatter.format(date), postTitle, postBody));
+        mPostsListAdapter.setPostToFirebase(new Post(mCurrentUserId, formatter.format(date), postTitle, postBody));
     }
 
     @Override
@@ -82,13 +89,13 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
-        mPostsListAdapter.setReplyPostToFirebase(new Reply("E0NB5lGKN2dCULl6yzAHTLCut862", formatter.format(date), replyBody), postId);
+        mPostsListAdapter.setReplyPostToFirebase(new Reply(mCurrentUserId, formatter.format(date), replyBody), postId);
     }
 
-    private void getMvpTrainees() {
-        DatabaseReference databaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
+    /*private void getMvpTrainees() {
+        mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
 
-        databaseTraineesReference.addValueEventListener(new ValueEventListener() {
+        mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String firstPlaceName = null, secondPlaceName = null, thirdPlaceName = null;
@@ -147,14 +154,38 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
                 Picasso.with(getContext()).load(thirdPlaceImageUrl).fit().into(bronzePlaceTraineeCircleImageView);
                 bronzePlaceTraineeNameTextView.setText(thirdPlaceName);
                 bronzePlaceTraineeScoreTextView.setText(Integer.toString(thirdPlaceScore));
+
+                //mDatabaseTraineesReference.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        mDatabaseTraineesReference.addListenerForSingleValueEvent(mValueEventListener);
+    }*/
+
+    /*@Override
+    public void onResume() {
+        super.onResume();
+        //getMvpTrainees();
+
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //mDatabaseTraineesReference.removeEventListener(mValueEventListener);
+        //mPostsListAdapter.cleanUp();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //mDatabaseTraineesReference.removeEventListener(mValueEventListener);
+    }*/
 }
 
 

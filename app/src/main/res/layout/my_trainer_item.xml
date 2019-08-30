@@ -20,7 +20,7 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/my_trainer_item_trainer_profile_img"
+            android:id="@+id/my_trainer_profile_img"
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:src="@drawable/default_profile_img" />
@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/my_trainer_item_trainer_name"
+                android:id="@+id/my_trainer_name"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:maxWidth="250dp"

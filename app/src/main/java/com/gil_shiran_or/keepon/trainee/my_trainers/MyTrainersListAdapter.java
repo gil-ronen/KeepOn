@@ -26,7 +26,7 @@ public class MyTrainersListAdapter extends RecyclerView.Adapter<MyTrainersListAd
         public MyTrainersViewHolder(View itemView) {
             super(itemView);
             trainerCardView = itemView.findViewById(R.id.my_trainer_item);
-            trainerNameTextView = itemView.findViewById(R.id.my_trainer_item_trainer_name);
+            trainerNameTextView = itemView.findViewById(R.id.my_trainer_name);
         }
     }
 

@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,16 +32,20 @@ public class PostsListAdapter extends BaseAdapter {
 
     private DatabaseReference mDatabasePostsReference;
     private DatabaseReference mDatabaseTraineesReference;
+    private ChildEventListener mChildEventListener;
     private List<DataSnapshot> mPostsList;
+    private String mCurrentUserId;
     private Fragment mMainFragment;
 
     public PostsListAdapter(final Fragment mainFragment) {
         mDatabasePostsReference = FirebaseDatabase.getInstance().getReference().child("Posts");
         mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
         mPostsList = new ArrayList<>();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
         mMainFragment = mainFragment;
 
-        mDatabasePostsReference.addChildEventListener(new ChildEventListener() {
+        mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 mPostsList.add(0, dataSnapshot);
@@ -81,7 +86,9 @@ public class PostsListAdapter extends BaseAdapter {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        mDatabasePostsReference.addChildEventListener(mChildEventListener);
     }
 
     private static class ViewHolder
@@ -143,8 +150,8 @@ public class PostsListAdapter extends BaseAdapter {
         final Post post = getItem(position);
         final ViewHolder holder = (ViewHolder) convertView.getTag();
 
-        RepliesListAdapter repliesListAdapter = new RepliesListAdapter(mMainFragment, post.getPostId());
-        holder.repliesListView.setAdapter(repliesListAdapter);
+        //RepliesListAdapter repliesListAdapter = new RepliesListAdapter(mMainFragment, post.getPostId());
+        //holder.repliesListView.setAdapter(repliesListAdapter);
 
         mDatabaseTraineesReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -154,6 +161,8 @@ public class PostsListAdapter extends BaseAdapter {
 
                 holder.authorTextView.setText(author);
                 Picasso.with(mMainFragment.getContext()).load(authorImageUrl).fit().into(holder.authorCircleImageView);
+
+                mDatabaseTraineesReference.removeEventListener(this);
             }
 
             @Override
@@ -197,7 +206,7 @@ public class PostsListAdapter extends BaseAdapter {
         holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like));
         holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike));
 
-        if (post.getUsersLiked().containsValue("E0NB5lGKN2dCULl6yzAHTLCut862")) {
+        if (post.isUsersLikedContainsUserId(mCurrentUserId)) {
             holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
@@ -205,7 +214,7 @@ public class PostsListAdapter extends BaseAdapter {
             holder.dislikeImageView.setFocusable(false);
         }
 
-        if (post.getUsersDisliked().containsValue("E0NB5lGKN2dCULl6yzAHTLCut862")) {
+        if (post.isUsersDislikedContainsUserId(mCurrentUserId)) {
             holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
@@ -247,12 +256,16 @@ public class PostsListAdapter extends BaseAdapter {
         mDatabasePostsReference.updateChildren(childUpdates);
     }
 
+    public void cleanUp() {
+        mDatabasePostsReference.removeEventListener(mChildEventListener);
+    }
+
     private void changePostLikesInFirebase(Post post) {
         Map<String,Object> childUpdates = new HashMap<>();
 
         childUpdates.put(post.getPostId() + "/likes", post.getLikes() + 1);
         mDatabasePostsReference.updateChildren(childUpdates);
-        mDatabasePostsReference.child(post.getPostId() + "/usersLiked/userId").setValue("E0NB5lGKN2dCULl6yzAHTLCut862");
+        mDatabasePostsReference.child(post.getPostId() + "/usersLiked/userId").setValue(mCurrentUserId);
     }
 
     private void changePostDislikesInFirebase(Post post) {
@@ -260,6 +273,6 @@ public class PostsListAdapter extends BaseAdapter {
 
         childUpdates.put(post.getPostId() + "/dislikes", post.getDislikes() + 1);
         mDatabasePostsReference.updateChildren(childUpdates);
-        mDatabasePostsReference.child(post.getPostId() + "/usersDisliked/userId").setValue("E0NB5lGKN2dCULl6yzAHTLCut862");
+        mDatabasePostsReference.child(post.getPostId() + "/usersDisliked/userId").setValue(mCurrentUserId);
     }
 }

@@ -9,7 +9,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_img"
+        android:id="@+id/nav_header_trainee_profile_img"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
@@ -17,6 +17,7 @@
         android:src="@drawable/default_profile_img" />
 
     <TextView
+        android:id="@+id/nav_header_trainee_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -24,6 +25,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
+        android:id="@+id/nav_header_trainee_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mail Address" />

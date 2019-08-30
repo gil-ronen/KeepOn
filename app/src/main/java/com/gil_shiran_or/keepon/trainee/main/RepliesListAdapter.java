@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,12 +32,15 @@ public class RepliesListAdapter extends BaseAdapter {
     private DatabaseReference mDatabaseRepliesReference;
     private DatabaseReference mDatabaseTraineesReference;
     private List<DataSnapshot> mRepliesList;
+    private String mCurrentUserId;
     private Fragment mMainFragment;
 
     public RepliesListAdapter(Fragment mainFragment, String postId) {
         mDatabaseRepliesReference = FirebaseDatabase.getInstance().getReference().child("Posts/" + postId + "/replies");
         mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
         mRepliesList = new ArrayList<>();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
         mMainFragment = mainFragment;
 
         mDatabaseRepliesReference.addChildEventListener(new ChildEventListener() {
@@ -178,7 +182,7 @@ public class RepliesListAdapter extends BaseAdapter {
         holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like));
         holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike));
 
-        if (reply.getUsersLiked().containsValue("E0NB5lGKN2dCULl6yzAHTLCut862")) {
+        if (reply.isUsersLikedContainsUserId(mCurrentUserId)) {
             holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
@@ -186,7 +190,7 @@ public class RepliesListAdapter extends BaseAdapter {
             holder.dislikeImageView.setFocusable(false);
         }
 
-        if (reply.getUsersDisliked().containsValue("E0NB5lGKN2dCULl6yzAHTLCut862")) {
+        if (reply.isUsersDislikedContainsUserId(mCurrentUserId)) {
             holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
@@ -202,7 +206,7 @@ public class RepliesListAdapter extends BaseAdapter {
 
         childUpdates.put(reply.getReplyId() + "/likes", reply.getLikes() + 1);
         mDatabaseRepliesReference.updateChildren(childUpdates);
-        mDatabaseRepliesReference.child(reply.getReplyId() + "/usersLiked/userId").setValue("E0NB5lGKN2dCULl6yzAHTLCut862");
+        mDatabaseRepliesReference.child(reply.getReplyId() + "/usersLiked/userId").setValue(mCurrentUserId);
     }
 
     private void changePostDislikesInFirebase(Reply reply) {
@@ -210,6 +214,6 @@ public class RepliesListAdapter extends BaseAdapter {
 
         childUpdates.put(reply.getReplyId() + "/dislikes", reply.getDislikes() + 1);
         mDatabaseRepliesReference.updateChildren(childUpdates);
-        mDatabaseRepliesReference.child(reply.getReplyId() + "/usersDisliked/userId").setValue("E0NB5lGKN2dCULl6yzAHTLCut862");
+        mDatabaseRepliesReference.child(reply.getReplyId() + "/usersDisliked/userId").setValue(mCurrentUserId);
     }
 }

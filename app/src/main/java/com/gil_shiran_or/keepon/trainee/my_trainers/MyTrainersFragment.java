@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.trainee.main.PostsListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +33,10 @@ public class MyTrainersFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("My Trainers");
 
-        createMyTrainersList();
-        buildRecyclerView();
+        buildMyTrainersListView();
+
+        /*createMyTrainersList();
+        buildRecyclerView();*/
     }
 
     private void createMyTrainersList() {
@@ -41,6 +45,13 @@ public class MyTrainersFragment extends Fragment {
         myTrainersList.add(new MyTrainerItem("Shiran"));
         myTrainersList.add(new MyTrainerItem("Gil"));
         myTrainersList.add(new MyTrainerItem("Or"));
+    }
+
+    private void buildMyTrainersListView() {
+        ListView myTrainersListView = getView().findViewById(R.id.my_trainers_list);
+        MyTrainersListAdapter_ myTrainersListAdapter = new MyTrainersListAdapter_(this);
+
+        myTrainersListView.setAdapter(myTrainersListAdapter);
     }
 
     private void buildRecyclerView() {

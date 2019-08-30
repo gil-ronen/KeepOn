@@ -56,12 +56,12 @@ public class Post {
         return dislikes;
     }
 
-    public Map<String,Object> getUsersLiked() {
-        return usersLiked;
+    public boolean isUsersLikedContainsUserId(String userId) {
+        return usersLiked.containsValue(userId);
     }
 
-    public Map<String,Object> getUsersDisliked() {
-        return usersDisliked;
+    public boolean isUsersDislikedContainsUserId(String userId) {
+        return usersDisliked.containsValue(userId);
     }
 
     public Map<String, Object> toMap() {

@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.trainee.ui.nav.TraineeNavActivity;
+import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
 import com.gil_shiran_or.keepon.trainer_weekly_planner.MainWeeklyScheduleActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
