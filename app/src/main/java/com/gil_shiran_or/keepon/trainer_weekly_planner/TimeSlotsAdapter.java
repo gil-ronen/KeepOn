@@ -1,30 +1,22 @@
 package com.gil_shiran_or.keepon.trainer_weekly_planner;
 
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.gil_shiran_or.keepon.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
+import android.app.Activity;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
 public class TimeSlotsAdapter extends BaseAdapter {
@@ -41,8 +33,6 @@ public class TimeSlotsAdapter extends BaseAdapter {
     private ChildEventListener mListener = new ChildEventListener() {
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            //TimeSlot timeSlot = dataSnapshot.getValue(TimeSlot.class);
 
             mSnapshotList.add(dataSnapshot);
             notifyDataSetChanged();
@@ -146,41 +136,27 @@ public class TimeSlotsAdapter extends BaseAdapter {
         final  TimeSlot timeSlot = getItem(position);
         final TimeSlotsAdapter.ViewHolder holder = (TimeSlotsAdapter.ViewHolder) convertView.getTag();
 
+        // import font
+        Typeface MLight = Typeface.createFromAsset(convertView.getContext().getAssets(), "fonts/ML.ttf");
+        Typeface MMedium = Typeface.createFromAsset(convertView.getContext().getAssets(), "fonts/MM.ttf");
+
         //setChatRowApperance(isMe, holder);
 
         String sTitle = timeSlot.getTitle();
         holder.title.setText(sTitle);
+        holder.title.setTypeface(MMedium);
 
         String sDateAndTime = timeSlot.getDateAndTime();
         holder.dateAndTime.setText(sDateAndTime);
+        holder.dateAndTime.setTypeface(MLight);
 
         String sDescription = timeSlot.getDescription();
         holder.description.setText(sDescription);
-
+        holder.description.setTypeface(MMedium);
 
         return convertView;
     }
 
-    /*
-    private void setChatRowApperance(boolean isItMe, TimeSlotsAdapter.ViewHolder holder)
-    {
-        if(isItMe)
-        {
-            holder.params.gravity = Gravity.START;
-            holder.authorName.setTextColor(Color.GREEN);
-            holder.body.setBackgroundResource(R.drawable.bubble2);
-        }
-        else
-        {
-            holder.params.gravity = Gravity.END;
-            holder.authorName.setTextColor(Color.BLUE);
-            holder.body.setBackgroundResource(R.drawable.bubble1);
-        }
-
-        holder.authorName.setLayoutParams(holder.params);
-        holder.body.setLayoutParams(holder.params);
-        holder.time.setLayoutParams(holder.params);
-    }*/
 
     public void clenup()
     {

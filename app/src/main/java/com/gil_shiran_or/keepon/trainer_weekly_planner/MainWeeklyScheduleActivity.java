@@ -2,27 +2,17 @@ package com.gil_shiran_or.keepon.trainer_weekly_planner;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.gil_shiran_or.keepon.R;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 
 public class MainWeeklyScheduleActivity extends AppCompatActivity {
 
@@ -56,6 +46,27 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
             }
         });
 
+        slotsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    TimeSlot item = (TimeSlot) adapterView.getItemAtPosition(i);
+
+                    final String getTitleSlot = item.getTitle();
+                    final String getDescSlot = item.getDescription();
+                    final String getDateSlot = item.getDateAndTime();
+                    final String getIdSlot = item.getTimeSlotId();
+
+                    Intent intent = new Intent(MainWeeklyScheduleActivity.this, EditSlotActivity.class);
+                    intent.putExtra("title", getTitleSlot);
+                    intent.putExtra("description", getDescSlot);
+                    intent.putExtra("dateAndTime", getDateSlot);
+                    intent.putExtra("key", getIdSlot);
+                    startActivity(intent);
+                    //finish();
+                }
+        });
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         // import font
@@ -69,8 +80,6 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         mBtnAddNew.setTypeface(MLight);
 
     }
-
-
 
     @Override
     public void onStart()
