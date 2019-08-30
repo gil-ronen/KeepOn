@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private Button btnLogin;
     private ProgressBar loginProgress;
+    private Query query;
 
 
     @Override
@@ -51,17 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.loginBtn);
         loginProgress = findViewById(R.id.login_progress);
         loginProgress.setVisibility(View.INVISIBLE);
-
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.integer.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         mAuth = FirebaseAuth.getInstance(); // Grab an instance of FirebaseAuth
         mUser = mAuth.getCurrentUser();
@@ -107,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "Login in progress...", Toast.LENGTH_SHORT).show();
 
         // Use FirebaseAuth to sign in with email & password
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
@@ -130,11 +120,12 @@ public class LoginActivity extends AppCompatActivity {
 
                     String user_id = mUser.getUid();
 
-                    Query query = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees")
+                    query = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees")
                             .orderByChild("userId")
                             .equalTo(user_id);
                     query.addValueEventListener(valueEventListener);
                 }
+
             }
         });
     }
@@ -154,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), HomeActivity.class);
             }
 
+            query.removeEventListener(this);
             startActivity(intent);
             finish();
         }

@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +26,15 @@ import java.util.ArrayList;
 
 public class MainWeeklyScheduleActivity extends AppCompatActivity {
 
-    TextView mTitlePage;
-    TextView mSubtitlePage;
-    TextView mEndPage;
-    Button mBtnAddNew;
+    private TextView mTitlePage;
+    private TextView mSubtitlePage;
+    //private TextView mEndPage;
+    private Button mBtnAddNew;
 
-    DatabaseReference databaseReference;
-    RecyclerView timeSlotsRecyclerView;
-    ArrayList<TimeSlot> slotsList;
-    TimeSlotsAdapter timeSlotsAdapter;
+    private DatabaseReference databaseReference;
+    private ListView slotsListView;
+    private TimeSlotsAdapter timeSlotsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,9 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
 
         mTitlePage = findViewById(R.id.main_titlePage);
         mSubtitlePage = findViewById(R.id.main_subtitlePage);
-        mEndPage = findViewById(R.id.main_endPage);
+        //mEndPage = findViewById(R.id.main_endPage);
         mBtnAddNew = findViewById(R.id.main_btnAddNew);
+        slotsListView = findViewById(R.id.main_timeSlotsListView);
 
         mBtnAddNew.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,84 +56,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
             }
         });
 
-
-        // working with data
-        timeSlotsRecyclerView = findViewById(R.id.main_timeSlots);
-        timeSlotsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        slotsList = new ArrayList<TimeSlot>();
-
-        // get data from firebase
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule");
-
-        /*databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // set code to retrive data and replace layout
-
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
-                {
-                    TimeSlot slot = dataSnapshot1.getValue(TimeSlot.class);
-                    slotsList.add(slot);
-                }
-
-                timeSlotsAdapter = new TimeSlotsAdapter(MainWeeklyScheduleActivity.this, slotsList);
-                timeSlotsRecyclerView.setAdapter(timeSlotsAdapter);
-                timeSlotsAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // set code to show an error
-                Toast.makeText(getApplicationContext(), "No Data", Toast.LENGTH_SHORT).show();
-            }
-        });
-        */
-
-        databaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                if(slotsList.isEmpty())
-                {
-                    for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
-                    {
-                        TimeSlot slot = dataSnapshot1.getValue(TimeSlot.class);
-                        slotsList.add(slot);
-                    }
-                }
-                else
-                {
-                    TimeSlot slot = dataSnapshot.getValue(TimeSlot.class);
-                    slotsList.add(slot);
-                }
-                timeSlotsAdapter = new TimeSlotsAdapter(MainWeeklyScheduleActivity.this, slotsList);
-                timeSlotsRecyclerView.setAdapter(timeSlotsAdapter);
-                timeSlotsAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         // import font
         Typeface MLight = Typeface.createFromAsset(getAssets(), "fonts/ML.ttf");
@@ -140,8 +65,28 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         // customize font
         mTitlePage.setTypeface(MMedium);
         mSubtitlePage.setTypeface(MLight);
-        mEndPage.setTypeface(MLight);
+        //mEndPage.setTypeface(MLight);
         mBtnAddNew.setTypeface(MLight);
+
     }
+
+
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        timeSlotsAdapter = new TimeSlotsAdapter(this, databaseReference);
+        slotsListView.setAdapter(timeSlotsAdapter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Remove the Firebase event listener on the adapter.
+        timeSlotsAdapter.clenup();
+    }
+
 }
 
