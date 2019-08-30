@@ -13,7 +13,7 @@ tools:context=".trainer_weekly_planner.MainWeeklyScheduleActivity">
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:background="@color/colorPrimaryDark"
-        android:layout_height="198dp">
+        android:layout_height="120dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -61,34 +61,237 @@ tools:context=".trainer_weekly_planner.MainWeeklyScheduleActivity">
 
         </LinearLayout>
 
-        <View
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:background="#131E69"
-            android:layout_height="1dp" />
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/main_timeSlotsListView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_marginTop="-60dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_height="wrap_content"
-        android:divider="@null"
-        android:dividerHeight="10.0sp"
-        android:transcriptMode="alwaysScroll" />
+        android:layout_height="match_parent">
 
-<!--    <TextView
-        android:id="@+id/main_endPage"
-        android:textSize="16sp"
-        android:textColor="#9A9A9A"
-        android:layout_marginTop="20dp"
-        android:text="No More Activities"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
--->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/main_expandableDay1"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/main_timeSlotsListView1"
+                    android:nestedScrollingEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="10.0sp"
+                    android:transcriptMode="alwaysScroll"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/main_expandableDay2"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/main_timeSlotsListView2"
+                    android:nestedScrollingEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="10.0sp"
+                    android:transcriptMode="alwaysScroll"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/main_expandableDay3"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/main_timeSlotsListView3"
+                    android:nestedScrollingEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="10.0sp"
+                    android:transcriptMode="alwaysScroll"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/main_expandableDay4"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/main_timeSlotsListView4"
+                    android:nestedScrollingEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="10.0sp"
+                    android:transcriptMode="alwaysScroll"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/main_expandableDay5"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/main_timeSlotsListView5"
+                    android:nestedScrollingEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="10.0sp"
+                    android:transcriptMode="alwaysScroll"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/main_expandableDay6"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/main_timeSlotsListView6"
+                    android:nestedScrollingEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="10.0sp"
+                    android:transcriptMode="alwaysScroll"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/main_expandableDay7"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/main_timeSlotsListView7"
+                    android:nestedScrollingEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="10.0sp"
+                    android:transcriptMode="alwaysScroll"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/main_endPage"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="No More Time Slots"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
 
 </LinearLayout>
