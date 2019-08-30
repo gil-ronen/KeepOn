@@ -5,16 +5,23 @@ public class TimeSlot {
     private String title;
     private String dateAndTime;
     private String description;
-    private String key;
+    private String timeSlotId;
 
     public TimeSlot() {
     }
 
-    public TimeSlot(String title, String dateAndTime, String description, String key) {
+    public TimeSlot(String title, String dateAndTime, String description) {
         this.title = title;
         this.dateAndTime = dateAndTime;
         this.description = description;
-        this.key = key;
+    }
+
+    public String getTimeSlotId() {
+        return timeSlotId;
+    }
+
+    public void setTimeSlotId(String timeSlotId) {
+        this.timeSlotId = timeSlotId;
     }
 
     public String getTitle() {
@@ -41,11 +48,4 @@ public class TimeSlot {
         this.description = description;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
 }

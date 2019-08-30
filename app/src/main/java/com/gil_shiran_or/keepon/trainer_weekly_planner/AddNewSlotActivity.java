@@ -58,14 +58,14 @@ public class AddNewSlotActivity extends AppCompatActivity {
         mBtnSaveSlot = findViewById(R.id.add_btnSaveSlot);
         mBtnCancel = findViewById(R.id.add_btnCancel);
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule").child("TimeSlot" + mSlotNum);
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule");
 
         mBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AddNewSlotActivity.this, MainWeeklyScheduleActivity.class);
                 startActivity(intent);
-                //finish();
+                finish();
             }
         });
 
@@ -73,25 +73,17 @@ public class AddNewSlotActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // insert data to database
-                mDatabaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                String title = mTitleSlot.getText().toString();
+                String dateAndTime = mDateAndTimeSlot.getText().toString();
+                String description = mDescSlot.getText().toString();
 
-                        dataSnapshot.getRef().child("title").setValue(mTitleSlot.getText().toString());
-                        dataSnapshot.getRef().child("description").setValue(mDescSlot.getText().toString());
-                        dataSnapshot.getRef().child("dateAndTime").setValue(mDateAndTimeSlot.getText().toString());
-                        dataSnapshot.getRef().child("key").setValue(mKeySlot);
+                TimeSlot timeSlot = new TimeSlot(title, dateAndTime, description);
+                mDatabaseReference.push().setValue(timeSlot);
 
-                        Intent intent = new Intent(AddNewSlotActivity.this, MainWeeklyScheduleActivity.class);
-                        startActivity(intent);
-                        //finish();
-                    }
+                Intent intent = new Intent(AddNewSlotActivity.this, MainWeeklyScheduleActivity.class);
+                startActivity(intent);
+                finish();
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
             }
         });
 
