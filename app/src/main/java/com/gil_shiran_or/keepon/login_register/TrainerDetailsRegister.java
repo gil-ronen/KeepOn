@@ -33,6 +33,7 @@ import android.support.v7.app.AlertDialog;
 
 import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.Rating;
 import com.gil_shiran_or.keepon.Trainer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -322,8 +323,9 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                         Log.d("KeepOn", "user creation success");
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
+                        Rating rating = new Rating();
 
-                        mTrainer = new Trainer(user_id, mUserType, fullname, mUsername, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, aboutMe, "", companyName, price, trainingPlaceAddress);
+                        mTrainer = new Trainer(user_id, mUserType, fullname, mUsername, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, aboutMe, "", companyName, price, trainingPlaceAddress, rating);
 
                         current_user_db.setValue(mTrainer);
 
