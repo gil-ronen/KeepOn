@@ -58,54 +58,39 @@ public class EditSlotActivity extends AppCompatActivity {
         mDateAndTimeSlot.setText(getIntent().getStringExtra("dateAndTime"));
         final String mKeySlot = getIntent().getStringExtra("key");
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule").child("TimeSlot" + mKeySlot);
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule").child(mKeySlot);
+
 
         mBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDatabaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful())
-                        {
-                            Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
-                            startActivity(intent);
-                            //finish();
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "Failed Delete", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+
+                mDatabaseReference.removeValue();
+                Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
         mBtnSaveUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // insert data to database
-                mDatabaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onClick(View v) {
+                // update data in database
+                String title = mTitleSlot.getText().toString();
+                String dateAndTime = mDateAndTimeSlot.getText().toString();
+                String description = mDescSlot.getText().toString();
 
-                        dataSnapshot.getRef().child("title").setValue(mTitleSlot.getText().toString());
-                        dataSnapshot.getRef().child("description").setValue(mDescSlot.getText().toString());
-                        dataSnapshot.getRef().child("dateAndTime").setValue(mDateAndTimeSlot.getText().toString());
-                        dataSnapshot.getRef().child("key").setValue(mKeySlot);
+                TimeSlot timeSlot = new TimeSlot(title, dateAndTime, description);
 
-                        Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
-                        startActivity(intent);
-                        //finish();
-                    }
+                mDatabaseReference.setValue(timeSlot);
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
+                startActivity(intent);
+                finish();
 
-                    }
-                });
             }
         });
+
 
         // import font
         Typeface MLight = Typeface.createFromAsset(getAssets(), "fonts/ML.ttf");

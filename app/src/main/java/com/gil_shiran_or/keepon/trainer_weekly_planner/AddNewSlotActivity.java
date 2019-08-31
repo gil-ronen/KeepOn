@@ -38,8 +38,6 @@ public class AddNewSlotActivity extends AppCompatActivity {
 
     DatabaseReference mDatabaseReference;
 
-    Integer mSlotNum = new Random().nextInt();
-    String mKeySlot = Integer.toString(mSlotNum);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -58,17 +58,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         mLoadingProgress.setVisibility(View.INVISIBLE);
 
-        // Keyboard sign in action
-        mConfirmPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.integer.register_form_finished || id == EditorInfo.IME_NULL) {
-                    attemptRegistration();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
         //mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
