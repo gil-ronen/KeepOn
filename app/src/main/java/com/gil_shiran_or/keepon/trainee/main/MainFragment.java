@@ -5,10 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +31,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainFragment extends Fragment implements AddPostDialog.AddPostListener, AddReplyDialog.AddReplyListener {
 
     private PostsListAdapter mPostsListAdapter;
-    //private DatabaseReference mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
-    //private ValueEventListener mValueEventListener;
     private String mCurrentUserId;
+    private DatabaseReference mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
+    private ValueEventListener mValueEventListener;
 
     @Nullable
     @Override
@@ -44,57 +45,17 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(getResources().getString(R.string.main_page_title));
 
-        /*FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        mCurrentUserId = firebaseAuth.getCurrentUser().getUid();*/
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        //buildPostsListView();
-        //getMvpTrainees();
+        getMvpTrainees();
+        buildPostsRecyclerView();
         adjustAddPostButton();
 
         Toast.makeText(getContext(), "Loading Posts...", Toast.LENGTH_SHORT).show();
     }
 
-    private void buildPostsListView() {
-        ListView postsListView = getView().findViewById(R.id.posts_list);
-        mPostsListAdapter = new PostsListAdapter(this);
-
-        postsListView.setAdapter(mPostsListAdapter);
-    }
-
-    private void adjustAddPostButton() {
-        final FloatingActionButton addPostButton = Objects.requireNonNull(getView()).findViewById(R.id.add_post);
-        final MainFragment fragment = this;
-
-        addPostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddPostDialog addPostDialog = new AddPostDialog();
-
-                addPostDialog.setTargetFragment(fragment, 0);
-                addPostDialog.show(getFragmentManager(), "add post dialog");
-            }
-        });
-    }
-
-    @Override
-    public void applyPost(String postTitle, String postBody) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-
-        mPostsListAdapter.setPostToFirebase(new Post(mCurrentUserId, formatter.format(date), postTitle, postBody));
-    }
-
-    @Override
-    public void applyReply(String replyBody, String postId) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-
-        mPostsListAdapter.setReplyPostToFirebase(new Reply(mCurrentUserId, formatter.format(date), replyBody), postId);
-    }
-
-    /*private void getMvpTrainees() {
-        mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
-
+    private void getMvpTrainees() {
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -154,8 +115,6 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
                 Picasso.with(getContext()).load(thirdPlaceImageUrl).fit().into(bronzePlaceTraineeCircleImageView);
                 bronzePlaceTraineeNameTextView.setText(thirdPlaceName);
                 bronzePlaceTraineeScoreTextView.setText(Integer.toString(thirdPlaceScore));
-
-                //mDatabaseTraineesReference.removeEventListener(this);
             }
 
             @Override
@@ -165,27 +124,55 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
         };
 
         mDatabaseTraineesReference.addListenerForSingleValueEvent(mValueEventListener);
-    }*/
+    }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        //getMvpTrainees();
+    private void buildPostsRecyclerView() {
+        RecyclerView postsRecyclerView = getView().findViewById(R.id.posts_list);
+        postsRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mPostsListAdapter = new PostsListAdapter(this);
 
+        postsRecyclerView.setLayoutManager(layoutManager);
+        postsRecyclerView.setAdapter(mPostsListAdapter);
+    }
+
+    private void adjustAddPostButton() {
+        final FloatingActionButton addPostButton = Objects.requireNonNull(getView()).findViewById(R.id.add_post);
+        final MainFragment fragment = this;
+
+        addPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddPostDialog addPostDialog = new AddPostDialog();
+
+                addPostDialog.setTargetFragment(fragment, 0);
+                addPostDialog.show(getFragmentManager(), "add post dialog");
+            }
+        });
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        //mDatabaseTraineesReference.removeEventListener(mValueEventListener);
-        //mPostsListAdapter.cleanUp();
+    public void applyPost(String postTitle, String postBody) {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
+        mPostsListAdapter.setPostToFirebase(new Post(mCurrentUserId, formatter.format(date), postTitle, postBody));
+    }
+
+    @Override
+    public void applyReply(String replyBody, String postId) {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
+        mPostsListAdapter.setReplyPostToFirebase(new Reply(mCurrentUserId, formatter.format(date), replyBody), postId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //mDatabaseTraineesReference.removeEventListener(mValueEventListener);
-    }*/
+        mDatabaseTraineesReference.removeEventListener(mValueEventListener);
+        mPostsListAdapter.cleanUp();
+    }
 }
 
 
