@@ -112,20 +112,62 @@
         <LinearLayout
             android:id="@+id/replies_expander"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <View
+                android:layout_width="100dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_down_arrow" />
+
+        </LinearLayout>
+
+        <!--<LinearLayout
+            android:id="@+id/replies_expander"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="vertical" />-->
+
+            <!--<View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/post_replies_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:scrollbars="vertical"
+            android:visibility="gone" />
+
+        <!--<ListView
             android:id="@+id/post_replies_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -133,7 +175,7 @@
             android:dividerHeight="10dp"
             android:nestedScrollingEnabled="true"
             android:padding="4dp"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical" />-->
 
     </LinearLayout>
 

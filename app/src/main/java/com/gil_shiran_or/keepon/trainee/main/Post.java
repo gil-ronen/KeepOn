@@ -1,6 +1,8 @@
 package com.gil_shiran_or.keepon.trainee.main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Post {
@@ -12,8 +14,8 @@ public class Post {
     private String body;
     private int likes = 0;
     private int dislikes = 0;
-    private Map<String,Object> usersLiked = new HashMap<>();
-    private Map<String,Object> usersDisliked = new HashMap<>();
+    private List<UserLikedDisliked> usersLiked = new ArrayList<>();
+    private List<UserLikedDisliked> usersDisliked = new ArrayList<>();
 
     public Post() {}
 
@@ -56,12 +58,32 @@ public class Post {
         return dislikes;
     }
 
+    public void addUserToUsersLiked(String userId) {
+        usersLiked.add(new UserLikedDisliked(userId));
+    }
+
+    public void addUserToUsersDisliked(String userId) {
+        usersDisliked.add(new UserLikedDisliked(userId));
+    }
+
     public boolean isUsersLikedContainsUserId(String userId) {
-        return usersLiked.containsValue(userId);
+        for (UserLikedDisliked userLiked : usersLiked) {
+            if (userLiked.getUserId().equals(userId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean isUsersDislikedContainsUserId(String userId) {
-        return usersDisliked.containsValue(userId);
+        for (UserLikedDisliked userDisliked : usersDisliked) {
+            if (userDisliked.getUserId().equals(userId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public Map<String, Object> toMap() {
