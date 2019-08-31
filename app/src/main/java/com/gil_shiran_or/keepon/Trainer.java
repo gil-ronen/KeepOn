@@ -5,14 +5,16 @@ public class Trainer extends User
     private String companyName;
     private String price;
     private String trainingPlaceAddress;
+    private Rating rating;
 
     public Trainer() {}
 
-    public Trainer(String userId, String userType, String fullname, String username, String email, String password, String phoneNumber, String birthDate, String gender, String aboutMe, String profilePhotoUri, String companyName, String price, String trainingPlaceAddress) {
+    public Trainer(String userId, String userType, String fullname, String username, String email, String password, String phoneNumber, String birthDate, String gender, String aboutMe, String profilePhotoUri, String companyName, String price, String trainingPlaceAddress, Rating rating) {
         super(userId, userType, fullname, username, email, password, phoneNumber, birthDate, gender, aboutMe, profilePhotoUri);
         this.companyName = companyName;
         this.price = price;
         this.trainingPlaceAddress = trainingPlaceAddress;
+        this.rating = rating;
     }
 
     public String getCompanyName() {
@@ -37,5 +39,13 @@ public class Trainer extends User
 
     public void setTrainingPlaceAddress(String trainingPlaceAddress) {
         this.trainingPlaceAddress = trainingPlaceAddress;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
     }
 }
