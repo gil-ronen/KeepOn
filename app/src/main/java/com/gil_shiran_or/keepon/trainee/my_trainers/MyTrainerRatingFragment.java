@@ -18,12 +18,6 @@ import java.util.List;
 
 public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog.AddReviewListener {
 
-    private List<MyTrainerReviewItem> myTrainerReviewsList;
-    private RecyclerView recyclerView;
-    private MyTrainerReviewsListAdapter myTrainerReviewsListAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private ExpandableViewGroup expandableViewGroup;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,10 +31,8 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
 
         ViewGroup reviewsExpanderViewGroup = getView().findViewById(R.id.my_trainer_reviews_expander);
         ViewGroup reviewsViewGroup = getView().findViewById(R.id.my_trainer_reviews_list);
-        View expandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, reviewsExpanderViewGroup, false);
 
-        reviewsExpanderViewGroup.addView(expandableLayoutView);
-        expandableViewGroup = new ExpandableViewGroup("View " + myTrainerReviewsList.size() + " reviews", "Hide reviews", (ViewGroup) expandableLayoutView, reviewsViewGroup);
+        new ExpandableViewGroup("View reviews", "Hide reviews", reviewsExpanderViewGroup, reviewsViewGroup);
 
         FloatingActionButton addReviewFloatingActionButton = getView().findViewById(R.id.my_trainer_rating_add_review_button);
 
@@ -49,6 +41,7 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
             @Override
             public void onClick(View view) {
                 AddReviewDialog addReviewDialog = new AddReviewDialog();
+
                 addReviewDialog.setTargetFragment(fragment, 0);
                 addReviewDialog.show(getFragmentManager(), "add review dialog");
             }
@@ -57,25 +50,18 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
 
     @Override
     public void applyReview(MyTrainerReviewItem myTrainerReviewItem) {
-        myTrainerReviewsList.add(myTrainerReviewItem);
+        /*myTrainerReviewsList.add(myTrainerReviewItem);
         myTrainerReviewsListAdapter.notifyItemChanged(myTrainerReviewsList.size() - 1);
-        expandableViewGroup.setLabelBefore("View " + myTrainerReviewsList.size() + " reviews");
+        expandableViewGroup.setLabelBefore("View " + myTrainerReviewsList.size() + " reviews");*/
     }
 
-    private void createMyTrainerReviewsList() {
-        myTrainerReviewsList = new ArrayList<>();
+    private void buildReviewsRecyclerView() {
+        RecyclerView reviewsRecyclerView = getView().findViewById(R.id.my_trainer_reviews_list);
+        reviewsRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        MyTrainerReviewsListAdapter myTrainerReviewsListAdapter = new MyTrainerReviewsListAdapter();
 
-        myTrainerReviewsList.add(new MyTrainerReviewItem(3, "Ahh"));
-        myTrainerReviewsList.add(new MyTrainerReviewItem(5, "best trainer ever"));
-    }
-
-    private void buildRecyclerView() {
-        recyclerView = getView().findViewById(R.id.my_trainer_reviews_list);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
-        myTrainerReviewsListAdapter = new MyTrainerReviewsListAdapter(myTrainerReviewsList);
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(myTrainerReviewsListAdapter);
+        reviewsRecyclerView.setLayoutManager(layoutManager);
+        reviewsRecyclerView.setAdapter(myTrainerReviewsListAdapter);
     }
 }
