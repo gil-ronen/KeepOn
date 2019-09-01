@@ -34,7 +34,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TraineeNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawer;
+    private DrawerLayout mDrawer;
+    private DatabaseReference mDatabaseTraineesReference;
+    private ValueEventListener mValueEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +48,13 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = findViewById(R.id.drawer_layout);
+        mDrawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
         if (savedInstanceState == null) {
@@ -63,9 +65,8 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
 
         final View header = navigationView.getHeaderView(0);
         String currentUserId = FirebaseAuth.getInstance().getUid();
-        DatabaseReference databaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees").child(currentUserId);
-
-        databaseTraineesReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees").child(currentUserId);
+        mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 CircleImageView traineeCircleImageView = header.findViewById(R.id.nav_header_trainee_profile_img);
@@ -81,13 +82,15 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        mDatabaseTraineesReference.addValueEventListener(mValueEventListener);
     }
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -128,12 +131,17 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
                 FirebaseAuth.getInstance().signOut();
                 Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(loginActivity);
+                cleanUp();
                 finish();
 
         }
 
-        drawer.closeDrawer(GravityCompat.START);
+        mDrawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private void cleanUp() {
+        mDatabaseTraineesReference.removeEventListener(mValueEventListener);
     }
 }
