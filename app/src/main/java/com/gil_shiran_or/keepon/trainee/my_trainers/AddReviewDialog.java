@@ -11,12 +11,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gil_shiran_or.keepon.R;
 
 public class AddReviewDialog extends AppCompatDialogFragment {
 
-    private AddReviewListener listener;
+    private AddReviewListener mListener;
+    private RatingBar mRatingBar;
+    private EditText mReviewEditText;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -25,23 +28,26 @@ public class AddReviewDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.add_review_dialog, null);
 
-        final RatingBar ratingBar = view.findViewById(R.id.add_review_rating);
+        mRatingBar = view.findViewById(R.id.add_review_rating);
         final TextView ratingState = view.findViewById(R.id.add_review_rating_state);
-        final EditText reviewEditText = view.findViewById(R.id.add_review_review);
+        mReviewEditText = view.findViewById(R.id.add_review_review);
 
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                if (ratingBar.getRating() <= 1) {
+                if (ratingBar.getRating() == 0) {
+                    ratingState.setText("");
+                }
+                else if (ratingBar.getRating() == 1) {
                     ratingState.setText(getResources().getString(R.string.rating_state_very_bad));
                 }
-                else if (ratingBar.getRating() <= 2) {
+                else if (ratingBar.getRating() == 2) {
                     ratingState.setText(getResources().getString(R.string.rating_state_need_improvement));
                 }
-                else if (ratingBar.getRating() <= 3) {
+                else if (ratingBar.getRating() == 3) {
                     ratingState.setText(getResources().getString(R.string.rating_state_good));
                 }
-                else if (ratingBar.getRating() <= 4) {
+                else if (ratingBar.getRating() == 4) {
                     ratingState.setText(getResources().getString(R.string.rating_state_great));
                 }
                 else {
@@ -58,12 +64,7 @@ public class AddReviewDialog extends AppCompatDialogFragment {
 
                     }
                 })
-                .setPositiveButton("create", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.applyReview(new MyTrainerReviewItem(ratingBar.getRating(), reviewEditText.getText().toString()));
-                    }
-                });
+                .setPositiveButton("create", null);
 
         final AlertDialog dialog = builder.create();
 
@@ -72,6 +73,19 @@ public class AddReviewDialog extends AppCompatDialogFragment {
             public void onShow(DialogInterface dialogInterface) {
                 dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.purple));
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.purple));
+
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (mRatingBar.getRating() == 0) {
+                            Toast.makeText(view.getContext(), "You must rate your trainer", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            mListener.applyReview(mRatingBar.getRating(), mReviewEditText.getText().toString());
+                            dialog.dismiss();
+                        }
+                    }
+                });
             }
         });
 
@@ -81,10 +95,10 @@ public class AddReviewDialog extends AppCompatDialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        listener = (AddReviewListener) getTargetFragment();
+        mListener = (AddReviewListener) getTargetFragment();
     }
 
     public interface AddReviewListener {
-        void applyReview(MyTrainerReviewItem myTrainerReviewItem);
+        void applyReview(float rating, String review);
     }
 }

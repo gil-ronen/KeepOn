@@ -2,6 +2,7 @@ package com.gil_shiran_or.keepon.trainee.my_trainers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ public class MyTrainersListAdapter extends RecyclerView.Adapter<MyTrainersListAd
 
     private List<MyTrainer> mMyTrainersList = new ArrayList<>();
     private DatabaseReference mDatabaseTraineeTrainersReference;
+    private ChildEventListener mChildEventListener;
     private DatabaseReference mDatabaseTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers");
     private Fragment mMyTrainersFragment;
 
@@ -57,22 +59,42 @@ public class MyTrainersListAdapter extends RecyclerView.Adapter<MyTrainersListAd
         String currentUserId = firebaseAuth.getCurrentUser().getUid();
 
         mDatabaseTraineeTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + currentUserId + "/myTrainers");
-        mDatabaseTraineeTrainersReference.addValueEventListener(new ValueEventListener() {
+        mChildEventListener = new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    mMyTrainersList.add(data.getValue(MyTrainer.class));
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                mMyTrainersList.add(dataSnapshot.getValue(MyTrainer.class));
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                for (int i = 0; i < mMyTrainersList.size(); i++) {
+                    if (mMyTrainersList.get(i).getUserId().equals(dataSnapshot.child("userId").getValue(String.class))) {
+                        mMyTrainersList.remove(i);
+                        break;
+                    }
                 }
 
                 notifyDataSetChanged();
-                mDatabaseTraineeTrainersReference.removeEventListener(this);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        mDatabaseTraineeTrainersReference.addChildEventListener(mChildEventListener);
     }
 
     @Override
@@ -89,7 +111,10 @@ public class MyTrainersListAdapter extends RecyclerView.Adapter<MyTrainersListAd
         holder.trainerCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("trainerId", currentMyTrainer.getUserId());
                 Intent intent = new Intent(mMyTrainersFragment.getContext(), MyTrainerActivity.class);
+                intent.putExtras(bundle);
                 mMyTrainersFragment.getContext().startActivity(intent);
             }
         });
@@ -116,5 +141,9 @@ public class MyTrainersListAdapter extends RecyclerView.Adapter<MyTrainersListAd
     @Override
     public int getItemCount() {
         return mMyTrainersList.size();
+    }
+
+    public void cleanUp() {
+        mDatabaseTraineeTrainersReference.removeEventListener(mChildEventListener);
     }
 }

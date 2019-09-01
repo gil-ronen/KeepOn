@@ -1,25 +1,34 @@
 package com.gil_shiran_or.keepon.trainee.my_trainers;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class MyTrainerPageAdapter extends FragmentPagerAdapter {
 
-    private int numOfTabs;
+    private int mNumOfTabs;
+    private Bundle mBundle;
 
-    MyTrainerPageAdapter(FragmentManager fm, int numOfTabs) {
+    MyTrainerPageAdapter(FragmentManager fm, int numOfTabs, Bundle bundle) {
         super(fm);
-        this.numOfTabs = numOfTabs;
+        mNumOfTabs = numOfTabs;
+        mBundle = bundle;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new MyTrainerProfileFragment();
+                MyTrainerProfileFragment myTrainerProfileFragment = new MyTrainerProfileFragment();
+                myTrainerProfileFragment.setArguments(mBundle);
+
+                return myTrainerProfileFragment;
             case 1:
-                return new MyTrainerRatingFragment();
+                MyTrainerRatingFragment myTrainerRatingFragment = new MyTrainerRatingFragment();
+                myTrainerRatingFragment.setArguments(mBundle);
+
+                return myTrainerRatingFragment;
             default:
                 return null;
         }
@@ -27,6 +36,6 @@ public class MyTrainerPageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return numOfTabs;
+        return mNumOfTabs;
     }
 }

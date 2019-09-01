@@ -39,6 +39,7 @@
                     android:id="@+id/my_trainer_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:isIndicator="true"
                     android:rating="4.35"
                     android:stepSize="0.01"
                     android:theme="@style/RatingBar" />

@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.login_register.LoginActivity;
@@ -21,6 +23,14 @@ import com.gil_shiran_or.keepon.trainee.search_trainer.SearchTrainerFragment;
 import com.gil_shiran_or.keepon.trainee.settings.SettingsFragment;
 import com.gil_shiran_or.keepon.trainee.status.StatusFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TraineeNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -51,11 +61,11 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
             navigationView.setCheckedItem((R.id.nav_main));
         }
 
-        //final View header = navigationView.getHeaderView(0);
-        //String currentUserId = FirebaseAuth.getInstance().getUid();
-        //DatabaseReference databaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees").child(currentUserId);
+        final View header = navigationView.getHeaderView(0);
+        String currentUserId = FirebaseAuth.getInstance().getUid();
+        DatabaseReference databaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees").child(currentUserId);
 
-        /*databaseTraineesReference.addValueEventListener(new ValueEventListener() {
+        databaseTraineesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 CircleImageView traineeCircleImageView = header.findViewById(R.id.nav_header_trainee_profile_img);
@@ -71,8 +81,7 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });*/
-
+        });
     }
 
     @Override

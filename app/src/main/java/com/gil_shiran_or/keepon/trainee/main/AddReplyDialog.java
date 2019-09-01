@@ -15,9 +15,9 @@ import com.gil_shiran_or.keepon.R;
 
 public class AddReplyDialog extends AppCompatDialogFragment {
 
-    private AddReplyListener listener;
-    private String postId;
-    private EditText addReplyBodyEditText;
+    private AddReplyListener mListener;
+    private String mPostId;
+    private EditText mAddReplyBodyEditText;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class AddReplyDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.add_reply_dialog, null);
 
-        addReplyBodyEditText = view.findViewById(R.id.add_reply_body);
+        mAddReplyBodyEditText = view.findViewById(R.id.add_reply_body);
 
         builder.setView(view)
                 .setTitle("Reply")
@@ -49,13 +49,13 @@ public class AddReplyDialog extends AppCompatDialogFragment {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String addReplyBody = addReplyBodyEditText.getText().toString().trim();
+                        String addReplyBody = mAddReplyBodyEditText.getText().toString().trim();
 
                         if (addReplyBody.isEmpty()) {
                             Toast.makeText(view.getContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            listener.applyReply(addReplyBodyEditText.getText().toString(), postId);
+                            mListener.applyReply(mAddReplyBodyEditText.getText().toString(), mPostId);
                             dialog.dismiss();
                         }
                     }
@@ -69,7 +69,7 @@ public class AddReplyDialog extends AppCompatDialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        listener = (AddReplyDialog.AddReplyListener) getTargetFragment();
+        mListener = (AddReplyDialog.AddReplyListener) getTargetFragment();
     }
 
     public interface AddReplyListener {
@@ -77,6 +77,6 @@ public class AddReplyDialog extends AppCompatDialogFragment {
     }
 
     public void setPostId(String postId) {
-        this.postId = postId;
+        this.mPostId = postId;
     }
 }

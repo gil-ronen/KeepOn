@@ -18,6 +18,8 @@ import java.util.List;
 
 public class MyTrainersFragment extends Fragment {
 
+    private MyTrainersListAdapter mMyTrainersListAdapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,9 +37,15 @@ public class MyTrainersFragment extends Fragment {
         RecyclerView myTrainersRecyclerView = getView().findViewById(R.id.my_trainers_list);
         myTrainersRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        MyTrainersListAdapter myTrainersListAdapter = new MyTrainersListAdapter(this);
+        mMyTrainersListAdapter = new MyTrainersListAdapter(this);
 
         myTrainersRecyclerView.setLayoutManager(layoutManager);
-        myTrainersRecyclerView.setAdapter(myTrainersListAdapter);
+        myTrainersRecyclerView.setAdapter(mMyTrainersListAdapter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMyTrainersListAdapter.cleanUp();
     }
 }
