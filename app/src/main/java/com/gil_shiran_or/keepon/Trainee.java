@@ -1,9 +1,7 @@
 package com.gil_shiran_or.keepon;
 
-import java.io.Serializable;
 
-@SuppressWarnings("serial") //With this annotation we are going to hide compiler warnings
-public class Trainee extends User implements Serializable
+public class Trainee extends User
 {
     private String weight;
     private String height;

@@ -154,7 +154,7 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
     @Override
     public void applyPost(String postTitle, String postBody) {
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.mm.yyyy");
 
         mPostsListAdapter.setPostToFirebase(new Post(mCurrentUserId, formatter.format(date), postTitle, postBody));
     }
@@ -162,7 +162,7 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
     @Override
     public void applyReply(String replyBody, String postId) {
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.mm.yyyy");
 
         mPostsListAdapter.setReplyPostToFirebase(new Reply(mCurrentUserId, formatter.format(date), replyBody), postId);
     }
