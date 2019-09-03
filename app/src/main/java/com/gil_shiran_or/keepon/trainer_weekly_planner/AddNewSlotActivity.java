@@ -93,7 +93,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
         mBtnSaveSlot = findViewById(R.id.add_btnSaveSlot);
         mBtnCancel = findViewById(R.id.add_btnCancel);
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule");
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("1EnOxPPh0cez6CzKnypPXvSZ1052").child("WeeklySchedule");
 
 
         final String dateForDB1 = getIntent().getExtras().getString("dateForDB1");

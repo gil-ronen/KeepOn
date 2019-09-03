@@ -87,7 +87,7 @@ public class EditSlotActivity extends AppCompatActivity {
         mGroupSession.setChecked(getIntent().getExtras().getBoolean("isGroupSession"));
 
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule").child(mDateForDB).child(mKeySlot);
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("1EnOxPPh0cez6CzKnypPXvSZ1052").child("WeeklySchedule").child(mDateForDB).child(mKeySlot);
 
 
         mBtnDelete.setOnClickListener(new View.OnClickListener() {

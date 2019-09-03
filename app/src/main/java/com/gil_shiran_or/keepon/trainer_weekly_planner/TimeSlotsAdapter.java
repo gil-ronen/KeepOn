@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyViewHolder>{
 
@@ -50,6 +51,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
 
                 mTimeSlots.add(timeSlot);
                 notifyDataSetChanged();
+                Collections.sort(mTimeSlots, new TimeComparator());
             }
 
             @Override
@@ -63,6 +65,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
                         timeSlot.setTimeSlotId(dataSnapshot.getKey());
                         mTimeSlots.set(i, timeSlot);
                         notifyDataSetChanged();
+                        Collections.sort(mTimeSlots, new TimeComparator());
                         break;
                     }
                 }
@@ -76,6 +79,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
                     if(mTimeSlots.get(i).getTimeSlotId().equals(dataSnapshot.getKey()))
                     {
                         mTimeSlots.remove(i);
+                        Collections.sort(mTimeSlots, new TimeComparator());
                         notifyDataSetChanged();
                         break;
                     }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainee.utilities.ExpandableViewGroup;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +49,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
     private ExpandableViewGroup expandableViewGroup6;
     private ExpandableViewGroup expandableViewGroup7;
 
+    private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
 
 
@@ -86,7 +88,10 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         mBtnAddNew = findViewById(R.id.main_btnAddNew);
         mEndPage = findViewById(R.id.main_endPage);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule");
+        //mAuth = FirebaseAuth.getInstance();
+        //String userId = mAuth.getCurrentUser().getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("1EnOxPPh0cez6CzKnypPXvSZ1052").child("WeeklySchedule");
+        //databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("1EnOxPPh0cez6CzKnypPXvSZ1052").child("WeeklySchedule");
 
         synchronizeDates();
 
