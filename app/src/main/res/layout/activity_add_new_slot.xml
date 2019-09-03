@@ -71,6 +71,7 @@
                         android:layout_height="55dp"
                         android:background="@drawable/bg_input_slot"
                         android:hint="What You Do?"
+                        android:maxLength="15"
                         android:inputType="text"
                         android:paddingLeft="12dp"
                         android:textColor="@color/colorPrimaryDark"
@@ -102,7 +103,7 @@
                         android:background="@drawable/bg_input_slot"
                         android:hint="How to?"
                         android:inputType="text"
-                        android:maxLength="25"
+                        android:maxLength="15"
                         android:paddingLeft="12dp"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="#B5B5B5" />
@@ -133,26 +134,27 @@
                         android:layout_alignParentLeft="true"
                         android:orientation="horizontal">
 
-                        <EditText
+                        <Button
                             android:id="@+id/add_timeFromSlot"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@drawable/bg_input_slot"
                             android:hint="From"
-                            android:inputType="text"
-                            android:paddingLeft="12dp"
+                            android:paddingStart="12dp"
+                            android:textAlignment="textStart"
                             android:textColor="@color/colorPrimaryDark"
                             android:textColorHint="#B5B5B5" />
 
-                        <EditText
+                        <Button
                             android:id="@+id/add_timeUntilSlot"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@drawable/bg_input_slot"
                             android:hint="To"
-                            android:inputType="text"
+                            android:textAlignment="textStart"
+                            android:paddingStart="12dp"
                             android:paddingLeft="12dp"
                             android:textColor="@color/colorPrimaryDark"
                             android:textColorHint="#B5B5B5" />

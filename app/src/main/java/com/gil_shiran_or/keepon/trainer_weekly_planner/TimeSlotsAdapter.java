@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
@@ -27,13 +28,15 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
     private ArrayList<TimeSlot> mTimeSlots;
     private ChildEventListener mChildEventListener;
     private DatabaseReference mDatabaseReference;
+    private String mDayInDatabaseDaysList;
     //private FirebaseAuth mAuth;
 
 
-    public TimeSlotsAdapter(Activity activity, DatabaseReference ref) {
+    public TimeSlotsAdapter(Activity activity, DatabaseReference ref, String dayInDatabaseDaysList) {
         mActivity = activity;
-        mDatabaseReference = ref.child("WeeklySchedule");
+        mDatabaseReference = ref;
         mTimeSlots = new ArrayList<>();
+        mDayInDatabaseDaysList = dayInDatabaseDaysList;
 
         mChildEventListener = new ChildEventListener() {
             @Override
@@ -100,12 +103,14 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView mTitleSlot, mDescSlot, mTimeSlot;
+        ImageView mImageView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             mTitleSlot = (TextView) itemView.findViewById(R.id.slot_title);
             mDescSlot = (TextView) itemView.findViewById(R.id.slot_desc);
             mTimeSlot = (TextView) itemView.findViewById(R.id.slot_date_time);
+            mImageView = (ImageView) itemView.findViewById(R.id.slot_group_icon);
         }
     }
 
@@ -127,6 +132,14 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
         myViewHolder.mDescSlot.setText(mTimeSlots.get(i).getDescription());
         myViewHolder.mTimeSlot.setText(getTimes);
 
+        if(getGroupSession)
+        {
+            myViewHolder.mImageView.setImageResource(R.drawable.group);
+        }
+        else
+        {
+            myViewHolder.mImageView.setImageResource(R.drawable.one_person);
+        }
 
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +148,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
 
                 Bundle bundle = new Bundle();
 
+                bundle.putString("dayInDatabaseDaysList", mDayInDatabaseDaysList);
                 bundle.putString("key", getIdSlot);
                 bundle.putString("title", getTitleSlot);
                 bundle.putString("description", getDescSlot);

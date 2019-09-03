@@ -1,6 +1,11 @@
 package com.gil_shiran_or.keepon.trainer_weekly_planner;
 
 
+import android.app.TimePickerDialog;
+import android.icu.util.Calendar;
+
+//import java.util.Calendar;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -8,14 +13,19 @@ import com.gil_shiran_or.keepon.R;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static java.util.Calendar.getInstance;
 
 
 public class AddNewSlotActivity extends AppCompatActivity {
@@ -29,8 +39,9 @@ public class AddNewSlotActivity extends AppCompatActivity {
 
     EditText mTitleSlot;
     EditText mDescSlot;
-    EditText mFromTimeSlot;
-    EditText mUntilTimeSlot;
+
+    Button mFromTimeSlot;
+    Button mUntilTimeSlot;
 
     CheckBox mDay1;
     CheckBox mDay2;
@@ -45,6 +56,10 @@ public class AddNewSlotActivity extends AppCompatActivity {
     Button mBtnCancel;
 
     DatabaseReference mDatabaseReference;
+
+    TimePickerDialog timePickerDialog;
+    int currentHour;
+    int currentMinute;
 
 
     @Override
@@ -61,6 +76,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
 
         mTitleSlot = findViewById(R.id.add_titleSlot);
         mDescSlot = findViewById(R.id.add_descSlot);
+
         mFromTimeSlot = findViewById(R.id.add_timeFromSlot);
         mUntilTimeSlot = findViewById(R.id.add_timeUntilSlot);
 
@@ -90,62 +106,60 @@ public class AddNewSlotActivity extends AppCompatActivity {
         mBtnSaveSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // insert data to database
-                String title = mTitleSlot.getText().toString();
-                String description = mDescSlot.getText().toString();
-                String fromTimeSlot = mFromTimeSlot.getText().toString();
-                String untilTimeSlot = mUntilTimeSlot.getText().toString();
 
-                boolean day1 = mDay1.isChecked();
-                boolean day2 = mDay2.isChecked();
-                boolean day3 = mDay3.isChecked();
-                boolean day4 = mDay4.isChecked();
-                boolean day5 = mDay5.isChecked();
-                boolean day6 = mDay6.isChecked();
-                boolean day7 = mDay7.isChecked();
-                boolean groupSession = mGroupSession.isChecked();
+                if (checkValidInput()) {
+                    // insert data to database
+                    String title = mTitleSlot.getText().toString();
+                    String description = mDescSlot.getText().toString();
+                    //String fromTimeSlot = mFromTimeSlot.getHint().toString();
+                    //String untilTimeSlot = mUntilTimeSlot.getHint().toString();
+                    String fromTimeSlot = mFromTimeSlot.getText().toString();
+                    String untilTimeSlot = mUntilTimeSlot.getText().toString();
 
-                if(day1)
-                {
-                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay1.getHint().toString(),false, groupSession);
-                    mDatabaseReference.push().setValue(timeSlot);
-                }
-                if(day2)
-                {
-                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay2.getHint().toString(),false, groupSession);
-                    mDatabaseReference.push().setValue(timeSlot);
-                }
-                if(day3)
-                {
-                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay3.getHint().toString(),false, groupSession);
-                    mDatabaseReference.push().setValue(timeSlot);
-                }
-                if(day4)
-                {
-                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay4.getHint().toString(),false, groupSession);
-                    mDatabaseReference.push().setValue(timeSlot);
-                }
-                if(day5)
-                {
-                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay5.getHint().toString(),false, groupSession);
-                    mDatabaseReference.push().setValue(timeSlot);
-                }
-                if(day6)
-                {
-                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay6.getHint().toString(),false, groupSession);
-                    mDatabaseReference.push().setValue(timeSlot);
-                }
-                if(day7)
-                {
-                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay7.getHint().toString(),false, groupSession);
-                    mDatabaseReference.push().setValue(timeSlot);
-                }
+                    boolean day1 = mDay1.isChecked();
+                    boolean day2 = mDay2.isChecked();
+                    boolean day3 = mDay3.isChecked();
+                    boolean day4 = mDay4.isChecked();
+                    boolean day5 = mDay5.isChecked();
+                    boolean day6 = mDay6.isChecked();
+                    boolean day7 = mDay7.isChecked();
+                    boolean groupSession = mGroupSession.isChecked();
+
+                    if (day1) {
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay1.getHint().toString(), false, groupSession);
+                        mDatabaseReference.child("day1").push().setValue(timeSlot);
+                    }
+                    if (day2) {
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay2.getHint().toString(), false, groupSession);
+                        mDatabaseReference.child("day2").push().setValue(timeSlot);
+                    }
+                    if (day3) {
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay3.getHint().toString(), false, groupSession);
+                        mDatabaseReference.child("day3").push().setValue(timeSlot);
+                    }
+                    if (day4) {
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay4.getHint().toString(), false, groupSession);
+                        mDatabaseReference.child("day4").push().setValue(timeSlot);
+                    }
+                    if (day5) {
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay5.getHint().toString(), false, groupSession);
+                        mDatabaseReference.child("day5").push().setValue(timeSlot);
+                    }
+                    if (day6) {
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay6.getHint().toString(), false, groupSession);
+                        mDatabaseReference.child("day6").push().setValue(timeSlot);
+                    }
+                    if (day7) {
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay7.getHint().toString(), false, groupSession);
+                        mDatabaseReference.child("day7").push().setValue(timeSlot);
+                    }
 
 
-                Intent intent = new Intent(AddNewSlotActivity.this, MainWeeklyScheduleActivity.class);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(AddNewSlotActivity.this, MainWeeklyScheduleActivity.class);
+                    startActivity(intent);
+                    finish();
 
+                }
             }
         });
 
@@ -177,5 +191,94 @@ public class AddNewSlotActivity extends AppCompatActivity {
 
         mBtnSaveSlot.setTypeface(MMedium);
         mBtnCancel.setTypeface(MLight);
+
+
+        mFromTimeSlot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePickerDialog = new TimePickerDialog(AddNewSlotActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        mFromTimeSlot.setText(String.format("%02d:%02d", hourOfDay, minutes));
+                        mFromTimeSlot.setHintTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    }
+                }, currentHour, currentMinute, true);
+
+                timePickerDialog.show();
+            }
+        });
+
+        mUntilTimeSlot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePickerDialog = new TimePickerDialog(AddNewSlotActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        mUntilTimeSlot.setText(String.format("%02d:%02d", hourOfDay, minutes));
+                        mUntilTimeSlot.setHintTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    }
+                }, currentHour, currentMinute, true);
+
+                timePickerDialog.show();
+            }
+        });
+
+
     }
+
+
+
+    private boolean checkValidInput() {
+
+        // Reset errors displayed in the form.
+        mTitleSlot.setError(null);
+        mFromTimeSlot.setError(null);
+        mUntilTimeSlot.setError(null);
+        mAddDays.setError(null);
+
+        // Store values at the time of the onClick attempt.
+        String title = mTitleSlot.getText().toString();
+        String fromTimeSlot = mFromTimeSlot.getText().toString();
+        String untilTimeSlot = mUntilTimeSlot.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        if (TextUtils.isEmpty(title)) {
+            mTitleSlot.setError(getString(R.string.error_field_required));
+            focusView = mTitleSlot;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(fromTimeSlot)) {
+            mFromTimeSlot.setError(getString(R.string.error_field_required));
+            focusView = mFromTimeSlot;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(untilTimeSlot)) {
+            mUntilTimeSlot.setError(getString(R.string.error_field_required));
+            focusView = mUntilTimeSlot;
+            cancel = true;
+        }
+
+        if((!mDay1.isChecked())&&(!mDay2.isChecked())&&(!mDay3.isChecked())&&(!mDay4.isChecked())&&(!mDay5.isChecked())&&(!mDay6.isChecked())&&(!mDay7.isChecked()))
+        {
+            mAddDays.setError(getString(R.string.error_field_required));
+            focusView = mAddDays;
+            cancel = true;
+        }
+
+        if (cancel) {
+            // There was an error.
+            // form field with an error.
+            focusView.requestFocus();
+            Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            return true;
+        }
+        return false;
+    }
+
 }

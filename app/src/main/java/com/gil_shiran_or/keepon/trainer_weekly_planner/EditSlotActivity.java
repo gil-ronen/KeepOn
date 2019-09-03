@@ -1,5 +1,6 @@
 package com.gil_shiran_or.keepon.trainer_weekly_planner;
 
+import android.app.TimePickerDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,11 +10,14 @@ import com.gil_shiran_or.keepon.R;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,8 +33,9 @@ public class EditSlotActivity extends AppCompatActivity {
 
     EditText mTitleSlot;
     EditText mDescSlot;
-    EditText mFromTimeSlot;
-    EditText mUntilTimeSlot;
+
+    Button mFromTimeSlot;
+    Button mUntilTimeSlot;
 
     CheckBox mDay;
     CheckBox mGroupSession;
@@ -39,6 +44,11 @@ public class EditSlotActivity extends AppCompatActivity {
     Button mBtnDelete;
 
     DatabaseReference mDatabaseReference;
+    String mDayInDatabaseDaysList;
+
+    TimePickerDialog timePickerDialog;
+    int currentHour;
+    int currentMinute;
 
 
     @Override
@@ -71,8 +81,9 @@ public class EditSlotActivity extends AppCompatActivity {
         mUntilTimeSlot.setText(getIntent().getExtras().getString("timeUntil"));
         mDay.setHint(getIntent().getExtras().getString("day"));
         mGroupSession.setChecked(getIntent().getExtras().getBoolean("isGroupSession"));
+        mDayInDatabaseDaysList = getIntent().getExtras().getString("dayInDatabaseDaysList");
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule").child(mKeySlot);
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule").child(mDayInDatabaseDaysList).child(mKeySlot);
 
 
         mBtnDelete.setOnClickListener(new View.OnClickListener() {
@@ -89,21 +100,23 @@ public class EditSlotActivity extends AppCompatActivity {
         mBtnSaveUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // update data in database
-                String title = mTitleSlot.getText().toString();
-                String description = mDescSlot.getText().toString();
-                String fromTimeSlot = mFromTimeSlot.getText().toString();
-                String untilTimeSlot = mUntilTimeSlot.getText().toString();
+                if(checkValidInput()) {
+                    // update data in database
+                    String title = mTitleSlot.getText().toString();
+                    String description = mDescSlot.getText().toString();
+                    String fromTimeSlot = mFromTimeSlot.getText().toString();
+                    String untilTimeSlot = mUntilTimeSlot.getText().toString();
 
-                String day = mDay.getHint().toString();
-                boolean groupSession = mGroupSession.isChecked();
+                    String day = mDay.getHint().toString();
+                    boolean groupSession = mGroupSession.isChecked();
 
-                TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, day,false, groupSession);
-                mDatabaseReference.setValue(timeSlot);
+                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, day, false, groupSession);
+                    mDatabaseReference.setValue(timeSlot);
 
-                Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
@@ -130,5 +143,86 @@ public class EditSlotActivity extends AppCompatActivity {
 
         mBtnSaveUpdate.setTypeface(MMedium);
         mBtnDelete.setTypeface(MLight);
+
+
+
+        mFromTimeSlot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePickerDialog = new TimePickerDialog(EditSlotActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        //mFromTimeSlot.setHint(String.format("%02d:%02d", hourOfDay, minutes));
+                        mFromTimeSlot.setText(String.format("%02d:%02d", hourOfDay, minutes));
+                        mFromTimeSlot.setHintTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    }
+                }, currentHour, currentMinute, true);
+
+                timePickerDialog.show();
+            }
+        });
+
+        mUntilTimeSlot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePickerDialog = new TimePickerDialog(EditSlotActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        //mUntilTimeSlot.setHint(String.format("%02d:%02d", hourOfDay, minutes));
+                        mUntilTimeSlot.setText(String.format("%02d:%02d", hourOfDay, minutes));
+                        mUntilTimeSlot.setHintTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    }
+                }, currentHour, currentMinute, true);
+
+                timePickerDialog.show();
+            }
+        });
+    }
+
+    private boolean checkValidInput() {
+
+        // Reset errors displayed in the form.
+        mTitleSlot.setError(null);
+        mFromTimeSlot.setError(null);
+        mUntilTimeSlot.setError(null);
+        mAddDays.setError(null);
+
+        // Store values at the time of the onClick attempt.
+        String title = mTitleSlot.getText().toString();
+        String fromTimeSlot = mFromTimeSlot.getText().toString();
+        String untilTimeSlot = mUntilTimeSlot.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        if (TextUtils.isEmpty(title)) {
+            mTitleSlot.setError(getString(R.string.error_field_required));
+            focusView = mTitleSlot;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(fromTimeSlot)) {
+            mFromTimeSlot.setError(getString(R.string.error_field_required));
+            focusView = mFromTimeSlot;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(untilTimeSlot)) {
+            mUntilTimeSlot.setError(getString(R.string.error_field_required));
+            focusView = mUntilTimeSlot;
+            cancel = true;
+        }
+
+
+        if (cancel) {
+            // There was an error.
+            // form field with an error.
+            focusView.requestFocus();
+            Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            return true;
+        }
+        return false;
     }
 }
