@@ -113,8 +113,12 @@ public class EditSlotActivity extends AppCompatActivity {
 
                     boolean groupSession = mGroupSession.isChecked();
 
-                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDateForDB, false, groupSession);
-                    mDatabaseReference.setValue(timeSlot);
+                    //TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDateForDB, false, groupSession);
+                    mDatabaseReference.child("title").setValue(title);
+                    mDatabaseReference.child("description").setValue(description);
+                    mDatabaseReference.child("timeFrom").setValue(fromTimeSlot);
+                    mDatabaseReference.child("timeUntil").setValue(untilTimeSlot);
+                    mDatabaseReference.child("groupSession").setValue(groupSession);
 
                     Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
                     startActivity(intent);

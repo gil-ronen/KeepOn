@@ -8,6 +8,7 @@ public class TimeSlot {
     private String timeFrom;
     private String timeUntil;
     private String day;
+    private String traineeId;
 
     private boolean isOccupied;
     private boolean isGroupSession;
@@ -16,12 +17,13 @@ public class TimeSlot {
     public TimeSlot() {
     }
 
-    public TimeSlot(String title, String description, String timeFrom, String timeUntil, String day, boolean isOccupied, boolean isGroupSession) {
+    public TimeSlot(String title, String description, String timeFrom, String timeUntil, String day, String traineeId, boolean isOccupied, boolean isGroupSession) {
         this.title = title;
         this.description = description;
         this.timeFrom = timeFrom;
         this.timeUntil = timeUntil;
         this.day = day;
+        this.traineeId = traineeId;
         this.isOccupied = isOccupied;
         this.isGroupSession = isGroupSession;
     }
@@ -88,5 +90,13 @@ public class TimeSlot {
 
     public void setGroupSession(boolean groupSession) {
         isGroupSession = groupSession;
+    }
+
+    public String getTraineeId() {
+        return traineeId;
+    }
+
+    public void setTraineeId(String traineeId) {
+        this.traineeId = traineeId;
     }
 }

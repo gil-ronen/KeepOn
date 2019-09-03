@@ -153,32 +153,33 @@ public class AddNewSlotActivity extends AppCompatActivity {
                     boolean day7 = mDay7.isChecked();
                     boolean groupSession = mGroupSession.isChecked();
 
+
                     if (day1) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB1, false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB1, "" ,false, groupSession);
                         mDatabaseReference.child(dateForDB1).push().setValue(timeSlot);
                     }
                     if (day2) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB2, false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB2, "" ,false, groupSession);
                         mDatabaseReference.child(dateForDB2).push().setValue(timeSlot);
                     }
                     if (day3) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB3, false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB3, "",false, groupSession);
                         mDatabaseReference.child(dateForDB3).push().setValue(timeSlot);
                     }
                     if (day4) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB4, false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB4, "",false, groupSession);
                         mDatabaseReference.child(dateForDB4).push().setValue(timeSlot);
                     }
                     if (day5) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB5, false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB5, "",false, groupSession);
                         mDatabaseReference.child(dateForDB5).push().setValue(timeSlot);
                     }
                     if (day6) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB6, false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB6, "",false, groupSession);
                         mDatabaseReference.child(dateForDB6).push().setValue(timeSlot);
                     }
                     if (day7) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB7, false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB7, "",false, groupSession);
                         mDatabaseReference.child(dateForDB7).push().setValue(timeSlot);
                     }
 
