@@ -28,15 +28,18 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
     private ArrayList<TimeSlot> mTimeSlots;
     private ChildEventListener mChildEventListener;
     private DatabaseReference mDatabaseReference;
-    private String mDayInDatabaseDaysList;
-    //private FirebaseAuth mAuth;
+
+    private String mDateForApp;
+    private String mDateForDB;
 
 
-    public TimeSlotsAdapter(Activity activity, DatabaseReference ref, String dayInDatabaseDaysList) {
+
+    public TimeSlotsAdapter(Activity activity, DatabaseReference ref, String dateForApp, String dateForDB) {
         mActivity = activity;
         mDatabaseReference = ref;
         mTimeSlots = new ArrayList<>();
-        mDayInDatabaseDaysList = dayInDatabaseDaysList;
+        mDateForApp = dateForApp;
+        mDateForDB = dateForDB;
 
         mChildEventListener = new ChildEventListener() {
             @Override
@@ -124,7 +127,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
         final String getTimeFrom = mTimeSlots.get(i).getTimeFrom();
         final String getTimeUntil = mTimeSlots.get(i).getTimeUntil();
         final String getTimes = getTimeFrom + " - " + getTimeUntil;
-        final String getDay = mTimeSlots.get(i).getDay();
+        //final String getDay = mTimeSlots.get(i).getDay();
         final boolean isOccupied = mTimeSlots.get(i).isOccupied();
         final boolean getGroupSession = mTimeSlots.get(i).isGroupSession();
 
@@ -148,13 +151,15 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
 
                 Bundle bundle = new Bundle();
 
-                bundle.putString("dayInDatabaseDaysList", mDayInDatabaseDaysList);
+
+                bundle.putString("dateForApp", mDateForApp);
+                bundle.putString("dateForDB", mDateForDB);
                 bundle.putString("key", getIdSlot);
                 bundle.putString("title", getTitleSlot);
                 bundle.putString("description", getDescSlot);
                 bundle.putString("timeFrom", getTimeFrom);
                 bundle.putString("timeUntil", getTimeUntil);
-                bundle.putString("day", getDay);
+                //bundle.putString("day", getDay);
                 bundle.putBoolean("isOccupied", isOccupied);
                 bundle.putBoolean("isGroupSession", getGroupSession);
 

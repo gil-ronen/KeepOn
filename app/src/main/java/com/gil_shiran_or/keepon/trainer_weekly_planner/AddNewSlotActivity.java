@@ -2,7 +2,6 @@ package com.gil_shiran_or.keepon.trainer_weekly_planner;
 
 
 import android.app.TimePickerDialog;
-import android.icu.util.Calendar;
 
 //import java.util.Calendar;
 
@@ -24,6 +23,8 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
 
 import static java.util.Calendar.getInstance;
 
@@ -94,6 +95,32 @@ public class AddNewSlotActivity extends AppCompatActivity {
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule");
 
+
+        final String dateForDB1 = getIntent().getExtras().getString("dateForDB1");
+        final String dateForDB2 = getIntent().getExtras().getString("dateForDB2");
+        final String dateForDB3 = getIntent().getExtras().getString("dateForDB3");
+        final String dateForDB4 = getIntent().getExtras().getString("dateForDB4");
+        final String dateForDB5 = getIntent().getExtras().getString("dateForDB5");
+        final String dateForDB6 = getIntent().getExtras().getString("dateForDB6");
+        final String dateForDB7 = getIntent().getExtras().getString("dateForDB7");
+
+        final String dateForApp1 = getIntent().getExtras().getString("dateForApp1");
+        final String dateForApp2 = getIntent().getExtras().getString("dateForApp2");
+        final String dateForApp3 = getIntent().getExtras().getString("dateForApp3");
+        final String dateForApp4 = getIntent().getExtras().getString("dateForApp4");
+        final String dateForApp5 = getIntent().getExtras().getString("dateForApp5");
+        final String dateForApp6 = getIntent().getExtras().getString("dateForApp6");
+        final String dateForApp7 = getIntent().getExtras().getString("dateForApp7");
+
+        mDay1.setHint(dateForApp1);
+        mDay2.setHint(dateForApp2);
+        mDay3.setHint(dateForApp3);
+        mDay4.setHint(dateForApp4);
+        mDay5.setHint(dateForApp5);
+        mDay6.setHint(dateForApp6);
+        mDay7.setHint(dateForApp7);
+
+
         mBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,6 +143,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
                     String fromTimeSlot = mFromTimeSlot.getText().toString();
                     String untilTimeSlot = mUntilTimeSlot.getText().toString();
 
+
                     boolean day1 = mDay1.isChecked();
                     boolean day2 = mDay2.isChecked();
                     boolean day3 = mDay3.isChecked();
@@ -126,32 +154,32 @@ public class AddNewSlotActivity extends AppCompatActivity {
                     boolean groupSession = mGroupSession.isChecked();
 
                     if (day1) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay1.getHint().toString(), false, groupSession);
-                        mDatabaseReference.child("day1").push().setValue(timeSlot);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB1, false, groupSession);
+                        mDatabaseReference.child(dateForDB1).push().setValue(timeSlot);
                     }
                     if (day2) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay2.getHint().toString(), false, groupSession);
-                        mDatabaseReference.child("day2").push().setValue(timeSlot);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB2, false, groupSession);
+                        mDatabaseReference.child(dateForDB2).push().setValue(timeSlot);
                     }
                     if (day3) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay3.getHint().toString(), false, groupSession);
-                        mDatabaseReference.child("day3").push().setValue(timeSlot);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB3, false, groupSession);
+                        mDatabaseReference.child(dateForDB3).push().setValue(timeSlot);
                     }
                     if (day4) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay4.getHint().toString(), false, groupSession);
-                        mDatabaseReference.child("day4").push().setValue(timeSlot);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB4, false, groupSession);
+                        mDatabaseReference.child(dateForDB4).push().setValue(timeSlot);
                     }
                     if (day5) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay5.getHint().toString(), false, groupSession);
-                        mDatabaseReference.child("day5").push().setValue(timeSlot);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB5, false, groupSession);
+                        mDatabaseReference.child(dateForDB5).push().setValue(timeSlot);
                     }
                     if (day6) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay6.getHint().toString(), false, groupSession);
-                        mDatabaseReference.child("day6").push().setValue(timeSlot);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB6, false, groupSession);
+                        mDatabaseReference.child(dateForDB6).push().setValue(timeSlot);
                     }
                     if (day7) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDay7.getHint().toString(), false, groupSession);
-                        mDatabaseReference.child("day7").push().setValue(timeSlot);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB7, false, groupSession);
+                        mDatabaseReference.child(dateForDB7).push().setValue(timeSlot);
                     }
 
 

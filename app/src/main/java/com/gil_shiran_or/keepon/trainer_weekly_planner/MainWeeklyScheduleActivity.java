@@ -10,10 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainee.utilities.ExpandableViewGroup;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainWeeklyScheduleActivity extends AppCompatActivity {
@@ -50,6 +59,21 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
     private TimeSlotsAdapter timeSlotsAdapter6;
     private TimeSlotsAdapter timeSlotsAdapter7;
 
+    private String dateForApp1;
+    private String dateForDB1;
+    private String dateForApp2;
+    private String dateForDB2;
+    private String dateForApp3;
+    private String dateForDB3;
+    private String dateForApp4;
+    private String dateForDB4;
+    private String dateForApp5;
+    private String dateForDB5;
+    private String dateForApp6;
+    private String dateForDB6;
+    private String dateForApp7;
+    private String dateForDB7;
+
 
 
     @Override
@@ -64,6 +88,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule");
 
+        synchronizeDates();
 
         mTimeSlotsRecyclerView1 = findViewById(R.id.main_timeSlotsList1);
         mTimeSlotsRecyclerView1.setHasFixedSize(true);
@@ -74,7 +99,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         ViewGroup day1SlotsViewGroup = mTimeSlotsRecyclerView1;
         View day1SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day1SlotsExpanderViewGroup, false);
         day1SlotsExpanderViewGroup.addView(day1SlotsExpandableLayoutView);
-        expandableViewGroup1 = new ExpandableViewGroup("Day 1", "Day 1", (ViewGroup) day1SlotsExpandableLayoutView, day1SlotsViewGroup);
+        expandableViewGroup1 = new ExpandableViewGroup(dateForApp1, dateForApp1, (ViewGroup) day1SlotsExpandableLayoutView, day1SlotsViewGroup);
 
 
         mTimeSlotsRecyclerView2 = findViewById(R.id.main_timeSlotsList2);
@@ -86,7 +111,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         ViewGroup day2SlotsViewGroup = mTimeSlotsRecyclerView2;
         View day2SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day2SlotsExpanderViewGroup, false);
         day2SlotsExpanderViewGroup.addView(day2SlotsExpandableLayoutView);
-        expandableViewGroup2 = new ExpandableViewGroup("Day 2", "Day 2", (ViewGroup) day2SlotsExpandableLayoutView, day2SlotsViewGroup);
+        expandableViewGroup2 = new ExpandableViewGroup(dateForApp2, dateForApp2, (ViewGroup) day2SlotsExpandableLayoutView, day2SlotsViewGroup);
 
 
         mTimeSlotsRecyclerView3 = findViewById(R.id.main_timeSlotsList3);
@@ -98,7 +123,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         ViewGroup day3SlotsViewGroup = mTimeSlotsRecyclerView3;
         View day3SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day3SlotsExpanderViewGroup, false);
         day3SlotsExpanderViewGroup.addView(day3SlotsExpandableLayoutView);
-        expandableViewGroup3 = new ExpandableViewGroup("Day 3", "Day 3", (ViewGroup) day3SlotsExpandableLayoutView, day3SlotsViewGroup);
+        expandableViewGroup3 = new ExpandableViewGroup(dateForApp3, dateForApp3, (ViewGroup) day3SlotsExpandableLayoutView, day3SlotsViewGroup);
 
 
         mTimeSlotsRecyclerView4 = findViewById(R.id.main_timeSlotsList4);
@@ -110,7 +135,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         ViewGroup day4SlotsViewGroup = mTimeSlotsRecyclerView4;
         View day4SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day4SlotsExpanderViewGroup, false);
         day4SlotsExpanderViewGroup.addView(day4SlotsExpandableLayoutView);
-        expandableViewGroup4 = new ExpandableViewGroup("Day 4", "Day 4", (ViewGroup) day4SlotsExpandableLayoutView, day4SlotsViewGroup);
+        expandableViewGroup4 = new ExpandableViewGroup(dateForApp4, dateForApp4, (ViewGroup) day4SlotsExpandableLayoutView, day4SlotsViewGroup);
 
 
         mTimeSlotsRecyclerView5 = findViewById(R.id.main_timeSlotsList5);
@@ -122,7 +147,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         ViewGroup day5SlotsViewGroup = mTimeSlotsRecyclerView5;
         View day5SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day5SlotsExpanderViewGroup, false);
         day5SlotsExpanderViewGroup.addView(day5SlotsExpandableLayoutView);
-        expandableViewGroup5 = new ExpandableViewGroup("Day 5", "Day 5", (ViewGroup) day5SlotsExpandableLayoutView, day5SlotsViewGroup);
+        expandableViewGroup5 = new ExpandableViewGroup(dateForApp5, dateForApp5, (ViewGroup) day5SlotsExpandableLayoutView, day5SlotsViewGroup);
 
 
         mTimeSlotsRecyclerView6 = findViewById(R.id.main_timeSlotsList6);
@@ -134,7 +159,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         ViewGroup day6SlotsViewGroup = mTimeSlotsRecyclerView6;
         View day6SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day6SlotsExpanderViewGroup, false);
         day6SlotsExpanderViewGroup.addView(day6SlotsExpandableLayoutView);
-        expandableViewGroup6 = new ExpandableViewGroup("Day 6", "Day 6", (ViewGroup) day6SlotsExpandableLayoutView, day6SlotsViewGroup);
+        expandableViewGroup6 = new ExpandableViewGroup(dateForApp6, dateForApp6, (ViewGroup) day6SlotsExpandableLayoutView, day6SlotsViewGroup);
 
         mTimeSlotsRecyclerView7 = findViewById(R.id.main_timeSlotsList7);
         mTimeSlotsRecyclerView7.setHasFixedSize(true);
@@ -145,14 +170,32 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         ViewGroup day7SlotsViewGroup = mTimeSlotsRecyclerView7;
         View day7SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day7SlotsExpanderViewGroup, false);
         day7SlotsExpanderViewGroup.addView(day7SlotsExpandableLayoutView);
-        expandableViewGroup7 = new ExpandableViewGroup("Day 7", "Day 7", (ViewGroup) day7SlotsExpandableLayoutView, day7SlotsViewGroup);
-
+        expandableViewGroup7 = new ExpandableViewGroup(dateForApp7, dateForApp7, (ViewGroup) day7SlotsExpandableLayoutView, day7SlotsViewGroup);
 
 
         mBtnAddNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(MainWeeklyScheduleActivity.this, AddNewSlotActivity.class);
+                Bundle bundle = new Bundle();
+
+                bundle.putString("dateForDB1", dateForDB1);
+                bundle.putString("dateForApp1", dateForApp1);
+                bundle.putString("dateForDB2", dateForDB2);
+                bundle.putString("dateForApp2", dateForApp2);
+                bundle.putString("dateForDB3", dateForDB3);
+                bundle.putString("dateForApp3", dateForApp3);
+                bundle.putString("dateForDB4", dateForDB4);
+                bundle.putString("dateForApp4", dateForApp4);
+                bundle.putString("dateForDB5", dateForDB5);
+                bundle.putString("dateForApp5", dateForApp5);
+                bundle.putString("dateForDB6", dateForDB6);
+                bundle.putString("dateForApp6", dateForApp6);
+                bundle.putString("dateForDB7", dateForDB7);
+                bundle.putString("dateForApp7", dateForApp7);
+
+                intent.putExtras(bundle);
                 startActivity(intent);
                 //finish();
             }
@@ -172,31 +215,73 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
     }
 
 
+    public void synchronizeDates() {
+
+        DateFormat dateFormatForFirebase = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat dateFormatForApp = new SimpleDateFormat("dd/MM");
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH));
+        dateForDB1 = dateFormatForFirebase.format(cal.getTime());
+        dateForApp1 = "TODAY";
+
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 1 );
+        dateForDB2 = dateFormatForFirebase.format(cal.getTime());
+        dateForApp2 = "TOMORROW";
+
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 2 );
+        dateForDB3 = dateFormatForFirebase.format(cal.getTime());
+        dateForApp3 = dateFormatForApp.format(cal.getTime());
+
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 3 );
+        dateForDB4 = dateFormatForFirebase.format(cal.getTime());
+        dateForApp4 = dateFormatForApp.format(cal.getTime());
+
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 4 );
+        dateForDB5 = dateFormatForFirebase.format(cal.getTime());
+        dateForApp5 = dateFormatForApp.format(cal.getTime());
+
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 5 );
+        dateForDB6 = dateFormatForFirebase.format(cal.getTime());
+        dateForApp6 = dateFormatForApp.format(cal.getTime());
+
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 6 );
+        dateForDB7 = dateFormatForFirebase.format(cal.getTime());
+        dateForApp7 = dateFormatForApp.format(cal.getTime());
+
+    }
+
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
 
-        timeSlotsAdapter1 = new TimeSlotsAdapter(this, databaseReference.child("day1"), "day1");
+        timeSlotsAdapter1 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB1), dateForApp1, dateForDB1);
         mTimeSlotsRecyclerView1.setAdapter(timeSlotsAdapter1);
 
-        timeSlotsAdapter2 = new TimeSlotsAdapter(this, databaseReference.child("day2"), "day2");
+        timeSlotsAdapter2 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB2), dateForApp2, dateForDB2);
         mTimeSlotsRecyclerView2.setAdapter(timeSlotsAdapter2);
 
-        timeSlotsAdapter3 = new TimeSlotsAdapter(this, databaseReference.child("day3"), "day3");
+        timeSlotsAdapter3 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB3), dateForApp3, dateForDB3);
         mTimeSlotsRecyclerView3.setAdapter(timeSlotsAdapter3);
 
-        timeSlotsAdapter4 = new TimeSlotsAdapter(this, databaseReference.child("day4"), "day4");
+        timeSlotsAdapter4 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB4), dateForApp4, dateForDB4);
         mTimeSlotsRecyclerView4.setAdapter(timeSlotsAdapter4);
 
-        timeSlotsAdapter5 = new TimeSlotsAdapter(this, databaseReference.child("day5"), "day5");
+        timeSlotsAdapter5 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB5), dateForApp5, dateForDB5);
         mTimeSlotsRecyclerView5.setAdapter(timeSlotsAdapter5);
 
-        timeSlotsAdapter6 = new TimeSlotsAdapter(this, databaseReference.child("day6"), "day6");
+        timeSlotsAdapter6 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB6), dateForApp6 ,dateForDB6);
         mTimeSlotsRecyclerView6.setAdapter(timeSlotsAdapter6);
 
-        timeSlotsAdapter7 = new TimeSlotsAdapter(this, databaseReference.child("day7"), "day7");
+        timeSlotsAdapter7 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB7), dateForApp7, dateForDB7);
         mTimeSlotsRecyclerView7.setAdapter(timeSlotsAdapter7);
 
     }

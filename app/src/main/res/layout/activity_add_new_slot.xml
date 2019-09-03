@@ -200,7 +200,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:hint="day1"
-                                android:paddingLeft="12dp"
+                                android:paddingLeft="1dp"
                                 android:textColorHint="@color/colorPrimaryDark" />
 
                             <CheckBox
@@ -209,7 +209,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:hint="day2"
-                                android:paddingLeft="12dp"
+                                android:paddingLeft="1dp"
                                 android:textColorHint="@color/colorPrimaryDark" />
 
                             <CheckBox
@@ -218,17 +218,10 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:hint="day3"
-                                android:paddingLeft="12dp"
+                                android:paddingLeft="1dp"
                                 android:textColorHint="@color/colorPrimaryDark" />
 
-                            <CheckBox
-                                android:id="@+id/add_checkBox_day4"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:hint="day4"
-                                android:paddingLeft="12dp"
-                                android:textColorHint="@color/colorPrimaryDark" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -239,12 +232,21 @@
                             android:orientation="horizontal">
 
                             <CheckBox
+                                android:id="@+id/add_checkBox_day4"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="day4"
+                                android:paddingLeft="1dp"
+                                android:textColorHint="@color/colorPrimaryDark" />
+
+                            <CheckBox
                                 android:id="@+id/add_checkBox_day5"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:hint="day5"
-                                android:paddingLeft="12dp"
+                                android:paddingLeft="1dp"
                                 android:textColorHint="@color/colorPrimaryDark" />
 
                             <CheckBox
@@ -253,7 +255,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:hint="day6"
-                                android:paddingLeft="12dp"
+                                android:paddingLeft="1dp"
                                 android:textColorHint="@color/colorPrimaryDark" />
 
                             <CheckBox
@@ -262,7 +264,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:hint="day7"
-                                android:paddingLeft="12dp"
+                                android:paddingLeft="1dp"
                                 android:textColorHint="@color/colorPrimaryDark" />
 
                         </LinearLayout>

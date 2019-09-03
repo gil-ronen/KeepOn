@@ -44,7 +44,9 @@ public class EditSlotActivity extends AppCompatActivity {
     Button mBtnDelete;
 
     DatabaseReference mDatabaseReference;
-    String mDayInDatabaseDaysList;
+
+    private String mDateForApp;
+    private String mDateForDB;
 
     TimePickerDialog timePickerDialog;
     int currentHour;
@@ -74,16 +76,18 @@ public class EditSlotActivity extends AppCompatActivity {
         mBtnSaveUpdate = findViewById(R.id.edit_btnSaveUpdate);
         mBtnDelete = findViewById(R.id.edit_btnDelete);
 
+        mDateForApp = getIntent().getExtras().getString("dateForApp");
+        mDateForDB = getIntent().getExtras().getString("dateForDB");
         final String mKeySlot = getIntent().getExtras().getString("key");
         mTitleSlot.setText(getIntent().getExtras().getString("title"));
         mDescSlot.setText(getIntent().getExtras().getString("description"));
         mFromTimeSlot.setText(getIntent().getExtras().getString("timeFrom"));
         mUntilTimeSlot.setText(getIntent().getExtras().getString("timeUntil"));
-        mDay.setHint(getIntent().getExtras().getString("day"));
+        mDay.setHint(getIntent().getExtras().getString("dateForApp"));
         mGroupSession.setChecked(getIntent().getExtras().getBoolean("isGroupSession"));
-        mDayInDatabaseDaysList = getIntent().getExtras().getString("dayInDatabaseDaysList");
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule").child(mDayInDatabaseDaysList).child(mKeySlot);
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule").child(mDateForDB).child(mKeySlot);
 
 
         mBtnDelete.setOnClickListener(new View.OnClickListener() {
@@ -107,10 +111,9 @@ public class EditSlotActivity extends AppCompatActivity {
                     String fromTimeSlot = mFromTimeSlot.getText().toString();
                     String untilTimeSlot = mUntilTimeSlot.getText().toString();
 
-                    String day = mDay.getHint().toString();
                     boolean groupSession = mGroupSession.isChecked();
 
-                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, day, false, groupSession);
+                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDateForDB, false, groupSession);
                     mDatabaseReference.setValue(timeSlot);
 
                     Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
