@@ -31,7 +31,6 @@ package com.gil_shiran_or.keepon.login_register;
         import android.support.annotation.NonNull;
         import android.support.v7.app.AlertDialog;
 
-        import com.gil_shiran_or.keepon.HomeActivity;
         import com.gil_shiran_or.keepon.R;
         import com.gil_shiran_or.keepon.Trainee;
         import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
@@ -71,7 +70,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     private EditText mPhoneNumberView;
     private Spinner mSpinner;
     private ProgressBar loadingProgress;
-    private Button updateButton;
+    private Button registerButton;
     private Button mBirthDate;
     private RadioGroup mRadioUserGenderGroup;
     private RadioButton mRadioUserGenderButton;
@@ -112,7 +111,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         mRadioMale = findViewById(R.id.maleRadioButton);
         mRadioFemale = findViewById(R.id.femaleRadioButton);
         loadingProgress = findViewById(R.id.settings_ProgressBar);
-        updateButton = findViewById(R.id.settings_update_button);
+        registerButton = findViewById(R.id.settings_register_button);
 
         Bundle bundle = getIntent().getExtras();
         mEmail = bundle.getString("email");
@@ -202,15 +201,19 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     }
 
     // Executed when Sign Up button is pressed.
-    public void updateDetails(View v) {
-        attemptUpdate();
+    public void onRegisterUserDetailsClicked(View v) {
+        registerButton.setVisibility(View.INVISIBLE);
+        loadingProgress.setVisibility(View.VISIBLE);
+        checkValidInput();
+        //registerButton.setVisibility(View.VISIBLE);
+        //loadingProgress.setVisibility(View.INVISIBLE);
     }
 
 
-    private void attemptUpdate() {
+    private void checkValidInput() {
 
-        updateButton.setVisibility(View.INVISIBLE);
-        loadingProgress.setVisibility(View.VISIBLE);
+        //registerButton.setVisibility(View.INVISIBLE);
+        //loadingProgress.setVisibility(View.VISIBLE);
 
         // Reset errors displayed in the form.
         mNameView.setError(null);
@@ -226,9 +229,6 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         traineePhoneNumber = mPhoneNumberView.getText().toString();
         traineeBirthDate = mBirthDate.getText().toString();
         String trainee_gender = traineeGender;
-
-
-
 
         boolean cancel = false;
         View focusView = null;
@@ -272,21 +272,24 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            updateButton.setVisibility(View.VISIBLE);
-            loadingProgress.setVisibility(View.INVISIBLE);
+
+            //registerButton.setVisibility(View.VISIBLE);
+            //loadingProgress.setVisibility(View.INVISIBLE);
 
             if (focusView != null) {
                 focusView.requestFocus();
             }
             Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
-        } else {
+            registerButton.setVisibility(View.VISIBLE);
+            loadingProgress.setVisibility(View.INVISIBLE);
+        }
+
+        else {
             try {
                 uploadUserDetailsToFirebase();
-                updateButton.setVisibility(View.VISIBLE);
-                loadingProgress.setVisibility(View.INVISIBLE);
 
             } catch (Exception e) {
-                updateButton.setVisibility(View.VISIBLE);
+                registerButton.setVisibility(View.VISIBLE);
                 loadingProgress.setVisibility(View.INVISIBLE);
                 showErrorDialog(e.getMessage());
             }
@@ -305,21 +308,15 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                     {
                         Log.d("KeepOn", "user creation failed");
                         showErrorDialog("Registration attempt failed");
-                        //updateButton.setVisibility(View.VISIBLE);
-                        //loadingProgress.setVisibility(View.INVISIBLE);
+                        registerButton.setVisibility(View.VISIBLE);
+                        loadingProgress.setVisibility(View.INVISIBLE);
                     }
                     else
                     {
                         Log.d("KeepOn", "user creation success");
 
-
                         generateTraineeSectionInDatabase();
 
-                        //uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
-
-                        //Intent traineeIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                        //startActivity(traineeIntent);
-                        //finish();
                     }
                 }
             });
@@ -327,6 +324,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         }
         else {
             showErrorDialog("must upload a profile photo of you");
+            registerButton.setVisibility(View.VISIBLE);
+            loadingProgress.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -398,6 +397,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                                         if (!task.isSuccessful()) {
                                             // user info failed update
                                             showErrorDialog("User info failed to update");
+                                            registerButton.setVisibility(View.VISIBLE);
+                                            loadingProgress.setVisibility(View.INVISIBLE);
                                         }
                                     }
                                 });

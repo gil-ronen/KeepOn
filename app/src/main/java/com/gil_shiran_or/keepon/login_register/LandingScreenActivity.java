@@ -21,7 +21,7 @@ public class LandingScreenActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    private Query query;
+    private Query isTraineeQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +43,16 @@ public class LandingScreenActivity extends AppCompatActivity {
         {
             String user_id = mUser.getUid();
 
-            query = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees")
+            isTraineeQuery = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees")
                     .orderByKey()
                     .equalTo(user_id);
-            query.addValueEventListener(valueEventListener);
+            isTraineeQuery.addValueEventListener(isTraineeValueEventListener);
+
         }
 
     }
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
+    ValueEventListener isTraineeValueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -66,7 +67,7 @@ public class LandingScreenActivity extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), HomeActivity.class);
             }
 
-            query.removeEventListener(this);
+            isTraineeQuery.removeEventListener(this);
             startActivity(intent);
             finish();
         }
