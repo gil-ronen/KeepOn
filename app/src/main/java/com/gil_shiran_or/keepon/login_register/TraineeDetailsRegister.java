@@ -31,7 +31,6 @@ package com.gil_shiran_or.keepon.login_register;
         import android.support.annotation.NonNull;
         import android.support.v7.app.AlertDialog;
 
-        import com.gil_shiran_or.keepon.HomeActivity;
         import com.gil_shiran_or.keepon.R;
         import com.gil_shiran_or.keepon.Trainee;
         import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;

@@ -2,18 +2,28 @@ package com.gil_shiran_or.keepon.trainer_weekly_planner;
 
 public class TimeSlot {
 
-    private String title;
-    private String dateAndTime;
-    private String description;
     private String timeSlotId;
+    private String title;
+    private String description;
+    private String timeFrom;
+    private String timeUntil;
+    private String day;
+
+    private boolean isOccupied;
+    private boolean isGroupSession;
+
 
     public TimeSlot() {
     }
 
-    public TimeSlot(String title, String dateAndTime, String description) {
+    public TimeSlot(String title, String description, String timeFrom, String timeUntil, String day, boolean isOccupied, boolean isGroupSession) {
         this.title = title;
-        this.dateAndTime = dateAndTime;
         this.description = description;
+        this.timeFrom = timeFrom;
+        this.timeUntil = timeUntil;
+        this.day = day;
+        this.isOccupied = isOccupied;
+        this.isGroupSession = isGroupSession;
     }
 
     public String getTimeSlotId() {
@@ -32,14 +42,6 @@ public class TimeSlot {
         this.title = title;
     }
 
-    public String getDateAndTime() {
-        return dateAndTime;
-    }
-
-    public void setDateAndTime(String dateAndTime) {
-        this.dateAndTime = dateAndTime;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -48,4 +50,43 @@ public class TimeSlot {
         this.description = description;
     }
 
+    public String getTimeFrom() {
+        return timeFrom;
+    }
+
+    public void setTimeFrom(String timeFrom) {
+        this.timeFrom = timeFrom;
+    }
+
+    public String getTimeUntil() {
+        return timeUntil;
+    }
+
+    public void setTimeUntil(String timeUntil) {
+        this.timeUntil = timeUntil;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public boolean isOccupied() {
+        return isOccupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        isOccupied = occupied;
+    }
+
+    public boolean isGroupSession() {
+        return isGroupSession;
+    }
+
+    public void setGroupSession(boolean groupSession) {
+        isGroupSession = groupSession;
+    }
 }

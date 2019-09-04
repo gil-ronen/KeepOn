@@ -1,169 +1,354 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-android:orientation="vertical"
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@drawable/background_trainee"
-tools:context=".trainer_weekly_planner.AddNewSlotActivity">
-
-
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_trainee"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:layout_height="198dp">
+    tools:context=".trainer_weekly_planner.AddNewSlotActivity">
 
-    <TextView
-        android:id="@+id/add_titlePage"
-        android:layout_marginTop="20dp"
-        android:textSize="26sp"
-        android:textColor="#FFF"
-        android:text="Create New Time Slot"
-        android:textAlignment="center"
-        android:layout_marginBottom="18dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <View
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:background="#131E69"
-        android:layout_height="1dp" />
-
-</LinearLayout>
-
-<LinearLayout
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="-60dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_item_slot"
-    android:orientation="vertical"
-    android:paddingBottom="22dp"
-    android:paddingTop="22dp">
 
     <LinearLayout
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/add_addTitle"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Add Title"
-            android:layout_marginBottom="10dp"
+            android:id="@+id/add_titlePage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="18dp"
+            android:text="Create New Time Slot"
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:textSize="26sp" />
 
-        <EditText
-            android:id="@+id/add_titleSlot"
-            android:inputType="text"
-            android:background="@drawable/bg_input_slot"
-            android:paddingLeft="12dp"
-            android:textColorHint="#B5B5B5"
-            android:textColor="@color/colorPrimaryDark"
-            android:hint="What You Do?"
-            android:layout_width="match_parent"
-            android:layout_height="55dp" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/add_addDesc"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Description"
-            android:layout_marginBottom="10dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/add_descSlot"
-            android:inputType="text"
-            android:background="@drawable/bg_input_slot"
-            android:paddingLeft="12dp"
-            android:textColorHint="#B5B5B5"
-            android:maxLength="25"
-            android:textColor="@color/colorPrimaryDark"
-            android:hint="How to?"
-            android:layout_width="match_parent"
-            android:layout_height="55dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/bg_item_slot"
+                android:orientation="vertical"
+                android:paddingTop="22dp"
+                android:paddingBottom="22dp">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/add_addTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Add Title"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/add_addDate"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Timeline"
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/add_titleSlot"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:background="@drawable/bg_input_slot"
+                        android:hint="What You Do?"
+                        android:maxLength="15"
+                        android:inputType="text"
+                        android:paddingLeft="12dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="#B5B5B5" />
 
-        <EditText
-            android:id="@+id/add_dateSlot"
-            android:inputType="text"
-            android:background="@drawable/bg_input_slot"
-            android:paddingLeft="12dp"
-            android:textColorHint="#B5B5B5"
-            android:textColor="@color/colorPrimaryDark"
-            android:hint="When will?"
-            android:layout_width="match_parent"
-            android:layout_height="55dp" />
+                </LinearLayout>
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/add_addDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Description"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/add_descSlot"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:background="@drawable/bg_input_slot"
+                        android:hint="How to?"
+                        android:inputType="text"
+                        android:maxLength="15"
+                        android:paddingLeft="12dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="#B5B5B5" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/add_addTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Timeline"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/add_timeFromSlot"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_input_slot"
+                            android:hint="From"
+                            android:paddingStart="12dp"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textColorHint="#B5B5B5" />
+
+                        <Button
+                            android:id="@+id/add_timeUntilSlot"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_input_slot"
+                            android:hint="To"
+                            android:textAlignment="textStart"
+                            android:paddingStart="12dp"
+                            android:paddingLeft="12dp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textColorHint="#B5B5B5" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/add_days"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Choose days in this week"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_input_slot"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:orientation="horizontal">
+
+                            <CheckBox
+                                android:id="@+id/add_checkBox_day1"
+
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="day1"
+                                android:paddingLeft="1dp"
+                                android:textColorHint="@color/colorPrimaryDark" />
+
+                            <CheckBox
+                                android:id="@+id/add_checkBox_day2"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="day2"
+                                android:paddingLeft="1dp"
+                                android:textColorHint="@color/colorPrimaryDark" />
+
+                            <CheckBox
+                                android:id="@+id/add_checkBox_day3"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="day3"
+                                android:paddingLeft="1dp"
+                                android:textColorHint="@color/colorPrimaryDark" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:orientation="horizontal">
+
+                            <CheckBox
+                                android:id="@+id/add_checkBox_day4"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="day4"
+                                android:paddingLeft="1dp"
+                                android:textColorHint="@color/colorPrimaryDark" />
+
+                            <CheckBox
+                                android:id="@+id/add_checkBox_day5"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="day5"
+                                android:paddingLeft="1dp"
+                                android:textColorHint="@color/colorPrimaryDark" />
+
+                            <CheckBox
+                                android:id="@+id/add_checkBox_day6"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="day6"
+                                android:paddingLeft="1dp"
+                                android:textColorHint="@color/colorPrimaryDark" />
+
+                            <CheckBox
+                                android:id="@+id/add_checkBox_day7"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="day7"
+                                android:paddingLeft="1dp"
+                                android:textColorHint="@color/colorPrimaryDark" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/add_groupSession"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Group session"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <CheckBox
+                        android:id="@+id/add_groupSession_checkBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="55dp"
+                        android:background="@drawable/bg_input_slot"
+                        android:hint="It's a group workout"
+                        android:maxLength="25"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColorHint="@color/colorPrimaryDark" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/add_btnSaveSlot"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="14dp"
+                    android:background="@drawable/bg_btn_create"
+                    android:text="Create Now"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:textSize="22sp" />
+
+                <Button
+                    android:id="@+id/add_btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginRight="14dp"
+                    android:background="@drawable/bg_btn_cancel"
+                    android:text="Cancel"
+                    android:textAllCaps="false"
+                    android:textColor="#AFAFAF"
+                    android:textSize="22sp" />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 
 </LinearLayout>
 
-<Button
-    android:id="@+id/add_btnSaveSlot"
-    android:layout_marginRight="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginTop="20dp"
-    android:text="Create Now"
-    android:textColor="#FFF"
-    android:textAllCaps="false"
-    android:background="@drawable/bg_btn_create"
-    android:textSize="22sp"
-    android:layout_width="match_parent"
-    android:layout_height="55dp" />
-
-<Button
-    android:id="@+id/add_btnCancel"
-    android:layout_marginRight="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginTop="14dp"
-    android:text="Cancel"
-    android:textColor="#AFAFAF"
-    android:textAllCaps="false"
-    android:background="@drawable/bg_btn_cancel"
-    android:textSize="22sp"
-    android:layout_width="match_parent"
-    android:layout_height="55dp" />
-
-
-</LinearLayout>

@@ -1,40 +1,57 @@
 package com.gil_shiran_or.keepon.trainer_weekly_planner;
 
-import android.content.Intent;
-import android.graphics.Typeface;
+import android.app.TimePickerDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gil_shiran_or.keepon.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
+
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class EditSlotActivity extends AppCompatActivity {
 
     TextView mTitlePage;
     TextView mAddTitle;
     TextView mAddDesc;
-    TextView mAddDate;
+    TextView mAddDays;
+    TextView mAddTime;
+    TextView mAddGroupSession;
 
     EditText mTitleSlot;
     EditText mDescSlot;
-    EditText mDateAndTimeSlot;
+
+    Button mFromTimeSlot;
+    Button mUntilTimeSlot;
+
+    CheckBox mDay;
+    CheckBox mGroupSession;
 
     Button mBtnSaveUpdate;
     Button mBtnDelete;
 
     DatabaseReference mDatabaseReference;
+
+    private String mDateForApp;
+    private String mDateForDB;
+
+    TimePickerDialog timePickerDialog;
+    int currentHour;
+    int currentMinute;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,21 +61,33 @@ public class EditSlotActivity extends AppCompatActivity {
         mTitlePage = findViewById(R.id.edit_titlePage);
         mAddTitle = findViewById(R.id.edit_addTitle);
         mAddDesc = findViewById(R.id.edit_addDesc);
-        mAddDate = findViewById(R.id.edit_addDate);
+        mAddDays = findViewById(R.id.edit_days);
+        mAddTime = findViewById(R.id.edit_addTime);
+        mAddGroupSession = findViewById(R.id.edit_groupSession);
 
         mTitleSlot = findViewById(R.id.edit_titleSlot);
         mDescSlot = findViewById(R.id.edit_descSlot);
-        mDateAndTimeSlot = findViewById(R.id.edit_dateSlot);
+        mFromTimeSlot = findViewById(R.id.edit_timeFromSlot);
+        mUntilTimeSlot = findViewById(R.id.edit_timeUntilSlot);
+
+        mDay = findViewById(R.id.edit_checkBox_day);
+        mGroupSession = findViewById(R.id.edit_groupSession_checkBox);
 
         mBtnSaveUpdate = findViewById(R.id.edit_btnSaveUpdate);
         mBtnDelete = findViewById(R.id.edit_btnDelete);
 
-        mTitleSlot.setText(getIntent().getStringExtra("title"));
-        mDescSlot.setText(getIntent().getStringExtra("description"));
-        mDateAndTimeSlot.setText(getIntent().getStringExtra("dateAndTime"));
-        final String mKeySlot = getIntent().getStringExtra("key");
+        mDateForApp = getIntent().getExtras().getString("dateForApp");
+        mDateForDB = getIntent().getExtras().getString("dateForDB");
+        final String mKeySlot = getIntent().getExtras().getString("key");
+        mTitleSlot.setText(getIntent().getExtras().getString("title"));
+        mDescSlot.setText(getIntent().getExtras().getString("description"));
+        mFromTimeSlot.setText(getIntent().getExtras().getString("timeFrom"));
+        mUntilTimeSlot.setText(getIntent().getExtras().getString("timeUntil"));
+        mDay.setHint(getIntent().getExtras().getString("dateForApp"));
+        mGroupSession.setChecked(getIntent().getExtras().getBoolean("isGroupSession"));
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("WeeklySchedule").child(mKeySlot);
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("1EnOxPPh0cez6CzKnypPXvSZ1052").child("WeeklySchedule").child(mDateForDB).child(mKeySlot);
 
 
         mBtnDelete.setOnClickListener(new View.OnClickListener() {
@@ -75,22 +104,24 @@ public class EditSlotActivity extends AppCompatActivity {
         mBtnSaveUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // update data in database
-                String title = mTitleSlot.getText().toString();
-                String dateAndTime = mDateAndTimeSlot.getText().toString();
-                String description = mDescSlot.getText().toString();
+                if(checkValidInput()) {
+                    // update data in database
+                    String title = mTitleSlot.getText().toString();
+                    String description = mDescSlot.getText().toString();
+                    String fromTimeSlot = mFromTimeSlot.getText().toString();
+                    String untilTimeSlot = mUntilTimeSlot.getText().toString();
 
-                TimeSlot timeSlot = new TimeSlot(title, dateAndTime, description);
+                    boolean groupSession = mGroupSession.isChecked();
 
-                mDatabaseReference.setValue(timeSlot);
+                    TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDateForDB, false, groupSession);
+                    mDatabaseReference.setValue(timeSlot);
 
-                Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
-                startActivity(intent);
-                finish();
-
+                    Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
-
 
         // import font
         Typeface MLight = Typeface.createFromAsset(getAssets(), "fonts/ML.ttf");
@@ -98,17 +129,103 @@ public class EditSlotActivity extends AppCompatActivity {
 
         // customize font
         mTitlePage.setTypeface(MMedium);
-
         mAddTitle.setTypeface(MLight);
-        mTitleSlot.setTypeface(MMedium);
-
         mAddDesc.setTypeface(MLight);
-        mDescSlot.setTypeface(MMedium);
+        mAddDays.setTypeface(MLight);
+        mAddTime.setTypeface(MLight);
+        mAddGroupSession.setTypeface(MLight);
 
-        mAddDate.setTypeface(MLight);
-        mDateAndTimeSlot.setTypeface(MMedium);
+        mTitleSlot.setTypeface(MMedium);
+        mDescSlot.setTypeface(MMedium);
+        mFromTimeSlot.setTypeface(MMedium);
+        mUntilTimeSlot.setTypeface(MMedium);
+
+        mDay.setTypeface(MMedium);
+
+        mGroupSession.setTypeface(MMedium);
 
         mBtnSaveUpdate.setTypeface(MMedium);
         mBtnDelete.setTypeface(MLight);
+
+
+
+        mFromTimeSlot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePickerDialog = new TimePickerDialog(EditSlotActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        //mFromTimeSlot.setHint(String.format("%02d:%02d", hourOfDay, minutes));
+                        mFromTimeSlot.setText(String.format("%02d:%02d", hourOfDay, minutes));
+                        mFromTimeSlot.setHintTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    }
+                }, currentHour, currentMinute, true);
+
+                timePickerDialog.show();
+            }
+        });
+
+        mUntilTimeSlot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePickerDialog = new TimePickerDialog(EditSlotActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        //mUntilTimeSlot.setHint(String.format("%02d:%02d", hourOfDay, minutes));
+                        mUntilTimeSlot.setText(String.format("%02d:%02d", hourOfDay, minutes));
+                        mUntilTimeSlot.setHintTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    }
+                }, currentHour, currentMinute, true);
+
+                timePickerDialog.show();
+            }
+        });
+    }
+
+    private boolean checkValidInput() {
+
+        // Reset errors displayed in the form.
+        mTitleSlot.setError(null);
+        mFromTimeSlot.setError(null);
+        mUntilTimeSlot.setError(null);
+        mAddDays.setError(null);
+
+        // Store values at the time of the onClick attempt.
+        String title = mTitleSlot.getText().toString();
+        String fromTimeSlot = mFromTimeSlot.getText().toString();
+        String untilTimeSlot = mUntilTimeSlot.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        if (TextUtils.isEmpty(title)) {
+            mTitleSlot.setError(getString(R.string.error_field_required));
+            focusView = mTitleSlot;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(fromTimeSlot)) {
+            mFromTimeSlot.setError(getString(R.string.error_field_required));
+            focusView = mFromTimeSlot;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(untilTimeSlot)) {
+            mUntilTimeSlot.setError(getString(R.string.error_field_required));
+            focusView = mUntilTimeSlot;
+            cancel = true;
+        }
+
+
+        if (cancel) {
+            // There was an error.
+            // form field with an error.
+            focusView.requestFocus();
+            Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            return true;
+        }
+        return false;
     }
 }

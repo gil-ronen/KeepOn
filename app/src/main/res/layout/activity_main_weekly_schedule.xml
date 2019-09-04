@@ -70,211 +70,162 @@ tools:context=".trainer_weekly_planner.MainWeeklyScheduleActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_expandableDay1"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/main_expandableDay1"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/main_timeSlotsListView1"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="16dp"
-                    android:divider="@null"
-                    android:dividerHeight="10.0sp"
-                    android:transcriptMode="alwaysScroll"
-                    android:visibility="visible" />
-
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_timeSlotsList1"
+                android:nestedScrollingEnabled="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_expandableDay2"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/main_expandableDay2"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/main_timeSlotsListView2"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="16dp"
-                    android:divider="@null"
-                    android:dividerHeight="10.0sp"
-                    android:transcriptMode="alwaysScroll"
-                    android:visibility="visible" />
-
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_timeSlotsList2"
+                android:nestedScrollingEnabled="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_expandableDay3"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/main_expandableDay3"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/main_timeSlotsListView3"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="16dp"
-                    android:divider="@null"
-                    android:dividerHeight="10.0sp"
-                    android:transcriptMode="alwaysScroll"
-                    android:visibility="visible" />
-
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_timeSlotsList3"
+                android:nestedScrollingEnabled="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_expandableDay4"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/main_expandableDay4"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/main_timeSlotsListView4"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="16dp"
-                    android:divider="@null"
-                    android:dividerHeight="10.0sp"
-                    android:transcriptMode="alwaysScroll"
-                    android:visibility="visible" />
-
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_timeSlotsList4"
+                android:nestedScrollingEnabled="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_expandableDay5"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/main_expandableDay5"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/main_timeSlotsListView5"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="16dp"
-                    android:divider="@null"
-                    android:dividerHeight="10.0sp"
-                    android:transcriptMode="alwaysScroll"
-                    android:visibility="visible" />
-
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_timeSlotsList5"
+                android:nestedScrollingEnabled="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_expandableDay6"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/main_expandableDay6"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/main_timeSlotsListView6"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="16dp"
-                    android:divider="@null"
-                    android:dividerHeight="10.0sp"
-                    android:transcriptMode="alwaysScroll"
-                    android:visibility="visible" />
-
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_timeSlotsList6"
+                android:nestedScrollingEnabled="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_expandableDay7"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/main_expandableDay7"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/main_timeSlotsListView7"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="16dp"
-                    android:divider="@null"
-                    android:dividerHeight="10.0sp"
-                    android:transcriptMode="alwaysScroll"
-                    android:visibility="visible" />
-
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_timeSlotsList7"
+                android:nestedScrollingEnabled="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/main_endPage"
@@ -287,9 +238,7 @@ tools:context=".trainer_weekly_planner.MainWeeklyScheduleActivity">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-
         </LinearLayout>
-
 
     </ScrollView>
 
