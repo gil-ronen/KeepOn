@@ -73,7 +73,7 @@ public class RegisterSlotActivity extends AppCompatActivity {
         final String traineeId = getIntent().getExtras().getString("traineeId");
 
         //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
-        mTrainerId = "1EnOxPPh0cez6CzKnypPXvSZ1052";
+        mTrainerId = "ayAWQUYKUZbISD7FicSJvYOWShE3";
         mTrainerDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId);
         mTrainerScheduleDatabaseReference = mTrainerDatabaseReference.child("WeeklySchedule").child(mDateForDB).child(mKeySlot);
 
@@ -126,7 +126,7 @@ public class RegisterSlotActivity extends AppCompatActivity {
 
     public void getTrainerFullName()
     {
-        final DatabaseReference current_user_db = mTrainerDatabaseReference.child("fullname");
+        final DatabaseReference current_user_db = mTrainerDatabaseReference.child("Profile").child("name");
         current_user_db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
