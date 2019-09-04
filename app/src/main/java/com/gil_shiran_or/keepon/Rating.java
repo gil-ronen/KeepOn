@@ -1,5 +1,8 @@
 package com.gil_shiran_or.keepon;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Rating
 {
     private float rating;
@@ -87,5 +90,20 @@ public class Rating
 
     public void setFiveStarsRaters(int fiveStarsRaters) {
         this.fiveStarsRaters = fiveStarsRaters;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+
+        result.put("rating", rating);
+        result.put("sumRatings", sumRatings);
+        result.put("totalRaters", totalRaters);
+        result.put("oneStarRaters", oneStarRaters);
+        result.put("twoStarsRaters", twoStarsRaters);
+        result.put("threeStarsRaters", threeStarsRaters);
+        result.put("fourStarsRaters", fourStarsRaters);
+        result.put("fiveStarsRaters", fiveStarsRaters);
+
+        return result;
     }
 }

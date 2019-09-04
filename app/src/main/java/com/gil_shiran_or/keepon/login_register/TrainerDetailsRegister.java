@@ -50,6 +50,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class TrainerDetailsRegister extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -328,10 +330,18 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                         DatabaseReference current_user_db = mDatabase.child(user_id);
 
                         Rating rating = new Rating(0,0,0,0,0,0,0,0);
-                        mTrainer = new Trainer(trainerName, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, "", companyName, aboutMe, trainingCity, trainingStreet, price);
+                        mTrainer = new Trainer(trainerName, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, "", companyName, aboutMe, trainingCity, trainingStreet, price, rating);
 
-                        current_user_db.child("Profile").setValue(mTrainer);
-                        current_user_db.child("Rating").setValue(rating);
+                        Map<String, Object> trainerValues = mTrainer.toMap();
+                        Map<String, Object> ratingValues = rating.toMap();
+                        Map<String, Object> childUpdates = new HashMap<>();
+
+                        childUpdates.put("Profile", trainerValues);
+                        childUpdates.put("Rating", ratingValues);
+                        current_user_db.updateChildren(childUpdates);
+
+                        //current_user_db.child("Profile").setValue(mTrainer);
+                        //current_user_db.child("Rating").setValue(rating);
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 

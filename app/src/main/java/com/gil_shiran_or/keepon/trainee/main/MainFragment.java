@@ -64,7 +64,7 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
                 int firstPlaceScore = -1, secondPlaceScore = -1, thirdPlaceScore = -1;
 
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    int score = data.child("total_score").getValue(Integer.class);
+                    int score = data.child("Status/totalScore").getValue(Integer.class);
 
                     if (firstPlaceScore < score) {
                         thirdPlaceScore = secondPlaceScore;
@@ -74,21 +74,21 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
                         secondPlaceName = firstPlaceName;
                         secondPlaceImageUrl = firstPlaceImageUrl;
                         firstPlaceScore = score;
-                        firstPlaceName = data.child("username").getValue(String.class);
-                        firstPlaceImageUrl = data.child("profilePhotoUri").getValue(String.class);
+                        firstPlaceName = data.child("Profile/name").getValue(String.class);
+                        firstPlaceImageUrl = data.child("Profile/profilePhotoUrl").getValue(String.class);
                     }
                     else if (secondPlaceScore < score) {
                         thirdPlaceScore = secondPlaceScore;
                         thirdPlaceName = secondPlaceName;
                         thirdPlaceImageUrl = secondPlaceImageUrl;
                         secondPlaceScore = score;
-                        secondPlaceName = data.child("username").getValue(String.class);
-                        secondPlaceImageUrl = data.child("profilePhotoUri").getValue(String.class);
+                        secondPlaceName = data.child("Profile/name").getValue(String.class);
+                        secondPlaceImageUrl = data.child("Profile/profilePhotoUrl").getValue(String.class);
                     }
                     else if (thirdPlaceScore < score) {
                         thirdPlaceScore = score;
-                        thirdPlaceName = data.child("username").getValue(String.class);
-                        thirdPlaceImageUrl = data.child("profilePhotoUri").getValue(String.class);
+                        thirdPlaceName = data.child("Profile/name").getValue(String.class);
+                        thirdPlaceImageUrl = data.child("Profile/profilePhotoUrl").getValue(String.class);
                     }
                 }
 

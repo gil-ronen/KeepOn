@@ -91,7 +91,7 @@ public class TrainerRatingFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mRating = dataSnapshot.getValue(Rating.class);
 
-                int reviewersNum = mRating.getOne_star_reviewers_num() + mRating.getTwo_stars_reviewers_num() +
+                /*int reviewersNum = mRating.getOne_star_reviewers_num() + mRating.getTwo_stars_reviewers_num() +
                         mRating.getThree_stars_reviewers_num() + mRating.getFour_stars_reviewers_num() + mRating.getFive_stars_reviewers_num();
                 float ratingScore;
 
@@ -100,9 +100,9 @@ public class TrainerRatingFragment extends Fragment {
                 }
                 else {
                     ratingScore = mRating.getSum_rates() / reviewersNum;
-                }
+                }*/
 
-                trainerRatingBar.setRating(ratingScore);
+                /*trainerRatingBar.setRating(ratingScore);
                 trainerRatingScore.setText(String.format("%,.2f", ratingScore) + " (" + reviewersNum + ")");
                 oneStarProgressBar.setMax(reviewersNum);
                 oneStarProgressBar.setProgress(mRating.getOne_star_reviewers_num());
@@ -122,7 +122,7 @@ public class TrainerRatingFragment extends Fragment {
 
                 fiveStarProgressBar.setMax(reviewersNum);
                 fiveStarProgressBar.setProgress(mRating.getFive_stars_reviewers_num());
-                fiveStarTextView.setText("(" + mRating.getFive_stars_reviewers_num() + ")");
+                fiveStarTextView.setText("(" + mRating.getFive_stars_reviewers_num() + ")");*/
             }
 
             @Override

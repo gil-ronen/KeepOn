@@ -139,38 +139,38 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mRating = dataSnapshot.getValue(Rating.class);
 
-                int reviewersNum = mRating.getOne_star_reviewers_num() + mRating.getTwo_stars_reviewers_num() +
-                        mRating.getThree_stars_reviewers_num() + mRating.getFour_stars_reviewers_num() + mRating.getFive_stars_reviewers_num();
+                int reviewersNum = mRating.getOneStarRaters() + mRating.getTwoStarsRaters() +
+                        mRating.getThreeStarsRaters() + mRating.getFourStarsRaters() + mRating.getFiveStarsRaters();
                 float ratingScore;
 
                 if (reviewersNum == 0) {
                     ratingScore = 0;
                 }
                 else {
-                    ratingScore = mRating.getSum_rates() / reviewersNum;
+                    ratingScore = mRating.getSumRatings() / reviewersNum;
                 }
 
                 trainerRatingBar.setRating(ratingScore);
                 trainerRatingScore.setText(String.format("%,.2f", ratingScore) + " (" + reviewersNum + ")");
                 oneStarProgressBar.setMax(reviewersNum);
-                oneStarProgressBar.setProgress(mRating.getOne_star_reviewers_num());
-                oneStarTextView.setText("(" + mRating.getOne_star_reviewers_num() + ")");
+                oneStarProgressBar.setProgress(mRating.getOneStarRaters());
+                oneStarTextView.setText("(" + mRating.getOneStarRaters() + ")");
 
                 twoStarProgressBar.setMax(reviewersNum);
-                twoStarProgressBar.setProgress(mRating.getTwo_stars_reviewers_num());
-                twoStarTextView.setText("(" + mRating.getTwo_stars_reviewers_num() + ")");
+                twoStarProgressBar.setProgress(mRating.getTwoStarsRaters());
+                twoStarTextView.setText("(" + mRating.getTwoStarsRaters() + ")");
 
                 threeStarProgressBar.setMax(reviewersNum);
-                threeStarProgressBar.setProgress(mRating.getThree_stars_reviewers_num());
-                threeStarTextView.setText("(" + mRating.getThree_stars_reviewers_num() + ")");
+                threeStarProgressBar.setProgress(mRating.getThreeStarsRaters());
+                threeStarTextView.setText("(" + mRating.getThreeStarsRaters() + ")");
 
                 fourStarProgressBar.setMax(reviewersNum);
-                fourStarProgressBar.setProgress(mRating.getFour_stars_reviewers_num());
-                fourStarTextView.setText("(" + mRating.getFour_stars_reviewers_num() + ")");
+                fourStarProgressBar.setProgress(mRating.getFourStarsRaters());
+                fourStarTextView.setText("(" + mRating.getFourStarsRaters() + ")");
 
                 fiveStarProgressBar.setMax(reviewersNum);
-                fiveStarProgressBar.setProgress(mRating.getFive_stars_reviewers_num());
-                fiveStarTextView.setText("(" + mRating.getFive_stars_reviewers_num() + ")");
+                fiveStarProgressBar.setProgress(mRating.getFiveStarsRaters());
+                fiveStarTextView.setText("(" + mRating.getFiveStarsRaters() + ")");
             }
 
             @Override
@@ -209,7 +209,7 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
     private void changeRatingInFirebase(float rating) {
         Map<String, Object> childUpdates = new HashMap<>();
 
-        mRating.setSum_rates(mRating.getSum_rates() + rating);
+        /*mRating.setSumRatings(rating + mRating.getSumRatings());
 
         if (rating == 1) {
             mRating.setOne_star_reviewers_num(mRating.getOne_star_reviewers_num() + 1);
@@ -225,14 +225,14 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
         }
         else {
             mRating.setFive_stars_reviewers_num(mRating.getFive_stars_reviewers_num() + 1);
-        }
+        }*/
 
-        childUpdates.put("/sum_rates", mRating.getSum_rates());
-        childUpdates.put("/one_star_reviewers_num", mRating.getOne_star_reviewers_num());
-        childUpdates.put("/two_stars_reviewers_num", mRating.getTwo_stars_reviewers_num());
-        childUpdates.put("/three_stars_reviewers_num", mRating.getThree_stars_reviewers_num());
-        childUpdates.put("/four_stars_reviewers_num", mRating.getFour_stars_reviewers_num());
-        childUpdates.put("/five_stars_reviewers_num", mRating.getFive_stars_reviewers_num());
+        childUpdates.put("/sum_rates", mRating.getSumRatings());
+        childUpdates.put("/one_star_reviewers_num", mRating.getOneStarRaters());
+        childUpdates.put("/two_stars_reviewers_num", mRating.getTwoStarsRaters());
+        childUpdates.put("/three_stars_reviewers_num", mRating.getThreeStarsRaters());
+        childUpdates.put("/four_stars_reviewers_num", mRating.getFourStarsRaters());
+        childUpdates.put("/five_stars_reviewers_num", mRating.getFiveStarsRaters());
 
         mDatabaseRatingReference.updateChildren(childUpdates);
     }

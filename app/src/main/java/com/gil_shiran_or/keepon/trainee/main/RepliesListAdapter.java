@@ -147,8 +147,8 @@ public class RepliesListAdapter extends RecyclerView.Adapter<RepliesListAdapter.
         mDatabaseTraineesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String author = dataSnapshot.child(currentReply.getUserId() + "/username").getValue(String.class);
-                String authorImageUrl = dataSnapshot.child(currentReply.getUserId() + "/profilePhotoUri").getValue(String.class);
+                String author = dataSnapshot.child(currentReply.getUserId() + "/profile/name").getValue(String.class);
+                String authorImageUrl = dataSnapshot.child(currentReply.getUserId() + "/profile/profilePhotoUrl").getValue(String.class);
 
                 holder.authorTextView.setText(author);
                 Picasso.with(mMainFragment.getContext()).load(authorImageUrl).fit().into(holder.authorCircleImageView);

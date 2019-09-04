@@ -34,7 +34,7 @@ package com.gil_shiran_or.keepon.login_register;
         import com.gil_shiran_or.keepon.R;
         import com.gil_shiran_or.keepon.Trainee;
         import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
-        import com.gil_shiran_or.keepon.trainer_weekly_planner.Status;
+        import com.gil_shiran_or.keepon.Status;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.OnSuccessListener;
         import com.google.android.gms.tasks.Task;

@@ -1,5 +1,8 @@
 package com.gil_shiran_or.keepon;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Trainer extends User
 {
     private String companyName;
@@ -7,17 +10,19 @@ public class Trainer extends User
     private String trainingCity;
     private String trainingStreet;
     private int price;
-
+    private Rating rating;
 
     public Trainer() {}
 
-    public Trainer(String name, String email, String password, String phoneNumber, String birthDate, String gender, String profilePhotoUrl, String companyName, String aboutMe, String trainingCity, String trainingStreet, int price) {
+    public Trainer(String name, String email, String password, String phoneNumber, String birthDate, String gender, String profilePhotoUrl,
+                   String companyName, String aboutMe, String trainingCity, String trainingStreet, int price, Rating rating) {
         super(name, email, password, phoneNumber, birthDate, gender, profilePhotoUrl);
         this.companyName = companyName;
         this.aboutMe = aboutMe;
         this.trainingCity = trainingCity;
         this.trainingStreet = trainingStreet;
         this.price = price;
+        this.rating = rating;
     }
 
     public String getCompanyName() {
@@ -58,6 +63,24 @@ public class Trainer extends User
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+
+        result.put("name", getName());
+        result.put("email", getEmail());
+        result.put("phoneNumber", getPhoneNumber());
+        result.put("birthDate", getBirthDate());
+        result.put("gender", getGender());
+        result.put("profilePhotoUrl", getProfilePhotoUrl());
+        result.put("companyName", companyName);
+        result.put("aboutMe", aboutMe);
+        result.put("trainingCity", trainingCity);
+        result.put("trainingStreet", trainingStreet);
+        result.put("price", price);
+
+        return result;
     }
 
 }
