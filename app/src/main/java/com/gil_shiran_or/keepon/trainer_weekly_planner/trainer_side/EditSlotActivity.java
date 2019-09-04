@@ -1,7 +1,6 @@
-package com.gil_shiran_or.keepon.trainer_weekly_planner;
+package com.gil_shiran_or.keepon.trainer_weekly_planner.trainer_side;
 
 import android.app.TimePickerDialog;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -44,6 +43,7 @@ public class EditSlotActivity extends AppCompatActivity {
     Button mBtnDelete;
 
     DatabaseReference mDatabaseReference;
+    String mTrainerId;
 
     private String mDateForApp;
     private String mDateForDB;
@@ -87,7 +87,9 @@ public class EditSlotActivity extends AppCompatActivity {
         mGroupSession.setChecked(getIntent().getExtras().getBoolean("isGroupSession"));
 
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("1EnOxPPh0cez6CzKnypPXvSZ1052").child("WeeklySchedule").child(mDateForDB).child(mKeySlot);
+        //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
+        mTrainerId = "1EnOxPPh0cez6CzKnypPXvSZ1052";
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId).child("WeeklySchedule").child(mDateForDB).child(mKeySlot);
 
 
         mBtnDelete.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +115,6 @@ public class EditSlotActivity extends AppCompatActivity {
 
                     boolean groupSession = mGroupSession.isChecked();
 
-                    //TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, mDateForDB, false, groupSession);
                     mDatabaseReference.child("title").setValue(title);
                     mDatabaseReference.child("description").setValue(description);
                     mDatabaseReference.child("timeFrom").setValue(fromTimeSlot);

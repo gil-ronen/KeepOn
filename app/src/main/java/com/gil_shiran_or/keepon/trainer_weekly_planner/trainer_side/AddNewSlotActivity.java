@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.trainer_weekly_planner;
+package com.gil_shiran_or.keepon.trainer_weekly_planner.trainer_side;
 
 
 import android.app.TimePickerDialog;
@@ -16,15 +16,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.gil_shiran_or.keepon.trainer_weekly_planner.TimeSlot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Calendar;
 
 import static java.util.Calendar.getInstance;
 
@@ -40,6 +40,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
 
     EditText mTitleSlot;
     EditText mDescSlot;
+    EditText mGroupSizeLimit;
 
     Button mFromTimeSlot;
     Button mUntilTimeSlot;
@@ -57,6 +58,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
     Button mBtnCancel;
 
     DatabaseReference mDatabaseReference;
+    String mTrainerId;
 
     TimePickerDialog timePickerDialog;
     int currentHour;
@@ -77,6 +79,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
 
         mTitleSlot = findViewById(R.id.add_titleSlot);
         mDescSlot = findViewById(R.id.add_descSlot);
+        mGroupSizeLimit = findViewById(R.id.add_groupLimit);
 
         mFromTimeSlot = findViewById(R.id.add_timeFromSlot);
         mUntilTimeSlot = findViewById(R.id.add_timeUntilSlot);
@@ -93,7 +96,9 @@ public class AddNewSlotActivity extends AppCompatActivity {
         mBtnSaveSlot = findViewById(R.id.add_btnSaveSlot);
         mBtnCancel = findViewById(R.id.add_btnCancel);
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("1EnOxPPh0cez6CzKnypPXvSZ1052").child("WeeklySchedule");
+        //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
+        mTrainerId = "1EnOxPPh0cez6CzKnypPXvSZ1052";
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId).child("WeeklySchedule");
 
 
         final String dateForDB1 = getIntent().getExtras().getString("dateForDB1");
@@ -121,6 +126,13 @@ public class AddNewSlotActivity extends AppCompatActivity {
         mDay7.setHint(dateForApp7);
 
 
+        mGroupSession.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                mGroupSizeLimit.setEnabled(isChecked);
+            }
+        });
+
         mBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,6 +154,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
                     //String untilTimeSlot = mUntilTimeSlot.getHint().toString();
                     String fromTimeSlot = mFromTimeSlot.getText().toString();
                     String untilTimeSlot = mUntilTimeSlot.getText().toString();
+                    int groupLimit = Integer.getInteger(mGroupSizeLimit.getText().toString());
 
 
                     boolean day1 = mDay1.isChecked();
@@ -155,31 +168,31 @@ public class AddNewSlotActivity extends AppCompatActivity {
 
 
                     if (day1) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB1, "" ,false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB1, "" , mTrainerId,  groupLimit, 0, false, groupSession );
                         mDatabaseReference.child(dateForDB1).push().setValue(timeSlot);
                     }
                     if (day2) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB2, "" ,false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB2, "" , mTrainerId,  groupLimit, 0, false, groupSession );
                         mDatabaseReference.child(dateForDB2).push().setValue(timeSlot);
                     }
                     if (day3) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB3, "",false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB3, "" , mTrainerId,  groupLimit, 0, false, groupSession );
                         mDatabaseReference.child(dateForDB3).push().setValue(timeSlot);
                     }
                     if (day4) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB4, "",false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB4, "" , mTrainerId,  groupLimit, 0, false, groupSession );
                         mDatabaseReference.child(dateForDB4).push().setValue(timeSlot);
                     }
                     if (day5) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB5, "",false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB5, "" , mTrainerId,  groupLimit, 0, false, groupSession );
                         mDatabaseReference.child(dateForDB5).push().setValue(timeSlot);
                     }
                     if (day6) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB6, "",false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB6, "" , mTrainerId,  groupLimit, 0, false, groupSession );
                         mDatabaseReference.child(dateForDB6).push().setValue(timeSlot);
                     }
                     if (day7) {
-                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB7, "",false, groupSession);
+                        TimeSlot timeSlot = new TimeSlot(title, description, fromTimeSlot, untilTimeSlot, dateForDB7, "" , mTrainerId,  groupLimit, 0, false, groupSession );
                         mDatabaseReference.child(dateForDB7).push().setValue(timeSlot);
                     }
 
@@ -256,7 +269,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
     }
 
 
-
+    //TODO:
     private boolean checkValidInput() {
 
         // Reset errors displayed in the form.
@@ -264,6 +277,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
         mFromTimeSlot.setError(null);
         mUntilTimeSlot.setError(null);
         mAddDays.setError(null);
+        mGroupSizeLimit.setError(null);
 
         // Store values at the time of the onClick attempt.
         String title = mTitleSlot.getText().toString();
@@ -296,6 +310,16 @@ public class AddNewSlotActivity extends AppCompatActivity {
             mAddDays.setError(getString(R.string.error_field_required));
             focusView = mAddDays;
             cancel = true;
+        }
+
+        if(mGroupSession.isChecked())
+        {
+            if(TextUtils.isEmpty(mGroupSizeLimit.getText().toString()) || (Integer.getInteger(mGroupSizeLimit.getText().toString()) < 1))
+            {
+                mGroupSizeLimit.setError(getString(R.string.error_field_required));
+                focusView = mGroupSizeLimit;
+                cancel = true;
+            }
         }
 
         if (cancel) {

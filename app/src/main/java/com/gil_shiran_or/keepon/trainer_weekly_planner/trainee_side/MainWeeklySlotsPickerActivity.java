@@ -1,4 +1,5 @@
-package com.gil_shiran_or.keepon.trainer_weekly_planner;
+package com.gil_shiran_or.keepon.trainer_weekly_planner.trainee_side;
+
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -26,12 +27,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class MainWeeklyScheduleActivity extends AppCompatActivity {
+public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
 
     private TextView mTitlePage;
     private TextView mSubtitlePage;
     private TextView mEndPage;
-    private Button mBtnAddNew;
+    private Button mMyTrainingsBtn;
 
     private RecyclerView mTimeSlotsRecyclerView1;
     private RecyclerView mTimeSlotsRecyclerView2;
@@ -51,15 +52,16 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
+    private String mTrainerId;
 
 
-    private TimeSlotsAdapter timeSlotsAdapter1;
-    private TimeSlotsAdapter timeSlotsAdapter2;
-    private TimeSlotsAdapter timeSlotsAdapter3;
-    private TimeSlotsAdapter timeSlotsAdapter4;
-    private TimeSlotsAdapter timeSlotsAdapter5;
-    private TimeSlotsAdapter timeSlotsAdapter6;
-    private TimeSlotsAdapter timeSlotsAdapter7;
+    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter1;
+    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter2;
+    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter3;
+    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter4;
+    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter5;
+    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter6;
+    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter7;
 
     private String dateForApp1;
     private String dateForDB1;
@@ -76,115 +78,123 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
     private String dateForApp7;
     private String dateForDB7;
 
+    private String mTrainerFullName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_weekly_schedule);
+        setContentView(R.layout.activity_main_weekly_slots_picker);
 
-        mTitlePage = findViewById(R.id.main_titlePage);
-        mSubtitlePage = findViewById(R.id.main_subtitlePage);
-        mBtnAddNew = findViewById(R.id.main_btnAddNew);
-        mEndPage = findViewById(R.id.main_endPage);
+        mTitlePage = findViewById(R.id.mainPicker_titlePage);
+        mSubtitlePage = findViewById(R.id.mainPicker_subtitlePage);
+        mMyTrainingsBtn = findViewById(R.id.mainPicker_btnTrainingsList);
+        mEndPage = findViewById(R.id.mainPicker_endPage);
 
+        //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
+        mTrainerId = "1EnOxPPh0cez6CzKnypPXvSZ1052";
         //mAuth = FirebaseAuth.getInstance();
-        //String userId = mAuth.getCurrentUser().getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("1EnOxPPh0cez6CzKnypPXvSZ1052").child("WeeklySchedule");
-        //databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("1EnOxPPh0cez6CzKnypPXvSZ1052").child("WeeklySchedule");
+        //String trainerId = Fetch Trainer ID
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId); //trainer ID
+        //databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("trainerId").child("WeeklySchedule");
+
+        //TODO:
+        getTrainerFullName();
 
         synchronizeDates();
 
-        mTimeSlotsRecyclerView1 = findViewById(R.id.main_timeSlotsList1);
+        mTimeSlotsRecyclerView1 = findViewById(R.id.mainPicker_timeSlotsList1);
         mTimeSlotsRecyclerView1.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(this.getApplicationContext());
         mTimeSlotsRecyclerView1.setLayoutManager(layoutManager1);
 
-        ViewGroup day1SlotsExpanderViewGroup = findViewById(R.id.main_expandableDay1);
+        ViewGroup day1SlotsExpanderViewGroup = findViewById(R.id.mainPicker_expandableDay1);
         ViewGroup day1SlotsViewGroup = mTimeSlotsRecyclerView1;
         View day1SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day1SlotsExpanderViewGroup, false);
         day1SlotsExpanderViewGroup.addView(day1SlotsExpandableLayoutView);
         expandableViewGroup1 = new ExpandableViewGroup(dateForApp1, dateForApp1, (ViewGroup) day1SlotsExpandableLayoutView, day1SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView2 = findViewById(R.id.main_timeSlotsList2);
+        mTimeSlotsRecyclerView2 = findViewById(R.id.mainPicker_timeSlotsList2);
         mTimeSlotsRecyclerView2.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(this.getApplicationContext());
         mTimeSlotsRecyclerView2.setLayoutManager(layoutManager2);
 
-        ViewGroup day2SlotsExpanderViewGroup = findViewById(R.id.main_expandableDay2);
+        ViewGroup day2SlotsExpanderViewGroup = findViewById(R.id.mainPicker_expandableDay2);
         ViewGroup day2SlotsViewGroup = mTimeSlotsRecyclerView2;
         View day2SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day2SlotsExpanderViewGroup, false);
         day2SlotsExpanderViewGroup.addView(day2SlotsExpandableLayoutView);
         expandableViewGroup2 = new ExpandableViewGroup(dateForApp2, dateForApp2, (ViewGroup) day2SlotsExpandableLayoutView, day2SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView3 = findViewById(R.id.main_timeSlotsList3);
+        mTimeSlotsRecyclerView3 = findViewById(R.id.mainPicker_timeSlotsList3);
         mTimeSlotsRecyclerView3.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(this.getApplicationContext());
         mTimeSlotsRecyclerView3.setLayoutManager(layoutManager3);
 
-        ViewGroup day3SlotsExpanderViewGroup = findViewById(R.id.main_expandableDay3);
+        ViewGroup day3SlotsExpanderViewGroup = findViewById(R.id.mainPicker_expandableDay3);
         ViewGroup day3SlotsViewGroup = mTimeSlotsRecyclerView3;
         View day3SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day3SlotsExpanderViewGroup, false);
         day3SlotsExpanderViewGroup.addView(day3SlotsExpandableLayoutView);
         expandableViewGroup3 = new ExpandableViewGroup(dateForApp3, dateForApp3, (ViewGroup) day3SlotsExpandableLayoutView, day3SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView4 = findViewById(R.id.main_timeSlotsList4);
+        mTimeSlotsRecyclerView4 = findViewById(R.id.mainPicker_timeSlotsList4);
         mTimeSlotsRecyclerView4.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager4 = new LinearLayoutManager(this.getApplicationContext());
         mTimeSlotsRecyclerView4.setLayoutManager(layoutManager4);
 
-        ViewGroup day4SlotsExpanderViewGroup = findViewById(R.id.main_expandableDay4);
+        ViewGroup day4SlotsExpanderViewGroup = findViewById(R.id.mainPicker_expandableDay4);
         ViewGroup day4SlotsViewGroup = mTimeSlotsRecyclerView4;
         View day4SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day4SlotsExpanderViewGroup, false);
         day4SlotsExpanderViewGroup.addView(day4SlotsExpandableLayoutView);
         expandableViewGroup4 = new ExpandableViewGroup(dateForApp4, dateForApp4, (ViewGroup) day4SlotsExpandableLayoutView, day4SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView5 = findViewById(R.id.main_timeSlotsList5);
+        mTimeSlotsRecyclerView5 = findViewById(R.id.mainPicker_timeSlotsList5);
         mTimeSlotsRecyclerView5.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager5 = new LinearLayoutManager(this.getApplicationContext());
         mTimeSlotsRecyclerView5.setLayoutManager(layoutManager5);
 
-        ViewGroup day5SlotsExpanderViewGroup = findViewById(R.id.main_expandableDay5);
+        ViewGroup day5SlotsExpanderViewGroup = findViewById(R.id.mainPicker_expandableDay5);
         ViewGroup day5SlotsViewGroup = mTimeSlotsRecyclerView5;
         View day5SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day5SlotsExpanderViewGroup, false);
         day5SlotsExpanderViewGroup.addView(day5SlotsExpandableLayoutView);
         expandableViewGroup5 = new ExpandableViewGroup(dateForApp5, dateForApp5, (ViewGroup) day5SlotsExpandableLayoutView, day5SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView6 = findViewById(R.id.main_timeSlotsList6);
+        mTimeSlotsRecyclerView6 = findViewById(R.id.mainPicker_timeSlotsList6);
         mTimeSlotsRecyclerView6.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager6 = new LinearLayoutManager(this.getApplicationContext());
         mTimeSlotsRecyclerView6.setLayoutManager(layoutManager6);
 
-        ViewGroup day6SlotsExpanderViewGroup = findViewById(R.id.main_expandableDay6);
+        ViewGroup day6SlotsExpanderViewGroup = findViewById(R.id.mainPicker_expandableDay6);
         ViewGroup day6SlotsViewGroup = mTimeSlotsRecyclerView6;
         View day6SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day6SlotsExpanderViewGroup, false);
         day6SlotsExpanderViewGroup.addView(day6SlotsExpandableLayoutView);
         expandableViewGroup6 = new ExpandableViewGroup(dateForApp6, dateForApp6, (ViewGroup) day6SlotsExpandableLayoutView, day6SlotsViewGroup);
 
-        mTimeSlotsRecyclerView7 = findViewById(R.id.main_timeSlotsList7);
+        mTimeSlotsRecyclerView7 = findViewById(R.id.mainPicker_timeSlotsList7);
         mTimeSlotsRecyclerView7.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager7 = new LinearLayoutManager(this.getApplicationContext());
         mTimeSlotsRecyclerView7.setLayoutManager(layoutManager7);
 
-        ViewGroup day7SlotsExpanderViewGroup = findViewById(R.id.main_expandableDay7);
+        ViewGroup day7SlotsExpanderViewGroup = findViewById(R.id.mainPicker_expandableDay7);
         ViewGroup day7SlotsViewGroup = mTimeSlotsRecyclerView7;
         View day7SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day7SlotsExpanderViewGroup, false);
         day7SlotsExpanderViewGroup.addView(day7SlotsExpandableLayoutView);
         expandableViewGroup7 = new ExpandableViewGroup(dateForApp7, dateForApp7, (ViewGroup) day7SlotsExpandableLayoutView, day7SlotsViewGroup);
 
 
-        mBtnAddNew.setOnClickListener(new View.OnClickListener() {
+        mMyTrainingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainWeeklyScheduleActivity.this, AddNewSlotActivity.class);
-                Bundle bundle = new Bundle();
+                Intent intent = new Intent(MainWeeklySlotsPickerActivity.this, MyTrainingsListActivity.class);
 
+                /*
+
+                Bundle bundle = new Bundle();
                 bundle.putString("dateForDB1", dateForDB1);
                 bundle.putString("dateForApp1", dateForApp1);
                 bundle.putString("dateForDB2", dateForDB2);
@@ -201,10 +211,14 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
                 bundle.putString("dateForApp7", dateForApp7);
 
                 intent.putExtras(bundle);
+
+                */
+
                 startActivity(intent);
                 //finish();
             }
         });
+
 
 
         // import font
@@ -215,7 +229,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         mTitlePage.setTypeface(MMedium);
         mSubtitlePage.setTypeface(MLight);
         mEndPage.setTypeface(MMedium);
-        mBtnAddNew.setTypeface(MLight);
+        mMyTrainingsBtn.setTypeface(MMedium);
 
     }
 
@@ -232,62 +246,81 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         dateForApp1 = "TODAY";
 
         cal.setTime(new Date());
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 1 );
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 1);
         dateForDB2 = dateFormatForFirebase.format(cal.getTime());
         dateForApp2 = "TOMORROW";
 
         cal.setTime(new Date());
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 2 );
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 2);
         dateForDB3 = dateFormatForFirebase.format(cal.getTime());
         dateForApp3 = dateFormatForApp.format(cal.getTime());
 
         cal.setTime(new Date());
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 3 );
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 3);
         dateForDB4 = dateFormatForFirebase.format(cal.getTime());
         dateForApp4 = dateFormatForApp.format(cal.getTime());
 
         cal.setTime(new Date());
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 4 );
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 4);
         dateForDB5 = dateFormatForFirebase.format(cal.getTime());
         dateForApp5 = dateFormatForApp.format(cal.getTime());
 
         cal.setTime(new Date());
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 5 );
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 5);
         dateForDB6 = dateFormatForFirebase.format(cal.getTime());
         dateForApp6 = dateFormatForApp.format(cal.getTime());
 
         cal.setTime(new Date());
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 6 );
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 6);
         dateForDB7 = dateFormatForFirebase.format(cal.getTime());
         dateForApp7 = dateFormatForApp.format(cal.getTime());
 
     }
 
 
+    public void getTrainerFullName()
+    {
+        final DatabaseReference current_user_db = databaseReference.child("fullname");
+        current_user_db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                mTrainerFullName = dataSnapshot.getValue(String.class);
+                mSubtitlePage.setText("With " + mTrainerFullName);
+                current_user_db.removeEventListener(this);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+
+    }
+
     @Override
     public void onStart() {
         super.onStart();
 
-        timeSlotsAdapter1 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB1), dateForApp1, dateForDB1);
-        mTimeSlotsRecyclerView1.setAdapter(timeSlotsAdapter1);
+        traineeTimeSlotsAdapter1 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB1), dateForApp1, dateForDB1, mTrainerFullName, "1");
+        mTimeSlotsRecyclerView1.setAdapter(traineeTimeSlotsAdapter1);
 
-        timeSlotsAdapter2 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB2), dateForApp2, dateForDB2);
-        mTimeSlotsRecyclerView2.setAdapter(timeSlotsAdapter2);
+        traineeTimeSlotsAdapter2 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB2), dateForApp2, dateForDB2, mTrainerFullName, "1");
+        mTimeSlotsRecyclerView2.setAdapter(traineeTimeSlotsAdapter2);
 
-        timeSlotsAdapter3 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB3), dateForApp3, dateForDB3);
-        mTimeSlotsRecyclerView3.setAdapter(timeSlotsAdapter3);
+        traineeTimeSlotsAdapter3 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB3), dateForApp3, dateForDB3, mTrainerFullName, "1");
+        mTimeSlotsRecyclerView3.setAdapter(traineeTimeSlotsAdapter3);
 
-        timeSlotsAdapter4 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB4), dateForApp4, dateForDB4);
-        mTimeSlotsRecyclerView4.setAdapter(timeSlotsAdapter4);
+        traineeTimeSlotsAdapter4 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB4), dateForApp4, dateForDB4, mTrainerFullName, "1");
+        mTimeSlotsRecyclerView4.setAdapter(traineeTimeSlotsAdapter4);
 
-        timeSlotsAdapter5 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB5), dateForApp5, dateForDB5);
-        mTimeSlotsRecyclerView5.setAdapter(timeSlotsAdapter5);
+        traineeTimeSlotsAdapter5 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB5), dateForApp5, dateForDB5, mTrainerFullName, "1");
+        mTimeSlotsRecyclerView5.setAdapter(traineeTimeSlotsAdapter5);
 
-        timeSlotsAdapter6 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB6), dateForApp6 ,dateForDB6);
-        mTimeSlotsRecyclerView6.setAdapter(timeSlotsAdapter6);
+        traineeTimeSlotsAdapter6 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB6), dateForApp6, dateForDB6, mTrainerFullName, "1");
+        mTimeSlotsRecyclerView6.setAdapter(traineeTimeSlotsAdapter6);
 
-        timeSlotsAdapter7 = new TimeSlotsAdapter(this, databaseReference.child(dateForDB7), dateForApp7, dateForDB7);
-        mTimeSlotsRecyclerView7.setAdapter(timeSlotsAdapter7);
+        traineeTimeSlotsAdapter7 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB7), dateForApp7, dateForDB7, mTrainerFullName, "1");
+        mTimeSlotsRecyclerView7.setAdapter(traineeTimeSlotsAdapter7);
 
     }
 
@@ -296,13 +329,13 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         super.onStop();
 
         // Remove the Firebase event listener on the adapter.
-        timeSlotsAdapter1.clenup();
-        timeSlotsAdapter2.clenup();
-        timeSlotsAdapter3.clenup();
-        timeSlotsAdapter4.clenup();
-        timeSlotsAdapter5.clenup();
-        timeSlotsAdapter6.clenup();
-        timeSlotsAdapter7.clenup();
+        traineeTimeSlotsAdapter1.clenup();
+        traineeTimeSlotsAdapter2.clenup();
+        traineeTimeSlotsAdapter3.clenup();
+        traineeTimeSlotsAdapter4.clenup();
+        traineeTimeSlotsAdapter5.clenup();
+        traineeTimeSlotsAdapter6.clenup();
+        traineeTimeSlotsAdapter7.clenup();
 
     }
 

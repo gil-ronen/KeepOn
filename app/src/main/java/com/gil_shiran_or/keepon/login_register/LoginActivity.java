@@ -6,19 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
-import com.gil_shiran_or.keepon.trainer_weekly_planner.MainWeeklyScheduleActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -121,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                     String user_id = mUser.getUid();
 
                     query = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees")
-                            .orderByChild("userId")
+                            .orderByKey()
                             .equalTo(user_id);
                     query.addValueEventListener(valueEventListener);
                 }

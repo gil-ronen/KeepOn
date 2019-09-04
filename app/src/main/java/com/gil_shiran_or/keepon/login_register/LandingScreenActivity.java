@@ -6,9 +6,9 @@ import android.os.Bundle;
 
 import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.Trainee;
 import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
-import com.gil_shiran_or.keepon.trainer_weekly_planner.MainWeeklyScheduleActivity;
+import com.gil_shiran_or.keepon.trainer_weekly_planner.trainee_side.MainWeeklySlotsPickerActivity;
+import com.gil_shiran_or.keepon.trainer_weekly_planner.trainer_side.MainWeeklyScheduleActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +34,8 @@ public class LandingScreenActivity extends AppCompatActivity {
         if(mUser == null)
         {
             //Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            Intent intent = new Intent(getApplicationContext(), MainWeeklyScheduleActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainWeeklySlotsPickerActivity.class);
+            //Intent intent = new Intent(getApplicationContext(), MainWeeklyScheduleActivity.class);
             startActivity(intent);
             finish();
         }

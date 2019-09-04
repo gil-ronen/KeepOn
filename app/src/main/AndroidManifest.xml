@@ -11,6 +11,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".trainer_weekly_planner.trainee_side.MyTrainingsListActivity"></activity>
+        <activity android:name=".trainer_weekly_planner.trainee_side.RegisterSlotActivity" />
+        <activity android:name=".trainer_weekly_planner.trainee_side.MainWeeklySlotsPickerActivity" />
         <activity
             android:name=".login_register.LandingScreenActivity"
             android:label="@string/app_name"
@@ -22,9 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".trainer_weekly_planner.EditSlotActivity" />
-        <activity android:name=".trainer_weekly_planner.AddNewSlotActivity" />
-        <activity android:name=".trainer_weekly_planner.MainWeeklyScheduleActivity" />
+        <activity android:name=".trainer_weekly_planner.trainer_side.EditSlotActivity" />
+        <activity android:name=".trainer_weekly_planner.trainer_side.AddNewSlotActivity" />
+        <activity android:name=".trainer_weekly_planner.trainer_side.MainWeeklyScheduleActivity" />
         <activity android:name=".login_register.ResetPasswordActivity" />
         <activity android:name=".login_register.TrainerDetailsRegister" />
         <activity android:name=".login_register.TraineeDetailsRegister" />
@@ -32,8 +35,7 @@
         <activity
             android:name=".login_register.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".login_register.RegisterActivity"
             android:screenOrientation="portrait" />

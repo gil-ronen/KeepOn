@@ -9,6 +9,10 @@ public class TimeSlot {
     private String timeUntil;
     private String day;
     private String traineeId;
+    private String trainerId;
+    private int groupLimit;
+    private int currentSumPeopleInGroup;
+
 
     private boolean isOccupied;
     private boolean isGroupSession;
@@ -17,13 +21,17 @@ public class TimeSlot {
     public TimeSlot() {
     }
 
-    public TimeSlot(String title, String description, String timeFrom, String timeUntil, String day, String traineeId, boolean isOccupied, boolean isGroupSession) {
+
+    public TimeSlot(String title, String description, String timeFrom, String timeUntil, String day, String traineeId, String trainerId, int groupLimit, int currentSumPeopleInGroup, boolean isOccupied, boolean isGroupSession) {
         this.title = title;
         this.description = description;
         this.timeFrom = timeFrom;
         this.timeUntil = timeUntil;
         this.day = day;
         this.traineeId = traineeId;
+        this.trainerId = trainerId;
+        this.groupLimit = groupLimit;
+        this.currentSumPeopleInGroup = currentSumPeopleInGroup;
         this.isOccupied = isOccupied;
         this.isGroupSession = isGroupSession;
     }
@@ -98,5 +106,30 @@ public class TimeSlot {
 
     public void setTraineeId(String traineeId) {
         this.traineeId = traineeId;
+    }
+
+    public String getTrainerId() {
+        return trainerId;
+    }
+
+    public void setTrainerId(String trainerId) {
+        this.trainerId = trainerId;
+    }
+
+
+    public int getGroupLimit() {
+        return groupLimit;
+    }
+
+    public void setGroupLimit(int groupLimit) {
+        this.groupLimit = groupLimit;
+    }
+
+    public int getCurrentSumPeopleInGroup() {
+        return currentSumPeopleInGroup;
+    }
+
+    public void setCurrentSumPeopleInGroup(int currentSumPeopleInGroup) {
+        this.currentSumPeopleInGroup = currentSumPeopleInGroup;
     }
 }

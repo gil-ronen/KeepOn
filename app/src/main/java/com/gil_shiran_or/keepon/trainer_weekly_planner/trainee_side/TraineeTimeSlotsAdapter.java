@@ -1,13 +1,12 @@
-package com.gil_shiran_or.keepon.trainer_weekly_planner;
-
+package com.gil_shiran_or.keepon.trainer_weekly_planner.trainee_side;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.trainer_weekly_planner.TimeComparator;
+import com.gil_shiran_or.keepon.trainer_weekly_planner.TimeSlot;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyViewHolder>{
+
+public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlotsAdapter.MyViewHolder>{
 
     private Activity mActivity;
     private ArrayList<TimeSlot> mTimeSlots;
@@ -32,15 +34,19 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
 
     private String mDateForApp;
     private String mDateForDB;
+    private String mTrainerName;
+    private String mTraineeId;
 
 
 
-    public TimeSlotsAdapter(Activity activity, DatabaseReference ref, String dateForApp, String dateForDB) {
+    public TraineeTimeSlotsAdapter(Activity activity, DatabaseReference ref, String dateForApp, String dateForDB, String trainerName, String traineeId) {
         mActivity = activity;
         mDatabaseReference = ref;
         mTimeSlots = new ArrayList<>();
         mDateForApp = dateForApp;
         mDateForDB = dateForDB;
+        mTrainerName = trainerName;
+        mTraineeId = traineeId;
 
         mChildEventListener = new ChildEventListener() {
             @Override
@@ -103,8 +109,8 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_time_slot,viewGroup, false));
+    public TraineeTimeSlotsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        return new TraineeTimeSlotsAdapter.MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_time_slot,viewGroup, false));
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -123,7 +129,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
 
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final TraineeTimeSlotsAdapter.MyViewHolder myViewHolder, int i) {
 
         final String getIdSlot = mTimeSlots.get(i).getTimeSlotId();
         final String getTitleSlot = mTimeSlots.get(i).getTitle();
@@ -151,21 +157,24 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.MyVi
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent editIntent = new Intent(mActivity ,EditSlotActivity.class);
+                Intent editIntent = new Intent(mActivity , RegisterSlotActivity.class);
 
                 Bundle bundle = new Bundle();
 
 
-                bundle.putString("dateForApp", mDateForApp);
-                bundle.putString("dateForDB", mDateForDB);
-                bundle.putString("key", getIdSlot);
+
                 bundle.putString("title", getTitleSlot);
+                bundle.putString("trainerName", mTrainerName);
                 bundle.putString("description", getDescSlot);
+                bundle.putString("dateForApp", mDateForApp);
                 bundle.putString("timeFrom", getTimeFrom);
                 bundle.putString("timeUntil", getTimeUntil);
-                //bundle.putString("day", getDay);
+                bundle.putString("dateForDB", mDateForDB);
+                bundle.putString("key", getIdSlot);
+                bundle.putString("traineeId", mTraineeId);
                 bundle.putBoolean("isOccupied", isOccupied);
                 bundle.putBoolean("isGroupSession", getGroupSession);
+
 
                 editIntent.putExtras(bundle);
                 mActivity.startActivity(editIntent);
