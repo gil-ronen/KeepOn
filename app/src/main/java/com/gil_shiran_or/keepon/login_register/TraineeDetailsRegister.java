@@ -34,6 +34,7 @@ package com.gil_shiran_or.keepon.login_register;
         import com.gil_shiran_or.keepon.R;
         import com.gil_shiran_or.keepon.Trainee;
         import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
+        import com.gil_shiran_or.keepon.trainer_weekly_planner.Status;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.OnSuccessListener;
         import com.google.android.gms.tasks.Task;
@@ -42,8 +43,11 @@ package com.gil_shiran_or.keepon.login_register;
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.auth.FirebaseUser;
         import com.google.firebase.auth.UserProfileChangeRequest;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
         import com.google.firebase.database.DatabaseReference;
         import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
         import com.google.firebase.storage.FirebaseStorage;
         import com.google.firebase.storage.StorageReference;
         import com.google.firebase.storage.UploadTask;
@@ -58,10 +62,9 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     private Uri mPickedImgUri;
 
     private ImageView mImageUserPhoto;
-    private EditText mFullName;
-    private EditText mWeightView;
-    private EditText mHeightView;
-    private EditText mResidenceView;
+    private EditText mNameView;
+    private EditText mCityView;
+    private EditText mStreetView;
     private EditText mPhoneNumberView;
     private Spinner mSpinner;
     private String mPhoneCode;
@@ -74,15 +77,13 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     private RadioButton mRadioMale;
     private RadioButton mRadioFemale;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private EditText mAboutMe;
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
     private String mEmail;
     private String mPassword;
-    private String mUsername;
-    private String mUserType;
 
     private Trainee mTrainee;
 
@@ -92,20 +93,18 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         setContentView(R.layout.activity_trainee_details_register);
 
         mImageUserPhoto = findViewById(R.id.settings_user_photo);
-        mFullName = findViewById(R.id.settings_fullname);
-        mWeightView = findViewById(R.id.settings_weight);
-        mHeightView = findViewById(R.id.settings_height);
-        mResidenceView = findViewById(R.id.settings_residence);
+        mNameView = findViewById(R.id.settings_name);
+        mCityView = findViewById(R.id.settings_city);
+        mStreetView = findViewById(R.id.settings_street);
 
         mPhoneNumberView = findViewById(R.id.phoneText);
         mSpinner = findViewById(R.id.spinnerPhoneCode);
         mPhoneCode = "050";
-        mBirthDate = findViewById(R.id.settings_birthdate);
+        mBirthDate = findViewById(R.id.settings_birthDate);
         mGender = "";
         mRadioUserGenderGroup = findViewById(R.id.settings_user_gender_radioGroup);
         mRadioMale = findViewById(R.id.maleRadioButton);
         mRadioFemale = findViewById(R.id.femaleRadioButton);
-        mAboutMe =  findViewById(R.id.settings_aboutme);
         loadingProgress = findViewById(R.id.settings_ProgressBar);
         updateButton = findViewById(R.id.settings_update_button);
 
@@ -117,13 +116,10 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         //Extract the data…
         mEmail = bundle.getString("email");
         mPassword = bundle.getString("password");
-        mUsername = bundle.getString("username");
-        mUserType = bundle.getString("userType");
 
         mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees");
 
-        //mTrainee = new Trainee();
 
         mImageUserPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,92 +202,59 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         loadingProgress.setVisibility(View.VISIBLE);
 
         // Reset errors displayed in the form.
-        mFullName.setError(null);
-        mWeightView.setError(null);
-        mHeightView.setError(null);
-        mResidenceView.setError(null);
+        mNameView.setError(null);
+        mCityView.setError(null);
+        mStreetView.setError(null);
         mPhoneNumberView.setError(null);
         mBirthDate.setError(null);
 
         // Store values at the time of the login attempt.
-        String fullname = mFullName.getText().toString();
-        String weight = mWeightView.getText().toString();
-        String height = mHeightView.getText().toString();
-        String residence = mResidenceView.getText().toString();
-        String phoneNumber = mPhoneNumberView.getText().toString();
-        String birthDate = mBirthDate.getText().toString();
-        String gender = mGender;
-        String aboutMe = mAboutMe.getText().toString();
+        String traineeName = mNameView.getText().toString();
+        String traineeCity = mCityView.getText().toString();
+        String traineeStreet = mStreetView.getText().toString();
+        String traineePhoneNumber = mPhoneNumberView.getText().toString();
+        String traineeBirthDate = mBirthDate.getText().toString();
+        String traineeGender = mGender;
 
-        int wightInt;
-        int heightInt;
-
-        if(weight.equals("") || weight.isEmpty())
-        {
-            wightInt = 0;
-        }
-        else
-        {
-            wightInt = Integer.parseInt(weight);
-        }
-        if(height.equals("") || height.isEmpty())
-        {
-            heightInt = 0;
-        }
-        else
-        {
-            heightInt = Integer.parseInt(height);
-        }
 
         boolean cancel = false;
         View focusView = null;
 
-        if (TextUtils.isEmpty(fullname)) {
-            mFullName.setError(getString(R.string.error_field_required));
-            focusView = mFullName;
+        if (TextUtils.isEmpty(traineeName)) {
+            mNameView.setError(getString(R.string.error_field_required));
+            focusView = mNameView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(weight) || wightInt < 20 || wightInt > 300) {
-            mWeightView.setError(getString(R.string.error_invalid_weight));
-            focusView = mWeightView;
+        if (TextUtils.isEmpty(traineeCity)) {
+            mCityView.setError(getString(R.string.error_field_required));
+            focusView = mCityView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(height) || heightInt < 50 || heightInt > 250) {
-            mHeightView.setError(getString(R.string.error_invalid_height));
-            focusView = mHeightView;
+        if (TextUtils.isEmpty(traineeStreet)) {
+            mStreetView.setError(getString(R.string.error_field_required));
+            focusView = mStreetView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(residence)) {
-            mResidenceView.setError(getString(R.string.error_field_required));
-            focusView = mResidenceView;
-            cancel = true;
-        }
-
-        if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() != 7) {
+        if (TextUtils.isEmpty(traineePhoneNumber) || traineePhoneNumber.length() != 7) {
             mPhoneNumberView.setError(getString(R.string.error_invalid_phone));
             focusView = mPhoneNumberView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(birthDate)) {
+        if (TextUtils.isEmpty(traineeBirthDate)) {
             mBirthDate.setError(getString(R.string.error_field_required));
             focusView = mBirthDate;
             cancel = true;
         }
 
-        if (gender.isEmpty() || gender.equals("")) {
+        if (traineeGender.isEmpty() || traineeGender.equals("")) {
             showErrorDialog("Please verify your gender");
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(aboutMe)) {
-            mAboutMe.setError(getString(R.string.error_field_required));
-            focusView = mAboutMe;
-            cancel = true;
-        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -318,14 +281,14 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     }
 
     private void uploadUserDetailsToFirebase() {
-        final String fullname = mFullName.getText().toString();
-        final String weight = mWeightView.getText().toString();
-        final String height = mHeightView.getText().toString();
-        final String residence = mResidenceView.getText().toString();
-        final String phoneNumber = mPhoneNumberView.getText().toString();
-        final String birthDate = mBirthDate.getText().toString();
-        final String gender = mGender;
-        final String aboutMe = mAboutMe.getText().toString();
+        final String traineeName = mNameView.getText().toString();
+        final String traineeCity = mCityView.getText().toString();
+        final String traineeStreet = mStreetView.getText().toString();
+        final String traineePhoneNumber = mPhoneNumberView.getText().toString();
+        final String traineeBirthDate = mBirthDate.getText().toString();
+        final String traineeGender = mGender;
+
+
 
         if (mPickedImgUri != null) {
             mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -346,9 +309,9 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
 
-                        mTrainee = new Trainee(user_id, mUserType, fullname, mUsername, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, aboutMe, "", weight, height, residence, 0, 0, 0);
-
-                        current_user_db.setValue(mTrainee);
+                        mTrainee = new Trainee(traineeName, mEmail, mPassword, mPhoneCode + traineePhoneNumber, traineeBirthDate, traineeGender, "", traineeCity, traineeStreet );
+                        current_user_db.child("Profile").setValue(mTrainee);
+                        getAndSetTraineeScoreToNextLevel();
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
@@ -365,6 +328,24 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         }
     }
 
+    public void getAndSetTraineeScoreToNextLevel()
+    {
+        final DatabaseReference databaseScoreToNextLevelReference = FirebaseDatabase.getInstance().getReference().child("Levels").child("Level1").child("scoreToNextLevel");
+        String user_id = mAuth.getCurrentUser().getUid();
+        final DatabaseReference databaseUserTraineeStatus = mDatabase.child(user_id).child("Status");
+        databaseScoreToNextLevelReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Status status = new Status("Level1", 0, dataSnapshot.getValue(Integer.class));
+                databaseUserTraineeStatus.setValue(status);
+                //value = dataSnapshot.getValue(String.class);
+                databaseScoreToNextLevelReference.removeEventListener(this);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+    }
 
     // update user photo and name
     private void uploadUserPhoto(Uri pickedImgUri, final FirebaseUser currentUser) {
@@ -387,10 +368,10 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         DatabaseReference current_user_db = mDatabase.child(user_id);
                         Log.d("KeepOn: ", "download photo uri: "+ uri.toString());
                         current_user_db.child("profilePhotoUri").setValue(uri.toString());
-                        mTrainee.setProfilePhotoUri(uri.toString());
+                        mTrainee.setProfilePhotoUrl(uri.toString());
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(mUsername)
+                                .setDisplayName(mNameView.getText().toString())
                                 .setPhotoUri(uri)
                                 .build();
 

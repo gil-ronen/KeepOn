@@ -2,70 +2,90 @@ package com.gil_shiran_or.keepon;
 
 public class Rating
 {
-    private float sum_rates;
-    private int one_star_reviewers_num;
-    private int two_stars_reviewers_num;
-    private int three_stars_reviewers_num;
-    private int four_stars_reviewers_num;
-    private int five_stars_reviewers_num;
+    private float rating;
+    private int sumRatings;
+    private int totalRaters;
+    private int oneStarRaters;
+    private int twoStarsRaters;
+    private int threeStarsRaters;
+    private int fourStarsRaters;
+    private int fiveStarsRaters;
 
     public Rating() {
     }
 
-    public Rating(float sum_rates, int one_star_reviewers_num, int two_stars_reviewers_num, int three_stars_reviewers_num, int four_stars_reviewers_num, int five_stars_reviewers_num) {
-        this.sum_rates = sum_rates;
-        this.one_star_reviewers_num = one_star_reviewers_num;
-        this.two_stars_reviewers_num = two_stars_reviewers_num;
-        this.three_stars_reviewers_num = three_stars_reviewers_num;
-        this.four_stars_reviewers_num = four_stars_reviewers_num;
-        this.five_stars_reviewers_num = five_stars_reviewers_num;
+    public Rating(float rating, int sumRatings, int totalRaters, int oneStarRaters, int twoStarsRaters, int threeStarsRaters, int fourStarsRaters, int fiveStarsRaters) {
+        this.rating = rating;
+        this.sumRatings = sumRatings;
+        this.totalRaters = totalRaters;
+        this.oneStarRaters = oneStarRaters;
+        this.twoStarsRaters = twoStarsRaters;
+        this.threeStarsRaters = threeStarsRaters;
+        this.fourStarsRaters = fourStarsRaters;
+        this.fiveStarsRaters = fiveStarsRaters;
     }
 
-    public float getSum_rates() {
-        return sum_rates;
+    public float getRating() {
+        return rating;
     }
 
-    public void setSum_rates(float sum_rates) {
-        this.sum_rates = sum_rates;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
-    public int getOne_star_reviewers_num() {
-        return one_star_reviewers_num;
+    public int getSumRatings() {
+        return sumRatings;
     }
 
-    public void setOne_star_reviewers_num(int one_star_reviewers_num) {
-        this.one_star_reviewers_num = one_star_reviewers_num;
+    public void setSumRatings(int sumRatings) {
+        this.sumRatings = sumRatings;
     }
 
-    public int getTwo_stars_reviewers_num() {
-        return two_stars_reviewers_num;
+    public int getTotalRaters() {
+        return totalRaters;
     }
 
-    public void setTwo_stars_reviewers_num(int two_stars_reviewers_num) {
-        this.two_stars_reviewers_num = two_stars_reviewers_num;
+    public void setTotalRaters(int totalRaters) {
+        this.totalRaters = totalRaters;
     }
 
-    public int getThree_stars_reviewers_num() {
-        return three_stars_reviewers_num;
+    public int getOneStarRaters() {
+        return oneStarRaters;
     }
 
-    public void setThree_stars_reviewers_num(int three_stars_reviewers_num) {
-        this.three_stars_reviewers_num = three_stars_reviewers_num;
+    public void setOneStarRaters(int oneStarRaters) {
+        this.oneStarRaters = oneStarRaters;
     }
 
-    public int getFour_stars_reviewers_num() {
-        return four_stars_reviewers_num;
+    public int getTwoStarsRaters() {
+        return twoStarsRaters;
     }
 
-    public void setFour_stars_reviewers_num(int four_stars_reviewers_num) {
-        this.four_stars_reviewers_num = four_stars_reviewers_num;
+    public void setTwoStarsRaters(int twoStarsRaters) {
+        this.twoStarsRaters = twoStarsRaters;
     }
 
-    public int getFive_stars_reviewers_num() {
-        return five_stars_reviewers_num;
+    public int getThreeStarsRaters() {
+        return threeStarsRaters;
     }
 
-    public void setFive_stars_reviewers_num(int five_stars_reviewers_num) {
-        this.five_stars_reviewers_num = five_stars_reviewers_num;
+    public void setThreeStarsRaters(int threeStarsRaters) {
+        this.threeStarsRaters = threeStarsRaters;
+    }
+
+    public int getFourStarsRaters() {
+        return fourStarsRaters;
+    }
+
+    public void setFourStarsRaters(int fourStarsRaters) {
+        this.fourStarsRaters = fourStarsRaters;
+    }
+
+    public int getFiveStarsRaters() {
+        return fiveStarsRaters;
+    }
+
+    public void setFiveStarsRaters(int fiveStarsRaters) {
+        this.fiveStarsRaters = fiveStarsRaters;
     }
 }

@@ -20,7 +20,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/userphoto"
-            app:layout_constraintBottom_toTopOf="@+id/settings_fullname"
+            app:layout_constraintBottom_toTopOf="@+id/settings_trainerName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,10 +30,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.44" />
+            app:layout_constraintGuide_percent="0.55" />
 
         <EditText
-            android:id="@+id/settings_fullname"
+            android:id="@+id/settings_trainerName"
             android:layout_width="265dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -62,6 +62,40 @@
             android:ems="10"
             android:hint="@string/prompt_company_name"
             android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/settings_trainingCity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/settings_trainingCity"
+            android:layout_width="265dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/reg_edittext_style"
+            android:ems="10"
+            android:hint="City of the trainings"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/settings_trainingStreet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/settings_trainingStreet"
+            android:layout_width="265dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/reg_edittext_style"
+            android:ems="10"
+            android:hint="Street of the trainings"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toTopOf="@+id/settings_price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -84,22 +118,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:id="@+id/settings_working_place_address"
-            android:layout_width="265dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/reg_edittext_style"
-            android:ems="10"
-            android:hint="@string/prompt_working_place"
-            android:inputType="textPostalAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <RelativeLayout
             android:id="@+id/settings_mobile_phone"
@@ -112,7 +130,7 @@
             android:layout_marginRight="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_working_place_address" >
+            app:layout_constraintTop_toBottomOf="@+id/guideline" >
 
 
             <LinearLayout

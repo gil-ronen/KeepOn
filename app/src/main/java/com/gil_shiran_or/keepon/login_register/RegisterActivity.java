@@ -29,7 +29,7 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText mEmailView;
-    private EditText mUsernameView;
+    //private EditText mUsernameView;
     private EditText mPasswordView;
     private EditText mConfirmPasswordView;
     private ProgressBar mLoadingProgress;
@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         mEmailView = findViewById(R.id.register_email);
         mPasswordView = findViewById(R.id.register_password);
         mConfirmPasswordView =findViewById(R.id.register_confirm_password);
-        mUsernameView = findViewById(R.id.register_username);
+        //mUsernameView = findViewById(R.id.register_username);
         mLoadingProgress = findViewById(R.id.regProgressBar);
         mRegBtn = findViewById(R.id.register_sign_up_button);
         mRadioUserTypeGroup = findViewById(R.id.register_user_type_radioGroup);
@@ -101,12 +101,12 @@ public class RegisterActivity extends AppCompatActivity {
         // Reset errors displayed in the form.
         mEmailView.setError(null);
         mPasswordView.setError(null);
-        mUsernameView.setError(null);
+        //mUsernameView.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        String username = mUsernameView.getText().toString();
+        //String username = mUsernameView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -129,12 +129,15 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
+        /*
         // Check for a valid username
         if (TextUtils.isEmpty(username)) {
             mUsernameView.setError(getString(R.string.error_field_required));
             focusView = mUsernameView;
             cancel = true;
         }
+        */
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -169,7 +172,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         final String email = mEmailView.getText().toString();
         final String password = mPasswordView.getText().toString();
-        final String username = mUsernameView.getText().toString();
+        //final String username = mUsernameView.getText().toString();
 
 
         mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
@@ -187,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("email", email);
                     bundle.putString("password", password);
-                    bundle.putString("username", username);
+                    //bundle.putString("username", username);
 
                     if(mIsTrainer)
                     {

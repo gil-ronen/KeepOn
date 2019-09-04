@@ -1,36 +1,29 @@
 package com.gil_shiran_or.keepon;
 
-public class User
+public abstract class User
 {
-    protected String userId;
-    protected String userType;
-    protected String fullname;
-    protected String username;
-    protected String email;
-    protected String password;
-    protected String phoneNumber;
-    protected String birthDate;
-    protected String gender;
-    protected String aboutMe;
-    protected String profilePhotoUri;
+    private String userId;
+    private String name;
+    private String email;
+    private String password;
+    private String phoneNumber;
+    private String birthDate;
+    private String gender;
+    private String profilePhotoUrl;
 
     public User()
     {
 
     }
 
-    public User(String userId, String userType, String fullname, String username, String email, String password, String phoneNumber, String birthDate, String gender, String aboutMe, String profilePhotoUri) {
-        this.userId = userId;
-        this.userType = userType;
-        this.fullname = fullname;
-        this.username = username;
+    public User(String name, String email, String password, String phoneNumber, String birthDate, String gender, String profilePhotoUrl) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.birthDate = birthDate;
         this.gender = gender;
-        this.aboutMe = aboutMe;
-        this.profilePhotoUri = profilePhotoUri;
+        this.profilePhotoUrl = profilePhotoUrl;
     }
 
     public String getUserId() {
@@ -41,28 +34,12 @@ public class User
         this.userId = userId;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getName() {
+        return name;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -105,19 +82,11 @@ public class User
         this.gender = gender;
     }
 
-    public String getAboutMe() {
-        return aboutMe;
+    public String getProfilePhotoUrl() {
+        return profilePhotoUrl;
     }
 
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
-    }
-
-    public String getProfilePhotoUri() {
-        return profilePhotoUri;
-    }
-
-    public void setProfilePhotoUri(String profilePhotoUri) {
-        this.profilePhotoUri = profilePhotoUri;
+    public void setProfilePhotoUrl(String profilePhotoUrl) {
+        this.profilePhotoUrl = profilePhotoUrl;
     }
 }

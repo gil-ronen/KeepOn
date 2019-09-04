@@ -3,18 +3,21 @@ package com.gil_shiran_or.keepon;
 public class Trainer extends User
 {
     private String companyName;
-    private String price;
-    private String trainingPlaceAddress;
-    private Rating rating;
+    private String aboutMe;
+    private String trainingCity;
+    private String trainingStreet;
+    private int price;
+
 
     public Trainer() {}
 
-    public Trainer(String userId, String userType, String fullname, String username, String email, String password, String phoneNumber, String birthDate, String gender, String aboutMe, String profilePhotoUri, String companyName, String price, String trainingPlaceAddress, Rating rating) {
-        super(userId, userType, fullname, username, email, password, phoneNumber, birthDate, gender, aboutMe, profilePhotoUri);
+    public Trainer(String name, String email, String password, String phoneNumber, String birthDate, String gender, String profilePhotoUrl, String companyName, String aboutMe, String trainingCity, String trainingStreet, int price) {
+        super(name, email, password, phoneNumber, birthDate, gender, profilePhotoUrl);
         this.companyName = companyName;
+        this.aboutMe = aboutMe;
+        this.trainingCity = trainingCity;
+        this.trainingStreet = trainingStreet;
         this.price = price;
-        this.trainingPlaceAddress = trainingPlaceAddress;
-        this.rating = rating;
     }
 
     public String getCompanyName() {
@@ -25,27 +28,36 @@ public class Trainer extends User
         this.companyName = companyName;
     }
 
-    public String getPrice() {
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public String getTrainingCity() {
+        return trainingCity;
+    }
+
+    public void setTrainingCity(String trainingCity) {
+        this.trainingCity = trainingCity;
+    }
+
+    public String getTrainingStreet() {
+        return trainingStreet;
+    }
+
+    public void setTrainingStreet(String trainingStreet) {
+        this.trainingStreet = trainingStreet;
+    }
+
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    public String getTrainingPlaceAddress() {
-        return trainingPlaceAddress;
-    }
-
-    public void setTrainingPlaceAddress(String trainingPlaceAddress) {
-        this.trainingPlaceAddress = trainingPlaceAddress;
-    }
-
-    public Rating getRating() {
-        return rating;
-    }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
-    }
 }

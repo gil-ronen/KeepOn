@@ -33,9 +33,9 @@ public class LandingScreenActivity extends AppCompatActivity {
 
         if(mUser == null)
         {
-            //Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             //Intent intent = new Intent(getApplicationContext(), MainWeeklySlotsPickerActivity.class);
-            Intent intent = new Intent(getApplicationContext(), MainWeeklyScheduleActivity.class);
+            //Intent intent = new Intent(getApplicationContext(), MainWeeklyScheduleActivity.class);
             startActivity(intent);
             finish();
         }

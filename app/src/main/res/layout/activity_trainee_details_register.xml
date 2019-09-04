@@ -20,7 +20,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/userphoto"
-            app:layout_constraintBottom_toTopOf="@+id/settings_fullname"
+            app:layout_constraintBottom_toTopOf="@+id/settings_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,10 +30,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.44" />
+            app:layout_constraintGuide_percent="0.55" />
 
         <EditText
-            android:id="@+id/settings_fullname"
+            android:id="@+id/settings_name"
             android:layout_width="265dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -45,11 +45,11 @@
             android:ems="10"
             android:hint="@string/prompt_fullname"
             android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/settings_weight"
+            app:layout_constraintBottom_toTopOf="@+id/settings_city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
+        <!--EditText
             android:id="@+id/settings_weight"
             android:layout_width="265dp"
             android:layout_height="wrap_content"
@@ -82,10 +82,28 @@
             android:inputType="numberSigned"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" /-->
+
+
+        <EditText
+            android:id="@+id/settings_city"
+            android:layout_width="265dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/reg_edittext_style"
+            android:ems="10"
+            android:hint="my city"
+            android:inputType="numberSigned"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/settings_residence"
+            android:id="@+id/settings_street"
             android:layout_width="265dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -95,7 +113,7 @@
             android:layout_marginRight="8dp"
             android:background="@drawable/reg_edittext_style"
             android:ems="10"
-            android:hint="@string/prompt_residence"
+            android:hint="my street"
             android:inputType="textPostalAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +130,7 @@
             android:layout_marginRight="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_residence" >
+            app:layout_constraintTop_toBottomOf="@+id/settings_street" >
 
 
                 <LinearLayout
@@ -145,7 +163,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/settings_birthdate"
+            android:id="@+id/settings_birthDate"
             android:layout_width="265dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -175,7 +193,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_aboutme" />
+            app:layout_constraintTop_toBottomOf="@+id/settings_user_gender_radioGroup" />
 
         <ProgressBar
             android:id="@+id/settings_ProgressBar"
@@ -198,10 +216,10 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/settings_aboutme"
+            app:layout_constraintBottom_toTopOf="@+id/settings_update_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_birthdate">
+            app:layout_constraintTop_toBottomOf="@+id/settings_birthDate">
 
             <RadioButton
                 android:id="@+id/femaleRadioButton"
@@ -220,7 +238,7 @@
                 android:text="@string/prompt_male" />
         </RadioGroup>
 
-        <EditText
+        <!--EditText
             android:id="@+id/settings_aboutme"
             android:layout_width="265dp"
             android:layout_height="wrap_content"
@@ -236,7 +254,7 @@
             app:layout_constraintBottom_toTopOf="@+id/settings_update_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_user_gender_radioGroup" />
+            app:layout_constraintTop_toBottomOf="@+id/settings_user_gender_radioGroup" /-->
 
 
 

@@ -52,17 +52,18 @@ import com.google.firebase.storage.UploadTask;
 import java.util.Calendar;
 
 
-public class TrainerDetailsRegister extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class TrainerDetailsRegister extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static int PReqCode = 1;
     private static int REQUESCODE = 1;
     private Uri mPickedImgUri;
 
     private ImageView mImageUserPhoto;
-    private EditText mFullName;
-    private EditText mCompanyName;
-    private EditText mPrice;
-    private EditText mTrainingPlaceAddress;
+    private EditText mNameView;
+    private EditText mCompanyNameView;
+    private EditText mPriceView;
+    private EditText mTrainingCityView;
+    private EditText mTrainingStreetView;
     private EditText mPhoneNumberView;
     private Spinner mSpinner;
     private String mPhoneCode;
@@ -75,7 +76,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
     private RadioButton mRadioMale;
     private RadioButton mRadioFemale;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private EditText mAboutMe;
+    private EditText mAboutMeView;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -84,8 +85,6 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
 
     private String mEmail;
     private String mPassword;
-    private String mUsername;
-    private String mUserType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +92,11 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         setContentView(R.layout.activity_trainer_details_register);
 
         mImageUserPhoto = findViewById(R.id.settings_user_photo);
-        mFullName = findViewById(R.id.settings_fullname);
-        mCompanyName = findViewById(R.id.settings_company_name);
-        mPrice = findViewById(R.id.settings_price);
-        mTrainingPlaceAddress = findViewById(R.id.settings_working_place_address);
-
+        mNameView = findViewById(R.id.settings_trainerName);
+        mCompanyNameView = findViewById(R.id.settings_company_name);
+        mPriceView = findViewById(R.id.settings_price);
+        mTrainingCityView = findViewById(R.id.settings_trainingCity);
+        mTrainingStreetView = findViewById(R.id.settings_trainingStreet);
         mPhoneNumberView = findViewById(R.id.phoneText);
         mSpinner = findViewById(R.id.spinnerPhoneCode);
         mPhoneCode = "050";
@@ -106,20 +105,17 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         mRadioUserGenderGroup = findViewById(R.id.settings_user_gender_radioGroup);
         mRadioMale = findViewById(R.id.maleRadioButton);
         mRadioFemale = findViewById(R.id.femaleRadioButton);
-        mAboutMe =  findViewById(R.id.settings_aboutme);
+        mAboutMeView = findViewById(R.id.settings_aboutme);
         loadingProgress = findViewById(R.id.settings_ProgressBar);
         updateButton = findViewById(R.id.settings_update_button);
 
         loadingProgress.setVisibility(View.INVISIBLE);
 
-        //TODO: Bundle from the previous intent
-        //Get the bundle
+
         Bundle bundle = getIntent().getExtras();
-        //Extract the data…
         mEmail = bundle.getString("email");
         mPassword = bundle.getString("password");
-        mUsername = bundle.getString("username");
-        mUserType = bundle.getString("userType");
+
 
         mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers");
@@ -147,7 +143,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                         TrainerDetailsRegister.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
-                        year,month,day);
+                        year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -205,47 +201,56 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         loadingProgress.setVisibility(View.VISIBLE);
 
         // Reset errors displayed in the form.
-        mFullName.setError(null);
-        mCompanyName.setError(null);
-        mPrice.setError(null);
-        mTrainingPlaceAddress.setError(null);
+        mNameView.setError(null);
+        mCompanyNameView.setError(null);
+        mPriceView.setError(null);
+        mTrainingCityView.setError(null);
+        mTrainingStreetView.setError(null);
         mPhoneNumberView.setError(null);
         mBirthDate.setError(null);
+        mAboutMeView.setError(null);
 
         // Store values at the time of the login attempt.
-        String fullname = mFullName.getText().toString();
-        String companyName = mCompanyName.getText().toString();
-        String price = mPrice.getText().toString();
-        String trainingPlaceAddress = mTrainingPlaceAddress.getText().toString();
+        String trainerName = mNameView.getText().toString();
+        String companyName = mCompanyNameView.getText().toString();
+        String price = mPriceView.getText().toString();
+        String trainingCity = mTrainingCityView.getText().toString();
+        String trainingStreet = mTrainingStreetView.getText().toString();
         String phoneNumber = mPhoneNumberView.getText().toString();
         String birthDate = mBirthDate.getText().toString();
         String gender = mGender;
-        String aboutMe = mAboutMe.getText().toString();
+        String aboutMe = mAboutMeView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        if (TextUtils.isEmpty(fullname)) {
-            mFullName.setError(getString(R.string.error_field_required));
-            focusView = mFullName;
+        if (TextUtils.isEmpty(trainerName)) {
+            mNameView.setError(getString(R.string.error_field_required));
+            focusView = mNameView;
             cancel = true;
         }
 
         if (TextUtils.isEmpty(companyName)) {
-            mCompanyName.setError(getString(R.string.error_field_required));
-            focusView = mCompanyName;
+            mCompanyNameView.setError(getString(R.string.error_field_required));
+            focusView = mCompanyNameView;
             cancel = true;
         }
 
         if (TextUtils.isEmpty(price)) {
-            mPrice.setError(getString(R.string.error_field_required));
-            focusView = mPrice;
+            mPriceView.setError(getString(R.string.error_field_required));
+            focusView = mPriceView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(trainingPlaceAddress)) {
-            mTrainingPlaceAddress.setError(getString(R.string.error_field_required));
-            focusView = mTrainingPlaceAddress;
+        if (TextUtils.isEmpty(trainingCity)) {
+            mTrainingCityView.setError(getString(R.string.error_field_required));
+            focusView = mTrainingCityView;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(trainingStreet)) {
+            mTrainingStreetView.setError(getString(R.string.error_field_required));
+            focusView = mTrainingStreetView;
             cancel = true;
         }
 
@@ -267,8 +272,8 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         }
 
         if (TextUtils.isEmpty(aboutMe)) {
-            mAboutMe.setError(getString(R.string.error_field_required));
-            focusView = mAboutMe;
+            mAboutMeView.setError(getString(R.string.error_field_required));
+            focusView = mAboutMeView;
             cancel = true;
         }
 
@@ -298,14 +303,15 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
     }
 
     private void uploadUserDetailsToFirebase() {
-        final String fullname = mFullName.getText().toString();
-        final String companyName = mCompanyName.getText().toString();
-        final String price = mPrice.getText().toString();
-        final String trainingPlaceAddress = mTrainingPlaceAddress.getText().toString();
+        final String trainerName = mNameView.getText().toString();
+        final String companyName = mCompanyNameView.getText().toString();
+        final int price = Integer.parseInt(mPriceView.getText().toString());
+        final String trainingCity = mTrainingCityView.getText().toString();
+        final String trainingStreet = mTrainingStreetView.getText().toString();
         final String phoneNumber = mPhoneNumberView.getText().toString();
         final String birthDate = mBirthDate.getText().toString();
         final String gender = mGender;
-        final String aboutMe = mAboutMe.getText().toString();
+        final String aboutMe = mAboutMeView.getText().toString();
 
         if (mPickedImgUri != null) {
             mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -313,21 +319,19 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     Log.d("KeepOn", "createUser onComplete: " + task.isSuccessful());
 
-                    if(!task.isSuccessful())
-                    {
+                    if (!task.isSuccessful()) {
                         Log.d("KeepOn", "user creation failed");
                         showErrorDialog("Registration attempt failed");
-                    }
-                    else
-                    {
+                    } else {
                         Log.d("KeepOn", "user creation success");
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
-                        Rating rating = new Rating();
 
-                        mTrainer = new Trainer(user_id, mUserType, fullname, mUsername, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, aboutMe, "", companyName, price, trainingPlaceAddress, rating);
+                        Rating rating = new Rating(0,0,0,0,0,0,0,0);
+                        mTrainer = new Trainer(trainerName, mEmail, mPassword, mPhoneCode + phoneNumber, birthDate, gender, "", companyName, aboutMe, trainingCity, trainingStreet, price);
 
-                        current_user_db.setValue(mTrainer);
+                        current_user_db.child("Profile").setValue(mTrainer);
+                        current_user_db.child("Rating").setValue(rating);
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
@@ -338,8 +342,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                 }
             });
 
-        }
-        else {
+        } else {
             showErrorDialog("must upload a profile photo of you");
         }
     }
@@ -364,13 +367,13 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                         // uri contain user image url
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
-                        Log.d("KeepOn: ", "download photo uri: "+ uri.toString());
+                        Log.d("KeepOn: ", "download photo uri: " + uri.toString());
 
                         current_user_db.child("profilePhotoUri").setValue(uri.toString());
-                        mTrainer.setProfilePhotoUri(uri.toString());
+                        mTrainer.setProfilePhotoUrl(uri.toString());
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(mUsername)
+                                .setDisplayName(mNameView.getText().toString())
                                 .setPhotoUri(uri)
                                 .build();
 
@@ -391,13 +394,12 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
     }
 
 
-
     private void openGallery() {
         //TODO: open gallery intent and wait for user to pick an image !
 
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent,REQUESCODE);
+        startActivityForResult(galleryIntent, REQUESCODE);
     }
 
 
@@ -421,8 +423,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
 
 
     // Create an alert dialog to show in case registration failed
-    private void showErrorDialog(String message)
-    {
+    private void showErrorDialog(String message) {
         new AlertDialog.Builder(this)
                 .setTitle("Oops")
                 .setMessage(message)
