@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.trainee.my_trainers;
+package com.gil_shiran_or.keepon.trainee.profile;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,13 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainerPageAdapter;
 
-public class MyTrainerActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_trainer);
+        setContentView(R.layout.activity_trainee_details_register);
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_trainee);
 
@@ -25,30 +26,6 @@ public class MyTrainerActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        TabLayout tabLayout = findViewById(R.id.my_trainer_tab_layout);
-        final ViewPager viewPager = findViewById(R.id.my_trainer_tab_container);
-
-        MyTrainerPageAdapter pageAdapter = new MyTrainerPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), getIntent().getExtras());
-        viewPager.setAdapter(pageAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.trainee.nav;
+package com.gil_shiran_or.keepon.trainer.nav;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +32,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TraineeNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class TrainerNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawer;
     private DatabaseReference mDatabaseTraineesReference;
@@ -41,7 +41,7 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainee_nav);
+        setContentView(R.layout.activity_trainer_nav);
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_trainee);
 
@@ -65,7 +65,7 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
 
         final View header = navigationView.getHeaderView(0);
         String currentUserId = FirebaseAuth.getInstance().getUid();
-        mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees").child(currentUserId);
+        mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers").child(currentUserId);
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -73,7 +73,7 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
                 TextView traineeNameTextView = header.findViewById(R.id.nav_header_trainee_name);
                 TextView traineeEmailTextView = header.findViewById(R.id.nav_header_trainee_email);
 
-                Picasso.with(TraineeNavActivity.this).load(dataSnapshot.child("profilePhotoUri").getValue(String.class)).fit().into(traineeCircleImageView);
+                Picasso.with(TrainerNavActivity.this).load(dataSnapshot.child("profilePhotoUri").getValue(String.class)).fit().into(traineeCircleImageView);
                 traineeNameTextView.setText(dataSnapshot.child("username").getValue(String.class));
                 traineeEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
             }

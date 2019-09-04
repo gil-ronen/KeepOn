@@ -49,6 +49,12 @@
         <activity
             android:name=".trainee.my_trainers.MyTrainerActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".trainee.profile.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".trainee.search_trainer.TrainerActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

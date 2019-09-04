@@ -15,9 +15,9 @@ import com.gil_shiran_or.keepon.R;
 
 public class AddPostDialog extends AppCompatDialogFragment {
 
-    private AddPostListener listener;
-    private EditText addPostTitleEditText;
-    private EditText addPostBodyEditText;
+    private AddPostListener mListener;
+    private EditText mAddPostTitleEditText;
+    private EditText mAddPostBodyEditText;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -26,8 +26,8 @@ public class AddPostDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.add_post_dialog, null);
 
-        addPostTitleEditText = view.findViewById(R.id.add_post_title);
-        addPostBodyEditText = view.findViewById(R.id.add_post_body);
+        mAddPostTitleEditText = view.findViewById(R.id.add_post_title);
+        mAddPostBodyEditText = view.findViewById(R.id.add_post_body);
 
         builder.setView(view)
                 .setTitle("New Post")
@@ -50,14 +50,14 @@ public class AddPostDialog extends AppCompatDialogFragment {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String addPostTitle = addPostTitleEditText.getText().toString().trim();
-                        String addPostBody = addPostBodyEditText.getText().toString().trim();
+                        String addPostTitle = mAddPostTitleEditText.getText().toString().trim();
+                        String addPostBody = mAddPostBodyEditText.getText().toString().trim();
 
                         if (addPostTitle.isEmpty() || addPostBody.isEmpty()) {
                             Toast.makeText(view.getContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            listener.applyPost(addPostTitleEditText.getText().toString(), addPostBodyEditText.getText().toString());
+                            mListener.applyPost(mAddPostTitleEditText.getText().toString(), mAddPostBodyEditText.getText().toString());
                             dialog.dismiss();
                         }
                     }
@@ -71,7 +71,7 @@ public class AddPostDialog extends AppCompatDialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        listener = (AddPostDialog.AddPostListener) getTargetFragment();
+        mListener = (AddPostDialog.AddPostListener) getTargetFragment();
     }
 
     public interface AddPostListener {

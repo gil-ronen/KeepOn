@@ -329,10 +329,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     public void setReplyPostToFirebase(Reply reply, String postId) {
         String key = mDatabasePostsReference.child(postId + "/replies").push().getKey();
-        Map<String, Object> postValues = reply.toMap();
+        Map<String, Object> replyValues = reply.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put(postId + "/replies/" + key, postValues);
+        childUpdates.put(postId + "/replies/" + key, replyValues);
 
         mDatabasePostsReference.updateChildren(childUpdates);
     }

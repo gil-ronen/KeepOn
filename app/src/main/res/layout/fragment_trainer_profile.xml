@@ -22,7 +22,7 @@
                 android:layout_marginTop="30dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/my_trainer_profile_img"
+                    android:id="@+id/trainer_profile_img"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_centerHorizontal="true"
@@ -45,7 +45,7 @@
                         app:contentPaddingTop="15dp">
 
                         <ImageView
-                            android:id="@+id/my_trainer_gender"
+                            android:id="@+id/trainer_gender"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:layout_gravity="end"
@@ -58,7 +58,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/my_trainer_name"
+                                android:id="@+id/trainer_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
@@ -68,7 +68,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/my_trainer_about_me"
+                                android:id="@+id/trainer_about_me"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="I love to do yoga everyday"
@@ -111,7 +111,7 @@
                                         android:src="@drawable/ic_profile_email" />
 
                                     <TextView
-                                        android:id="@+id/my_trainer_email"
+                                        android:id="@+id/trainer_email"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -133,7 +133,7 @@
                                         android:src="@drawable/ic_profile_gym_name" />
 
                                     <TextView
-                                        android:id="@+id/my_trainer_gym_name"
+                                        android:id="@+id/trainer_gym_name"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -155,7 +155,7 @@
                                         android:src="@drawable/ic_profile_address" />
 
                                     <TextView
-                                        android:id="@+id/my_trainer_gym_address"
+                                        android:id="@+id/trainer_gym_address"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -177,7 +177,29 @@
                                         android:src="@drawable/ic_profile_birth_date" />
 
                                     <TextView
-                                        android:id="@+id/my_trainer_birth_date"
+                                        android:id="@+id/trainer_birth_date"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:paddingLeft="20dp"
+                                        android:text="Gym Name"
+                                        android:textSize="15sp" />
+
+                                </TableRow>
+
+                                <TableRow
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="20dp"
+                                    android:gravity="center">
+
+                                    <ImageView
+                                        android:layout_width="36dp"
+                                        android:layout_height="36dp"
+                                        android:src="@drawable/ic_profile_phone_number" />
+
+                                    <TextView
+                                        android:id="@+id/trainer_phone_number"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -195,10 +217,10 @@
                                     <ImageView
                                         android:layout_width="36dp"
                                         android:layout_height="36dp"
-                                        android:src="@drawable/ic_profile_phone_number" />
+                                        android:src="@drawable/ic_profile_price" />
 
                                     <TextView
-                                        android:id="@+id/my_trainer_phone_number"
+                                        android:id="@+id/trainer_price"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -227,14 +249,14 @@
         android:layout_height="match_parent">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/my_trainer_quit_button"
+            android:id="@+id/trainer_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="25dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_leave_trainer"
+            android:src="@drawable/ic_add_trainer"
             app:backgroundTint="@color/purple"
             app:elevation="4dp" />
 

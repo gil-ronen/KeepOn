@@ -24,13 +24,13 @@
                 android:src="@drawable/default_profile_img" />
 
             <TextView
-                android:id="@+id/weekly_task_item_description"
+                android:id="@+id/weekly_task_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/weekly_task_item_score"
+                android:id="@+id/weekly_task_score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"
@@ -45,6 +45,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/weekly_task_completed"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:src="@drawable/completed_task_stamp"

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".trainee.nav.TraineeNavActivity"
+    tools:context=".trainer.nav.TrainerNavActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -37,6 +37,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/trainee_drawer_menu" />
+        app:menu="@menu/trainer_drawer_menu" />
 
 </android.support.v4.widget.DrawerLayout>

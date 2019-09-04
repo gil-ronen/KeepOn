@@ -8,20 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.trainee.main.PostsListAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MyTrainersFragment extends Fragment {
 
-    private List<MyTrainerItem> myTrainersList;
-    private RecyclerView recyclerView;
-    private MyTrainersListAdapter myTrainersListAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private MyTrainersListAdapter mMyTrainersListAdapter;
 
     @Nullable
     @Override
@@ -33,34 +25,22 @@ public class MyTrainersFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("My Trainers");
 
-        buildMyTrainersListView();
-
-        /*createMyTrainersList();
-        buildRecyclerView();*/
+        buildMyTrainersRecyclerView();
     }
 
-    private void createMyTrainersList() {
-        myTrainersList = new ArrayList<>();
+    private void buildMyTrainersRecyclerView() {
+        RecyclerView myTrainersRecyclerView = getView().findViewById(R.id.my_trainers_list);
+        myTrainersRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mMyTrainersListAdapter = new MyTrainersListAdapter(this);
 
-        myTrainersList.add(new MyTrainerItem("Shiran"));
-        myTrainersList.add(new MyTrainerItem("Gil"));
-        myTrainersList.add(new MyTrainerItem("Or"));
+        myTrainersRecyclerView.setLayoutManager(layoutManager);
+        myTrainersRecyclerView.setAdapter(mMyTrainersListAdapter);
     }
 
-    private void buildMyTrainersListView() {
-        ListView myTrainersListView = getView().findViewById(R.id.my_trainers_list);
-        MyTrainersListAdapter_ myTrainersListAdapter = new MyTrainersListAdapter_(this);
-
-        myTrainersListView.setAdapter(myTrainersListAdapter);
-    }
-
-    private void buildRecyclerView() {
-        recyclerView = getView().findViewById(R.id.my_trainers_list);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
-        myTrainersListAdapter = new MyTrainersListAdapter(myTrainersList, getContext());
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(myTrainersListAdapter);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMyTrainersListAdapter.cleanUp();
     }
 }

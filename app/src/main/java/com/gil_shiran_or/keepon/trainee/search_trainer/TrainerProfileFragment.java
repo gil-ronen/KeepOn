@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.trainee.my_trainers;
+package com.gil_shiran_or.keepon.trainee.search_trainer;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyTrainerProfileFragment extends Fragment {
+public class TrainerProfileFragment extends Fragment {
 
     private DatabaseReference mDatabaseTrainerReference;
     private ValueEventListener mValueEventListener;
@@ -34,7 +34,7 @@ public class MyTrainerProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_my_trainer_profile, container, false);
+        return inflater.inflate(R.layout.fragment_trainer_profile, container, false);
     }
 
     @Override
@@ -45,15 +45,16 @@ public class MyTrainerProfileFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        final CircleImageView trainerCircleImageView = getView().findViewById(R.id.my_trainer_profile_img);
-        final TextView trainerNameTextView = getView().findViewById(R.id.my_trainer_name);
-        final TextView trainerAboutMeTextView = getView().findViewById(R.id.my_trainer_about_me);
-        final TextView trainerEmailTextView = getView().findViewById(R.id.my_trainer_email);
-        final TextView trainerGymNameTextView = getView().findViewById(R.id.my_trainer_gym_name);
-        final TextView trainerGymAddressTextView = getView().findViewById(R.id.my_trainer_gym_address);
-        final TextView trainerBirthDateTextView = getView().findViewById(R.id.my_trainer_birth_date);
-        final TextView trainerPhoneNumberTextView = getView().findViewById(R.id.my_trainer_phone_number);
-        final ImageView trainerGenderImageView = getView().findViewById(R.id.my_trainer_gender);
+        final CircleImageView trainerCircleImageView = getView().findViewById(R.id.trainer_profile_img);
+        final TextView trainerNameTextView = getView().findViewById(R.id.trainer_name);
+        final TextView trainerAboutMeTextView = getView().findViewById(R.id.trainer_about_me);
+        final TextView trainerEmailTextView = getView().findViewById(R.id.trainer_email);
+        final TextView trainerGymNameTextView = getView().findViewById(R.id.trainer_gym_name);
+        final TextView trainerGymAddressTextView = getView().findViewById(R.id.trainer_gym_address);
+        final TextView trainerBirthDateTextView = getView().findViewById(R.id.trainer_birth_date);
+        final TextView trainerPhoneNumberTextView = getView().findViewById(R.id.trainer_phone_number);
+        final TextView trainerPriceTextView = getView().findViewById(R.id.trainer_price);
+        final ImageView trainerGenderImageView = getView().findViewById(R.id.trainer_gender);
 
         mValueEventListener = new ValueEventListener() {
             @Override
@@ -66,6 +67,7 @@ public class MyTrainerProfileFragment extends Fragment {
                 trainerGymAddressTextView.setText(dataSnapshot.child("trainingPlaceAddress").getValue(String.class));
                 trainerBirthDateTextView.setText(dataSnapshot.child("birthDate").getValue(String.class));
                 trainerPhoneNumberTextView.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
+                trainerPriceTextView.setText(dataSnapshot.child("price").getValue(String.class));
 
                 if (dataSnapshot.child("gender").getValue(String.class).equals("male")) {
                     trainerGenderImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_male_sign));
@@ -83,18 +85,18 @@ public class MyTrainerProfileFragment extends Fragment {
 
         mDatabaseTrainerReference.addValueEventListener(mValueEventListener);
 
-        FloatingActionButton quitTrainerFloatingActionButton = getView().findViewById(R.id.my_trainer_quit_button);
+        FloatingActionButton addTrainerFloatingActionButton = getView().findViewById(R.id.trainer_add_button);
 
-        quitTrainerFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+        addTrainerFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                        .setTitle("Quit Trainer")
-                        .setMessage("Are you sure you want to quit this trainer?")
+                        .setTitle("Add Trainer")
+                        .setMessage("Are you sure you want to add this trainer?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                final DatabaseReference databaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/myTrainers");
+                                /*final DatabaseReference databaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/myTrainers");
 
                                 databaseTraineeReference.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -115,7 +117,7 @@ public class MyTrainerProfileFragment extends Fragment {
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                     }
-                                });
+                                });*/
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
