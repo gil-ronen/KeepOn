@@ -26,11 +26,8 @@ import java.util.List;
 
 public class SearchTrainerFragment extends Fragment {
 
-    private List<TrainerItem> trainersList;
-    private RecyclerView recyclerView;
-    private TrainersListAdapter trainersListAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private ExpandableViewGroup expandableViewGroup;
+    private TrainersListAdapter mTrainersListAdapter;
+    private ExpandableViewGroup mExpandableViewGroup;
 
 
     @Nullable
@@ -43,7 +40,6 @@ public class SearchTrainerFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("Search Trainer");
 
-        createTrainersList();
         buildRecyclerView();
         adjustTrainersPriceRangeSeekBar();
         adjustTrainersRatingRangeSeekBar();
@@ -52,22 +48,14 @@ public class SearchTrainerFragment extends Fragment {
         adjustFilterOptionsApplyButton();
     }
 
-    private void createTrainersList() {
-        trainersList = new ArrayList<>();
-
-        trainersList.add(new TrainerItem("Shiran", "Rishon Le Zion", "Israel", 200, 4.25f, 10));
-        trainersList.add(new TrainerItem("Gil", "Haifa", "Israel", 250, 3.5f, 3));
-        trainersList.add(new TrainerItem("Or", "Paris", "France", 50, 3.8f, 5));
-    }
-
     private void buildRecyclerView() {
-        recyclerView = getView().findViewById(R.id.trainers_list);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
-        trainersListAdapter = new TrainersListAdapter(trainersList);
+        RecyclerView trainersRecyclerView = getView().findViewById(R.id.trainers_list);
+        trainersRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mTrainersListAdapter = new TrainersListAdapter(this);
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(trainersListAdapter);
+        trainersRecyclerView.setLayoutManager(layoutManager);
+        trainersRecyclerView.setAdapter(mTrainersListAdapter);
     }
 
     private void adjustTrainersPriceRangeSeekBar() {
@@ -102,14 +90,14 @@ public class SearchTrainerFragment extends Fragment {
         SearchView trainerSearchView = getView().findViewById(R.id.trainer_search);
         final ViewGroup filterExpanderLayout = getView().findViewById(R.id.filter_expander);
         final ViewGroup filterOptionsLayout = getView().findViewById(R.id.filter_options);
-        expandableViewGroup = new ExpandableViewGroup(getResources().getString(R.string.filter_options_expanding_label),
+        mExpandableViewGroup = new ExpandableViewGroup(getResources().getString(R.string.filter_options_expanding_label),
                 getResources().getString(R.string.filter_options_expanding_label), filterExpanderLayout, filterOptionsLayout);
 
         trainerSearchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (filterOptionsLayout.getVisibility() != View.GONE) {
-                    expandableViewGroup.collapseAndMakeArrowAnimation();
+                    mExpandableViewGroup.collapseAndMakeArrowAnimation();
                 }
 
                 filterExpanderLayout.setClickable(false);
@@ -136,7 +124,7 @@ public class SearchTrainerFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                trainersListAdapter.getFilter().filter(newText);
+                mTrainersListAdapter.getFilter().filter(newText);
 
                 return false;
             }
@@ -152,19 +140,19 @@ public class SearchTrainerFragment extends Fragment {
                 String selectedItem = (String) adapterView.getItemAtPosition(i);
 
                 if (selectedItem.equals(getResources().getString(R.string.order_by_none))) {
-                    trainersListAdapter.sortTrainersListByName();
+                    mTrainersListAdapter.sortTrainersListByName();
                 }
                 else if (selectedItem.equals(getResources().getString(R.string.order_by_newest_first))) {
 
                 }
                 else if (selectedItem.equals(getResources().getString(R.string.order_by_highest_price))) {
-                    trainersListAdapter.sortTrainersListByPrice(false);
+                    mTrainersListAdapter.sortTrainersListByPrice(false);
                 }
                 else if (selectedItem.equals(getResources().getString(R.string.order_by_lowest_price))) {
-                    trainersListAdapter.sortTrainersListByPrice(true);
+                    mTrainersListAdapter.sortTrainersListByPrice(true);
                 }
                 else {
-                    trainersListAdapter.sortTrainersListByRating();
+                    mTrainersListAdapter.sortTrainersListByRating();
                 }
             }
 
@@ -173,6 +161,20 @@ public class SearchTrainerFragment extends Fragment {
 
             }
         });
+    }
+
+    public void setPriceRange() {
+        CrystalRangeSeekbar trainersPriceRangeSeekBar = getView().findViewById(R.id.trainers_price_range_seek_bar);
+        TextView maxPriceTextView = getView().findViewById(R.id.price_right_thumb_val);
+        TextView minPriceTextView = getView().findViewById(R.id.price_left_thumb_val);
+
+        trainersPriceRangeSeekBar.setMaxValue(mTrainersListAdapter.getMaxPrice());
+        trainersPriceRangeSeekBar.setMinValue(mTrainersListAdapter.getMinPrice());
+        trainersPriceRangeSeekBar.setMaxStartValue(mTrainersListAdapter.getMaxPrice());
+        trainersPriceRangeSeekBar.setMinStartValue(mTrainersListAdapter.getMinPrice());
+
+        maxPriceTextView.setText(Integer.toString(mTrainersListAdapter.getMaxPrice()));
+        minPriceTextView.setText(Integer.toString(mTrainersListAdapter.getMinPrice()));
     }
 
     private void adjustFilterOptionsApplyButton() {
@@ -201,15 +203,13 @@ public class SearchTrainerFragment extends Fragment {
                     gymName = null;
                 }
 
-                if (!trainersListAdapter.filterTrainersListByFilterOptions(cityName, gymName, priceMinVal,
+                if (!mTrainersListAdapter.filterTrainersListByFilterOptions(cityName, gymName, priceMinVal,
                         priceMaxVal, ratingMinVal, ratingMaxVal)) {
                     Toast.makeText(getContext(), "No Results", Toast.LENGTH_SHORT).show();
                 }
 
-                expandableViewGroup.collapseAndMakeArrowAnimation();
+                mExpandableViewGroup.collapseAndMakeArrowAnimation();
             }
         });
     }
 }
-
-

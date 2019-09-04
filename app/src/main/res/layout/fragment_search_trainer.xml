@@ -177,10 +177,6 @@
                                     app:data_type="_integer"
                                     app:left_thumb_color="@color/purple"
                                     app:left_thumb_color_pressed="@color/light_purple"
-                                    app:max_start_value="250"
-                                    app:max_value="250"
-                                    app:min_start_value="50"
-                                    app:min_value="50"
                                     app:right_thumb_color="@color/purple"
                                     app:right_thumb_color_pressed="@color/light_purple" />
 
@@ -195,15 +191,13 @@
                                     android:id="@+id/price_left_thumb_val"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="start"
-                                    android:text="50" />
+                                    android:layout_gravity="start" />
 
                                 <TextView
                                     android:id="@+id/price_right_thumb_val"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:text="250" />
+                                    android:layout_gravity="end" />
 
                             </TableRow>
 

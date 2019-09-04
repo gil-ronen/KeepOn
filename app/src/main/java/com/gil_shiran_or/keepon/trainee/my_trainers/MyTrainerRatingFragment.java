@@ -18,6 +18,7 @@ import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.Rating;
 import com.gil_shiran_or.keepon.trainee.main.UserLikedDisliked;
 import com.gil_shiran_or.keepon.trainee.utilities.ExpandableViewGroup;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,9 +33,14 @@ import java.util.Map;
 public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog.AddReviewListener {
 
     private DatabaseReference mDatabaseRatingReference;
+    private DatabaseReference mDatabaseMyTrainersReference;
     private MyTrainerReviewsListAdapter mMyTrainerReviewsListAdapter;
-    private ValueEventListener mValueEventListener;
+    private ValueEventListener mRatingValueEventListener;
+    private ValueEventListener mReviewValueEventListener;
     private String mTrainerId;
+    private String mMyTrainerKey;
+    private MyTrainer mMyTrainer;
+    private String mCurrentUserId;
     private Rating mRating;
 
     @Nullable
@@ -47,25 +53,56 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mTrainerId = getArguments().getString("trainerId");
 
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
+
+        final FloatingActionButton addReviewFloatingActionButton = getView().findViewById(R.id.my_trainer_rating_add_review_button);
+        final MyTrainerRatingFragment fragment = this;
+
+        mDatabaseMyTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/myTrainers");
+        mReviewValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    MyTrainer myTrainer = data.getValue(MyTrainer.class);
+                    if (myTrainer.getUserId().equals(mTrainerId)) {
+                        if (!myTrainer.getIsRated()) {
+                            mMyTrainer = myTrainer;
+                            mMyTrainerKey = data.getKey();
+
+                            addReviewFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    AddReviewDialog addReviewDialog = new AddReviewDialog();
+
+                                    addReviewDialog.setTargetFragment(fragment, 0);
+                                    addReviewDialog.show(getFragmentManager(), "add review dialog");
+                                }
+                            });
+                        }
+                        else {
+                            addReviewFloatingActionButton.setVisibility(View.GONE);
+                            mDatabaseMyTrainersReference.removeEventListener(this);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        mDatabaseMyTrainersReference.addValueEventListener(mReviewValueEventListener);
+
+
         buildReviewsRecyclerView();
 
         ViewGroup reviewsExpanderViewGroup = getView().findViewById(R.id.my_trainer_reviews_expander);
         ViewGroup reviewsViewGroup = getView().findViewById(R.id.my_trainer_reviews_list);
 
         new ExpandableViewGroup("View reviews", "Hide reviews", reviewsExpanderViewGroup, reviewsViewGroup);
-
-        FloatingActionButton addReviewFloatingActionButton = getView().findViewById(R.id.my_trainer_rating_add_review_button);
-
-        final MyTrainerRatingFragment fragment = this;
-        addReviewFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddReviewDialog addReviewDialog = new AddReviewDialog();
-
-                addReviewDialog.setTargetFragment(fragment, 0);
-                addReviewDialog.show(getFragmentManager(), "add review dialog");
-            }
-        });
 
         final TextView trainerNameTextView = getView().findViewById(R.id.my_trainer_rating_name);
         final RatingBar trainerRatingBar = getView().findViewById(R.id.my_trainer_rating);
@@ -97,7 +134,7 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
         });
 
         mDatabaseRatingReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/rating");
-        mValueEventListener = new ValueEventListener() {
+        mRatingValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mRating = dataSnapshot.getValue(Rating.class);
@@ -142,7 +179,7 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
             }
         };
 
-        mDatabaseRatingReference.addValueEventListener(mValueEventListener);
+        mDatabaseRatingReference.addValueEventListener(mRatingValueEventListener);
     }
 
     @Override
@@ -151,6 +188,11 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
             mMyTrainerReviewsListAdapter.setReviewToFirebase(new Review(rating, review));
         }
 
+        Map<String, Object> childUpdates = new HashMap<>();
+        mMyTrainer.setIsRated(true);
+
+        childUpdates.put(mMyTrainerKey, mMyTrainer);
+        mDatabaseMyTrainersReference.updateChildren(childUpdates);
         changeRatingInFirebase(rating);
     }
 
@@ -198,6 +240,7 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDatabaseRatingReference.removeEventListener(mValueEventListener);
+        mDatabaseRatingReference.removeEventListener(mRatingValueEventListener);
+        mDatabaseMyTrainersReference.removeEventListener(mReviewValueEventListener);
     }
 }

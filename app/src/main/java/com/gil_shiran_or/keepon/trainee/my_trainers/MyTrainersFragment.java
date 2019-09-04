@@ -8,13 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.trainee.main.PostsListAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MyTrainersFragment extends Fragment {
 
