@@ -1,5 +1,8 @@
 package com.gil_shiran_or.keepon;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Status
 {
     private String level;
@@ -37,5 +40,16 @@ public class Status
 
     public void setScoreToNextLevel(int scoreToNextLevel) {
         this.scoreToNextLevel = scoreToNextLevel;
+    }
+
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+
+        result.put("level", level);
+        result.put("totalScore", totalScore);
+        result.put("scoreToNextLevel", scoreToNextLevel);
+
+        return result;
     }
 }

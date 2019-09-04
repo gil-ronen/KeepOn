@@ -31,6 +31,7 @@ package com.gil_shiran_or.keepon.login_register;
         import android.support.annotation.NonNull;
         import android.support.v7.app.AlertDialog;
 
+        import com.gil_shiran_or.keepon.HomeActivity;
         import com.gil_shiran_or.keepon.R;
         import com.gil_shiran_or.keepon.Trainee;
         import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
@@ -53,6 +54,8 @@ package com.gil_shiran_or.keepon.login_register;
         import com.google.firebase.storage.UploadTask;
 
         import java.util.Calendar;
+        import java.util.HashMap;
+        import java.util.Map;
 
 
 public class TraineeDetailsRegister extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -67,25 +70,31 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     private EditText mStreetView;
     private EditText mPhoneNumberView;
     private Spinner mSpinner;
-    private String mPhoneCode;
     private ProgressBar loadingProgress;
     private Button updateButton;
     private Button mBirthDate;
-    private String mGender;
     private RadioGroup mRadioUserGenderGroup;
     private RadioButton mRadioUserGenderButton;
     private RadioButton mRadioMale;
     private RadioButton mRadioFemale;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
-
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private String traineeName;
+    private String traineeCity;
+    private String traineeStreet;
+    private String mPhoneCode;
+    private String traineePhoneNumber;
+    private String traineeBirthDate;
+    private String traineeGender;
 
     private String mEmail;
     private String mPassword;
 
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
     private Trainee mTrainee;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,26 +105,28 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         mNameView = findViewById(R.id.settings_name);
         mCityView = findViewById(R.id.settings_city);
         mStreetView = findViewById(R.id.settings_street);
-
         mPhoneNumberView = findViewById(R.id.phoneText);
         mSpinner = findViewById(R.id.spinnerPhoneCode);
-        mPhoneCode = "050";
         mBirthDate = findViewById(R.id.settings_birthDate);
-        mGender = "";
         mRadioUserGenderGroup = findViewById(R.id.settings_user_gender_radioGroup);
         mRadioMale = findViewById(R.id.maleRadioButton);
         mRadioFemale = findViewById(R.id.femaleRadioButton);
         loadingProgress = findViewById(R.id.settings_ProgressBar);
         updateButton = findViewById(R.id.settings_update_button);
 
-        loadingProgress.setVisibility(View.INVISIBLE);
-
-        //TODO: Bundle from the previous intent
-        //Get the bundle
         Bundle bundle = getIntent().getExtras();
-        //Extract the data…
         mEmail = bundle.getString("email");
         mPassword = bundle.getString("password");
+
+        traineeName = mNameView.getText().toString();
+        traineeCity = mCityView.getText().toString();
+        traineeStreet = mStreetView.getText().toString();
+        mPhoneCode = "050";
+        traineePhoneNumber = mPhoneNumberView.getText().toString();
+        traineeBirthDate = mBirthDate.getText().toString();
+        traineeGender = "";
+
+        loadingProgress.setVisibility(View.INVISIBLE);
 
         mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees");
@@ -183,10 +194,10 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         mRadioUserGenderButton = findViewById(radioId);
         if (mRadioUserGenderButton.getText().toString().equals(mRadioFemale.getText().toString())) {
             Log.d("KeepOn", "User gender is female");
-            mGender = "female";
+            traineeGender = "female";
         } else if (mRadioUserGenderButton.getText().toString().equals(mRadioMale.getText().toString())) {
             Log.d("KeepOn", "User gender is male");
-            mGender = "male";
+            traineeGender = "male";
         }
     }
 
@@ -209,12 +220,14 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         mBirthDate.setError(null);
 
         // Store values at the time of the login attempt.
-        String traineeName = mNameView.getText().toString();
-        String traineeCity = mCityView.getText().toString();
-        String traineeStreet = mStreetView.getText().toString();
-        String traineePhoneNumber = mPhoneNumberView.getText().toString();
-        String traineeBirthDate = mBirthDate.getText().toString();
-        String traineeGender = mGender;
+        traineeName = mNameView.getText().toString();
+        traineeCity = mCityView.getText().toString();
+        traineeStreet = mStreetView.getText().toString();
+        traineePhoneNumber = mPhoneNumberView.getText().toString();
+        traineeBirthDate = mBirthDate.getText().toString();
+        String trainee_gender = traineeGender;
+
+
 
 
         boolean cancel = false;
@@ -250,7 +263,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
             cancel = true;
         }
 
-        if (traineeGender.isEmpty() || traineeGender.equals("")) {
+        if (trainee_gender.isEmpty() || trainee_gender.equals("")) {
             showErrorDialog("Please verify your gender");
             cancel = true;
         }
@@ -281,14 +294,6 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
     }
 
     private void uploadUserDetailsToFirebase() {
-        final String traineeName = mNameView.getText().toString();
-        final String traineeCity = mCityView.getText().toString();
-        final String traineeStreet = mStreetView.getText().toString();
-        final String traineePhoneNumber = mPhoneNumberView.getText().toString();
-        final String traineeBirthDate = mBirthDate.getText().toString();
-        final String traineeGender = mGender;
-
-
 
         if (mPickedImgUri != null) {
             mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -306,18 +311,15 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                     else
                     {
                         Log.d("KeepOn", "user creation success");
-                        String user_id = mAuth.getCurrentUser().getUid();
-                        DatabaseReference current_user_db = mDatabase.child(user_id);
 
-                        mTrainee = new Trainee(traineeName, mEmail, mPassword, mPhoneCode + traineePhoneNumber, traineeBirthDate, traineeGender, "", traineeCity, traineeStreet );
-                        current_user_db.child("Profile").setValue(mTrainee);
-                        getAndSetTraineeScoreToNextLevel();
 
-                        uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
+                        generateTraineeSectionInDatabase();
 
-                        Intent traineeIntent = new Intent(getApplicationContext(), TraineeNavActivity.class);
-                        startActivity(traineeIntent);
-                        finish();
+                        //uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
+
+                        //Intent traineeIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                        //startActivity(traineeIntent);
+                        //finish();
                     }
                 }
             });
@@ -328,17 +330,30 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         }
     }
 
-    public void getAndSetTraineeScoreToNextLevel()
+    public void generateTraineeSectionInDatabase()
     {
         final DatabaseReference databaseScoreToNextLevelReference = FirebaseDatabase.getInstance().getReference().child("Levels").child("Level1").child("scoreToNextLevel");
-        String user_id = mAuth.getCurrentUser().getUid();
-        final DatabaseReference databaseUserTraineeStatus = mDatabase.child(user_id).child("Status");
         databaseScoreToNextLevelReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Status status = new Status("Level1", 0, dataSnapshot.getValue(Integer.class));
-                databaseUserTraineeStatus.setValue(status);
+                String user_id = mAuth.getCurrentUser().getUid();
+                DatabaseReference current_user_db = mDatabase.child(user_id);
+
+                Status status = new Status("Level1",0,dataSnapshot.getValue(Integer.class));
+                mTrainee = new Trainee(traineeName, mEmail, mPassword, mPhoneCode + traineePhoneNumber, traineeBirthDate, traineeGender, "", traineeCity, traineeStreet, status );
+
+                Map<String, Object> traineeValues = mTrainee.toMap();
+                Map<String, Object> ratingValues = status.toMap();
+                Map<String, Object> childUpdates = new HashMap<>();
+
+                childUpdates.put("Profile", traineeValues);
+                childUpdates.put("Status", ratingValues);
+                current_user_db.updateChildren(childUpdates);
+
+                uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
+
+
                 //value = dataSnapshot.getValue(String.class);
                 databaseScoreToNextLevelReference.removeEventListener(this);
             }
@@ -366,8 +381,9 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                         // uri contain user image url
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
-                        Log.d("KeepOn: ", "download photo uri: "+ uri.toString());
-                        current_user_db.child("profilePhotoUri").setValue(uri.toString());
+                        Log.d("KeepOn: ", "download photo uri: " + uri.toString());
+                        current_user_db.child("Profile").child("profilePhotoUrl").setValue(uri.toString());
+
                         mTrainee.setProfilePhotoUrl(uri.toString());
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
@@ -385,6 +401,10 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                                         }
                                     }
                                 });
+
+                        Intent traineeIntent = new Intent(getApplicationContext(), TraineeNavActivity.class);
+                        startActivity(traineeIntent);
+                        finish();
                     }
                 });
             }

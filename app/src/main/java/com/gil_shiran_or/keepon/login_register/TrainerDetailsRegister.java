@@ -340,8 +340,6 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                         childUpdates.put("Rating", ratingValues);
                         current_user_db.updateChildren(childUpdates);
 
-                        //current_user_db.child("Profile").setValue(mTrainer);
-                        //current_user_db.child("Rating").setValue(rating);
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
@@ -378,8 +376,8 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                         String user_id = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user_db = mDatabase.child(user_id);
                         Log.d("KeepOn: ", "download photo uri: " + uri.toString());
+                        current_user_db.child("Profile").child("profilePhotoUrl").setValue(uri.toString());
 
-                        current_user_db.child("profilePhotoUri").setValue(uri.toString());
                         mTrainer.setProfilePhotoUrl(uri.toString());
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
@@ -397,6 +395,10 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                                         }
                                     }
                                 });
+
+                        Intent traineeIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(traineeIntent);
+                        finish();
                     }
                 });
             }

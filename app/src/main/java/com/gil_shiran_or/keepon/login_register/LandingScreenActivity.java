@@ -44,7 +44,7 @@ public class LandingScreenActivity extends AppCompatActivity {
             String user_id = mUser.getUid();
 
             query = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees")
-                    .orderByChild("userId")
+                    .orderByKey()
                     .equalTo(user_id);
             query.addValueEventListener(valueEventListener);
         }

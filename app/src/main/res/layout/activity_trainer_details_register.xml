@@ -61,7 +61,7 @@
             android:background="@drawable/reg_edittext_style"
             android:ems="10"
             android:hint="@string/prompt_company_name"
-            android:inputType="textPersonName"
+            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@+id/settings_trainingCity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -78,7 +78,7 @@
             android:background="@drawable/reg_edittext_style"
             android:ems="10"
             android:hint="City of the trainings"
-            android:inputType="textPersonName"
+            android:inputType="textPostalAddress"
             app:layout_constraintBottom_toTopOf="@+id/settings_trainingStreet"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -95,7 +95,7 @@
             android:background="@drawable/reg_edittext_style"
             android:ems="10"
             android:hint="Street of the trainings"
-            android:inputType="textPersonName"
+            android:inputType="textPostalAddress"
             app:layout_constraintBottom_toTopOf="@+id/settings_price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
