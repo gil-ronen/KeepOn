@@ -301,25 +301,25 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        traineeTimeSlotsAdapter1 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB1), dateForApp1, dateForDB1, mTrainerFullName, "1");
+        traineeTimeSlotsAdapter1 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB1), dateForApp1, dateForDB1);
         mTimeSlotsRecyclerView1.setAdapter(traineeTimeSlotsAdapter1);
 
-        traineeTimeSlotsAdapter2 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB2), dateForApp2, dateForDB2, mTrainerFullName, "1");
+        traineeTimeSlotsAdapter2 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB2), dateForApp2, dateForDB2);
         mTimeSlotsRecyclerView2.setAdapter(traineeTimeSlotsAdapter2);
 
-        traineeTimeSlotsAdapter3 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB3), dateForApp3, dateForDB3, mTrainerFullName, "1");
+        traineeTimeSlotsAdapter3 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB3), dateForApp3, dateForDB3);
         mTimeSlotsRecyclerView3.setAdapter(traineeTimeSlotsAdapter3);
 
-        traineeTimeSlotsAdapter4 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB4), dateForApp4, dateForDB4, mTrainerFullName, "1");
+        traineeTimeSlotsAdapter4 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB4), dateForApp4, dateForDB4);
         mTimeSlotsRecyclerView4.setAdapter(traineeTimeSlotsAdapter4);
 
-        traineeTimeSlotsAdapter5 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB5), dateForApp5, dateForDB5, mTrainerFullName, "1");
+        traineeTimeSlotsAdapter5 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB5), dateForApp5, dateForDB5);
         mTimeSlotsRecyclerView5.setAdapter(traineeTimeSlotsAdapter5);
 
-        traineeTimeSlotsAdapter6 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB6), dateForApp6, dateForDB6, mTrainerFullName, "1");
+        traineeTimeSlotsAdapter6 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB6), dateForApp6, dateForDB6);
         mTimeSlotsRecyclerView6.setAdapter(traineeTimeSlotsAdapter6);
 
-        traineeTimeSlotsAdapter7 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB7), dateForApp7, dateForDB7, mTrainerFullName, "1");
+        traineeTimeSlotsAdapter7 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB7), dateForApp7, dateForDB7);
         mTimeSlotsRecyclerView7.setAdapter(traineeTimeSlotsAdapter7);
 
     }

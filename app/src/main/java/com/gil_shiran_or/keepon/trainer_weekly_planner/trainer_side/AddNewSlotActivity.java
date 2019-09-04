@@ -154,8 +154,14 @@ public class AddNewSlotActivity extends AppCompatActivity {
                     //String untilTimeSlot = mUntilTimeSlot.getHint().toString();
                     String fromTimeSlot = mFromTimeSlot.getText().toString();
                     String untilTimeSlot = mUntilTimeSlot.getText().toString();
-                    int groupLimit = Integer.getInteger(mGroupSizeLimit.getText().toString());
+                    String groupSizeLimit = mGroupSizeLimit.getText().toString();
+                    int groupLimit = 1;
 
+
+                    if(mGroupSession.isChecked())
+                    {
+                        groupLimit = Integer.parseInt(groupSizeLimit);
+                    }
 
                     boolean day1 = mDay1.isChecked();
                     boolean day2 = mDay2.isChecked();
@@ -283,6 +289,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
         String title = mTitleSlot.getText().toString();
         String fromTimeSlot = mFromTimeSlot.getText().toString();
         String untilTimeSlot = mUntilTimeSlot.getText().toString();
+        String groupSizeLimit = mGroupSizeLimit.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -314,11 +321,21 @@ public class AddNewSlotActivity extends AppCompatActivity {
 
         if(mGroupSession.isChecked())
         {
-            if(TextUtils.isEmpty(mGroupSizeLimit.getText().toString()) || (Integer.getInteger(mGroupSizeLimit.getText().toString()) < 1))
+            if(TextUtils.isEmpty(groupSizeLimit))
             {
                 mGroupSizeLimit.setError(getString(R.string.error_field_required));
                 focusView = mGroupSizeLimit;
                 cancel = true;
+            }
+            else
+            {
+                int numberGroupLimit = Integer.parseInt(groupSizeLimit);
+                if(numberGroupLimit < 2)
+                {
+                    mGroupSizeLimit.setError("The minimum limit must be over 2 people in a group");
+                    focusView = mGroupSizeLimit;
+                    cancel = true;
+                }
             }
         }
 

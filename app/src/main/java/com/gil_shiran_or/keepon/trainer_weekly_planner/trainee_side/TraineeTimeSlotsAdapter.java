@@ -34,19 +34,18 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
 
     private String mDateForApp;
     private String mDateForDB;
-    private String mTrainerName;
     private String mTraineeId;
 
 
 
-    public TraineeTimeSlotsAdapter(Activity activity, DatabaseReference ref, String dateForApp, String dateForDB, String trainerName, String traineeId) {
+    public TraineeTimeSlotsAdapter(Activity activity, DatabaseReference ref, String dateForApp, String dateForDB) {
         mActivity = activity;
         mDatabaseReference = ref;
         mTimeSlots = new ArrayList<>();
         mDateForApp = dateForApp;
         mDateForDB = dateForDB;
-        mTrainerName = trainerName;
-        mTraineeId = traineeId;
+        //TODO: TO GET CURRENT TRAINEE ID FROM DB
+        mTraineeId = "test1234";
 
         mChildEventListener = new ChildEventListener() {
             @Override
@@ -164,7 +163,6 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
 
 
                 bundle.putString("title", getTitleSlot);
-                bundle.putString("trainerName", mTrainerName);
                 bundle.putString("description", getDescSlot);
                 bundle.putString("dateForApp", mDateForApp);
                 bundle.putString("timeFrom", getTimeFrom);

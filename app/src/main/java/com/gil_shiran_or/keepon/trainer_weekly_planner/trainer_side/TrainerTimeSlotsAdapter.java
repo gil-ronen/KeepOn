@@ -133,9 +133,9 @@ public class TrainerTimeSlotsAdapter extends RecyclerView.Adapter<TrainerTimeSlo
         final String getTimeFrom = mTimeSlots.get(i).getTimeFrom();
         final String getTimeUntil = mTimeSlots.get(i).getTimeUntil();
         final String getTimes = getTimeFrom + " - " + getTimeUntil;
-        //final String getDay = mTimeSlots.get(i).getDay();
         final boolean isOccupied = mTimeSlots.get(i).isOccupied();
         final boolean getGroupSession = mTimeSlots.get(i).isGroupSession();
+        final int getGroupLimit = mTimeSlots.get(i).getGroupLimit();
 
         myViewHolder.mTitleSlot.setText(mTimeSlots.get(i).getTitle());
         myViewHolder.mDescSlot.setText(mTimeSlots.get(i).getDescription());
@@ -168,6 +168,7 @@ public class TrainerTimeSlotsAdapter extends RecyclerView.Adapter<TrainerTimeSlo
                 //bundle.putString("day", getDay);
                 bundle.putBoolean("isOccupied", isOccupied);
                 bundle.putBoolean("isGroupSession", getGroupSession);
+                bundle.putInt("groupLimit", getGroupLimit);
 
                 editIntent.putExtras(bundle);
                 mActivity.startActivity(editIntent);

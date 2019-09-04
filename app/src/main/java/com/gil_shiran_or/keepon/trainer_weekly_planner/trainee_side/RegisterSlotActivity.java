@@ -31,7 +31,8 @@ public class RegisterSlotActivity extends AppCompatActivity {
     Button mBtnRegister;
     Button mBtnCancel;
 
-    DatabaseReference mDatabaseReference;
+    DatabaseReference mTrainerScheduleDatabaseReference;
+    DatabaseReference mTrainerDatabaseReference;
     String mTrainerId;
 
     private String mDateForApp;
@@ -73,7 +74,8 @@ public class RegisterSlotActivity extends AppCompatActivity {
 
         //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
         mTrainerId = "1EnOxPPh0cez6CzKnypPXvSZ1052";
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId).child("WeeklySchedule").child(mDateForDB).child(mKeySlot);
+        mTrainerDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId);
+        mTrainerScheduleDatabaseReference = mTrainerDatabaseReference.child("WeeklySchedule").child(mDateForDB).child(mKeySlot);
 
         //TODO:
         getTrainerFullName();
@@ -94,8 +96,8 @@ public class RegisterSlotActivity extends AppCompatActivity {
 
                 // update data in database
 
-                mDatabaseReference.child("traineeId").setValue(traineeId);
-                mDatabaseReference.child("occupied").setValue(true);
+                mTrainerScheduleDatabaseReference.child("traineeId").setValue(traineeId);
+                mTrainerScheduleDatabaseReference.child("occupied").setValue(true);
 
                 Intent intent = new Intent(RegisterSlotActivity.this, MainWeeklySlotsPickerActivity.class);
                 startActivity(intent);
@@ -124,7 +126,7 @@ public class RegisterSlotActivity extends AppCompatActivity {
 
     public void getTrainerFullName()
     {
-        final DatabaseReference current_user_db = mDatabaseReference.child("fullname");
+        final DatabaseReference current_user_db = mTrainerDatabaseReference.child("fullname");
         current_user_db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
