@@ -58,11 +58,11 @@ public class MyTrainerProfileFragment extends Fragment {
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.with(getContext()).load(dataSnapshot.child("profilePhotoUri").getValue(String.class)).fit().into(trainerCircleImageView);
-                trainerNameTextView.setText(dataSnapshot.child("username").getValue(String.class));
-                trainerAboutMeTextView.setText(dataSnapshot.child("aboutMe").getValue(String.class));
-                trainerEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
-                trainerGymNameTextView.setText(dataSnapshot.child("companyName").getValue(String.class));
+                Picasso.with(getContext()).load(dataSnapshot.child("profile/profilePhotoUrl").getValue(String.class)).fit().into(trainerCircleImageView);
+                trainerNameTextView.setText(dataSnapshot.child("profile/name").getValue(String.class));
+                trainerAboutMeTextView.setText(dataSnapshot.child("profile/aboutMe").getValue(String.class));
+                trainerEmailTextView.setText(dataSnapshot.child("profile/email").getValue(String.class));
+                trainerGymNameTextView.setText(dataSnapshot.child("profile/companyName").getValue(String.class));
                 trainerGymAddressTextView.setText(dataSnapshot.child("trainingPlaceAddress").getValue(String.class));
                 trainerBirthDateTextView.setText(dataSnapshot.child("birthDate").getValue(String.class));
                 trainerPhoneNumberTextView.setText(dataSnapshot.child("phoneNumber").getValue(String.class));

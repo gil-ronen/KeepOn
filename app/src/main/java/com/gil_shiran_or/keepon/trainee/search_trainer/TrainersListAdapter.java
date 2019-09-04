@@ -85,12 +85,12 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
                 mFullTrainersList.add(trainer);
                 mTrainersList = new ArrayList<>(mFullTrainersList);
 
-                if (Integer.parseInt(trainer.getPrice()) > mMaxPrice) {
-                    mMaxPrice = Integer.parseInt(trainer.getPrice());
+                if (trainer.getPrice() > mMaxPrice) {
+                    mMaxPrice = trainer.getPrice();
                 }
 
-                if (Integer.parseInt(trainer.getPrice()) < mMinPrice) {
-                    mMinPrice = Integer.parseInt(trainer.getPrice());
+                if (trainer.getPrice() < mMinPrice) {
+                    mMinPrice = trainer.getPrice();
                 }
 
                 ((SearchTrainerFragment) mSearchTrainerFragment).setPriceRange();
@@ -148,7 +148,7 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
                     String filterPattern = charSequence.toString().toLowerCase().trim();
 
                     for (Trainer trainer : mFullTrainersList) {
-                        if (trainer.getUsername().toLowerCase().startsWith(filterPattern)) {
+                        if (trainer.getName().toLowerCase().startsWith(filterPattern)) {
                             filteredList.add(trainer);
                         }
                     }
@@ -199,13 +199,13 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
             }
         });
 
-        Picasso.with(mSearchTrainerFragment.getContext()).load(currentTrainer.getProfilePhotoUri()).fit().into(holder.trainerCircleImageView);
-        holder.trainerNameTextView.setText(currentTrainer.getUsername());
+        Picasso.with(mSearchTrainerFragment.getContext()).load(currentTrainer.getProfilePhotoUrl()).fit().into(holder.trainerCircleImageView);
+        holder.trainerNameTextView.setText(currentTrainer.getName());
         holder.trainerGymTextView.setText(currentTrainer.getCompanyName());
-        holder.trainerCityTextView.setText(currentTrainer.getTrainingPlaceAddress());
+        holder.trainerCityTextView.setText(currentTrainer.getTrainingCity());
         holder.trainerPriceTextView.setText(currentTrainer.getPrice() + "\u20aa");
 
-        int reviewersNum = currentTrainer.getRating().getOne_star_reviewers_num() + currentTrainer.getRating().getTwo_stars_reviewers_num() +
+        /*int reviewersNum = currentTrainer.get().getOne_star_reviewers_num() + currentTrainer.getRating().getTwo_stars_reviewers_num() +
                 currentTrainer.getRating().getThree_stars_reviewers_num() + currentTrainer.getRating().getFour_stars_reviewers_num() +
                 currentTrainer.getRating().getFive_stars_reviewers_num();
         float ratingScore;
@@ -219,7 +219,7 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
 
         holder.trainerRatingBar.setRating(ratingScore);
         holder.trainerRatingScoreTextView.setText(String.format("%,.2f", ratingScore));
-        holder.trainerRatingReviewersTextView.setText(" (" + reviewersNum + ")");
+        holder.trainerRatingReviewersTextView.setText(" (" + reviewersNum + ")");*/
     }
 
     @Override
@@ -233,7 +233,7 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
     }
 
     public void sortTrainersListByName() {
-        Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
+        /*Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
             @Override
             public int compare(Trainer trainer1, Trainer trainer2) {
                 return trainer1.getUsername().compareTo(trainer2.getUsername());
@@ -247,11 +247,11 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
             }
         });
 
-        notifyDataSetChanged();
+        notifyDataSetChanged();*/
     }
 
     public void sortTrainersListByPrice(boolean isAscending) {
-        Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
+        /*Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
             @Override
             public int compare(Trainer trainer1, Trainer trainer2) {
                 return Integer.compare(Integer.parseInt(trainer1.getPrice()), Integer.parseInt(trainer2.getPrice()));
@@ -271,11 +271,11 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
             Collections.reverse(mTrainersList);
         }
 
-        notifyDataSetChanged();
+        notifyDataSetChanged();*/
     }
 
     public void sortTrainersListByRating() {
-        Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
+        /*Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
             @Override
             public int compare(Trainer trainer1, Trainer trainer2) {
                 int reviewersNum1 = trainer1.getRating().getOne_star_reviewers_num() + trainer1.getRating().getTwo_stars_reviewers_num() +
@@ -340,12 +340,12 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
 
         Collections.reverse(mFullTrainersList);
         Collections.reverse(mTrainersList);
-        notifyDataSetChanged();
+        notifyDataSetChanged();*/
     }
 
     public boolean filterTrainersListByFilterOptions(String cityName, String gymName, int priceMinVal,
                                                   int priceMaxVal, int ratingMinVal, int ratingMaxVal) {
-        optionsFilteredTrainersList.clear();
+        /*optionsFilteredTrainersList.clear();
 
         for (Trainer trainer : mFullTrainersList) {
             if (cityName != null) {
@@ -389,7 +389,7 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
 
         mTrainersList.clear();
         mTrainersList.addAll(optionsFilteredTrainersList);
-        notifyDataSetChanged();
+        notifyDataSetChanged();*/
 
         return true;
     }

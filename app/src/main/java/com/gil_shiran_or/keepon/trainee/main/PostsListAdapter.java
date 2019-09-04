@@ -217,8 +217,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         mDatabaseTraineesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String author = dataSnapshot.child(currentPost.getUserId() + "/username").getValue(String.class);
-                String authorImageUrl = dataSnapshot.child(currentPost.getUserId() + "/profilePhotoUri").getValue(String.class);
+                String author = dataSnapshot.child(currentPost.getUserId() + "/profile/name").getValue(String.class);
+                String authorImageUrl = dataSnapshot.child(currentPost.getUserId() + "/profile/profilePhotoUrl").getValue(String.class);
 
                 holder.authorTextView.setText(author);
                 Picasso.with(mMainFragment.getContext()).load(authorImageUrl).fit().into(holder.authorCircleImageView);
