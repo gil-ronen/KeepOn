@@ -50,6 +50,7 @@ public class EditSlotActivity extends AppCompatActivity {
     private String mDateForApp;
     private String mDateForDB;
     private int mGroupLimit;
+    private int mCurrentSumPeopleInGroup;
 
     TimePickerDialog timePickerDialog;
     int currentHour;
@@ -80,6 +81,27 @@ public class EditSlotActivity extends AppCompatActivity {
         mBtnSaveUpdate = findViewById(R.id.edit_btnSaveUpdate);
         mBtnDelete = findViewById(R.id.edit_btnDelete);
 
+
+/*
+        mTitle.setText(getIntent().getExtras().getString("title"));
+        mDescription.setText(getIntent().getExtras().getString("description"));
+        mDateDay.setText(getIntent().getExtras().getString("dateForApp"));
+        mTimeFrom.setText("From " + getIntent().getExtras().getString("timeFrom"));
+        mTimeTo.setText("To " + getIntent().getExtras().getString("timeUntil"));
+        mDateForDB = getIntent().getExtras().getString("dateForDB");
+        mKeySlot = getIntent().getExtras().getString("key");
+        mCurrentTraineeId = getIntent().getExtras().getString("currentTraineeId");
+        mTraineeId = getIntent().getExtras().getString("traineeId"); //TODO: Fetch the list of registered trainees Id's
+        mTrainerId = getIntent().getExtras().getString("trainerId");
+        mIsOccupied =  getIntent().getExtras().getBoolean("isOccupied");
+        mIsGroupSession =  getIntent().getExtras().getBoolean("isGroupSession");
+        mCurrentSumPeopleInGroup = getIntent().getExtras().getInt("currentSumPeopleInGroup");
+        mGroupLimit = getIntent().getExtras().getInt("groupLimit");
+
+        */
+
+
+
         mDateForApp = getIntent().getExtras().getString("dateForApp");
         mDateForDB = getIntent().getExtras().getString("dateForDB");
         final String mKeySlot = getIntent().getExtras().getString("key");
@@ -88,13 +110,19 @@ public class EditSlotActivity extends AppCompatActivity {
         mFromTimeSlot.setText(getIntent().getExtras().getString("timeFrom"));
         mUntilTimeSlot.setText(getIntent().getExtras().getString("timeUntil"));
         mDay.setHint(getIntent().getExtras().getString("dateForApp"));
+        mCurrentSumPeopleInGroup = getIntent().getExtras().getInt("currentSumPeopleInGroup");
         mGroupSession.setChecked(getIntent().getExtras().getBoolean("isGroupSession"));
-
         int groupLimit = getIntent().getExtras().getInt("groupLimit");
+
         if(mGroupSession.isChecked())
         {
             mGroupSizeLimit.setEnabled(true);
             mGroupSizeLimit.setText(""+groupLimit);
+
+            if(mCurrentSumPeopleInGroup > 1)
+            {
+                mGroupSession.setEnabled(false);
+            }
         }
 
 
@@ -143,6 +171,15 @@ public class EditSlotActivity extends AppCompatActivity {
                     else
                     {
                         groupLimit = 1;
+                    }
+
+                    if(groupLimit == mCurrentSumPeopleInGroup)
+                    {
+                        mDatabaseReference.child("occupied").setValue(true);
+                    }
+                    else if(groupLimit > mCurrentSumPeopleInGroup)
+                    {
+                        mDatabaseReference.child("occupied").setValue(false);
                     }
 
                     mDatabaseReference.child("title").setValue(title);
@@ -231,7 +268,8 @@ public class EditSlotActivity extends AppCompatActivity {
         String title = mTitleSlot.getText().toString();
         String fromTimeSlot = mFromTimeSlot.getText().toString();
         String untilTimeSlot = mUntilTimeSlot.getText().toString();
-        String groupSizeLimit = mGroupSizeLimit.getText().toString();
+        String stringGroupLimit = mGroupSizeLimit.getText().toString();
+        int numberGroupLimit = 1;
 
 
         boolean cancel = false;
@@ -258,7 +296,7 @@ public class EditSlotActivity extends AppCompatActivity {
 
         if(mGroupSession.isChecked())
         {
-            if(TextUtils.isEmpty(groupSizeLimit))
+            if(TextUtils.isEmpty(stringGroupLimit))
             {
                 mGroupSizeLimit.setError(getString(R.string.error_field_required));
                 focusView = mGroupSizeLimit;
@@ -266,7 +304,7 @@ public class EditSlotActivity extends AppCompatActivity {
             }
             else
             {
-                int numberGroupLimit = Integer.parseInt(groupSizeLimit);
+                numberGroupLimit = Integer.parseInt(stringGroupLimit);
                 if(numberGroupLimit < 2)
                 {
                     mGroupSizeLimit.setError("The minimum limit must be over 2 people in a group");
@@ -274,6 +312,14 @@ public class EditSlotActivity extends AppCompatActivity {
                     cancel = true;
                 }
             }
+
+        }
+
+        if(numberGroupLimit < mCurrentSumPeopleInGroup)
+        {
+            mGroupSizeLimit.setError("There are already " + mCurrentSumPeopleInGroup + "  registered trainees. The minimum limit must be over " + mCurrentSumPeopleInGroup + ".");
+            focusView = mGroupSizeLimit;
+            cancel = true;
         }
 
 
