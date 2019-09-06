@@ -86,7 +86,6 @@
     <string name="filter_options_expanding_label">Filter Options</string>
     <string name="filter_options_collapsing_label">Filter Options</string>
     <string name="order_by_none">None</string>
-    <string name="order_by_newest_first">Newest First</string>
     <string name="order_by_highest_price">Highest Price</string>
     <string name="order_by_lowest_price">Lowest Price</string>
     <string name="order_by_best_rating">Best Rating</string>
@@ -95,21 +94,11 @@
 
     <string-array name="filter_order_by_options">
         <item>None</item>
-        <item>Newest First</item>
         <item>Highest Price</item>
         <item>Lowest Price</item>
         <item>Best Rating</item>
     </string-array>
 
-    <string-array name="test1">
-        <item>None</item>
-        <item>Rishon Le Zion</item>
-    </string-array>
-
-    <string-array name="test2">
-        <item>None</item>
-        <item>Israel</item>
-    </string-array>
     <!-- ############################################################# -->
 
 </resources>

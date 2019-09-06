@@ -119,8 +119,7 @@
                             <Spinner
                                 android:id="@+id/trainers_cities_spinner"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:entries="@array/test1" />
+                                android:layout_height="wrap_content" />
 
                         </TableRow>
 
@@ -132,13 +131,12 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Gym:" />
+                                android:text="Company:" />
 
                             <Spinner
-                                android:id="@+id/trainers_gyms_spinner"
+                                android:id="@+id/trainers_companies_spinner"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:entries="@array/test2" />
+                                android:layout_height="wrap_content" />
 
                         </TableRow>
 
@@ -278,6 +276,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
+                        android:backgroundTint="@color/purple"
+                        android:textColor="@color/white"
                         android:text="Apply" />
 
                 </LinearLayout>

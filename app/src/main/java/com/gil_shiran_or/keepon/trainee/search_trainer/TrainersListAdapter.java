@@ -44,10 +44,6 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
     private int mMaxPrice = 0;
     private int mMinPrice = Integer.MAX_VALUE;
     private Filter mFilter;
-    private boolean mIsFilterOptionsActive = false;
-    private boolean mIsOrderByNameActive = true;
-    private boolean mIsOrderByPrice = false;
-    private boolean mIsOrderByRating = false;
 
     public static class TrainersViewHolder extends RecyclerView.ViewHolder {
 
@@ -98,7 +94,7 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
 
                 ((SearchTrainerFragment) mSearchTrainerFragment).setPriceRange();
 
-                notifyDataSetChanged();
+                notifyItemInserted(mTrainersList.size() - 1);
             }
 
             @Override
@@ -110,11 +106,10 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
                         trainer.setUserId(dataSnapshot.getKey());
                         mFullTrainersList.set(i, trainer);
                         mTrainersList = new ArrayList<>(mFullTrainersList);
+                        notifyItemChanged(i);
                         break;
                     }
                 }
-
-                notifyDataSetChanged();
             }
 
             @Override
@@ -322,5 +317,9 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
         notifyDataSetChanged();
 
         return true;
+    }
+
+    public void cleanUp() {
+        mDatabaseTrainersReference.removeEventListener(mChildEventListener);
     }
 }

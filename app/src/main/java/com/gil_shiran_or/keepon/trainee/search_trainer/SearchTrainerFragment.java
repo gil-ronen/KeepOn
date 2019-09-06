@@ -1,6 +1,7 @@
 package com.gil_shiran_or.keepon.trainee.search_trainer;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,6 +22,11 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainee.utilities.ExpandableViewGroup;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +35,10 @@ public class SearchTrainerFragment extends Fragment {
 
     private TrainersListAdapter mTrainersListAdapter;
     private ExpandableViewGroup mExpandableViewGroup;
-
+    private DatabaseReference mDatabaseTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers");
+    private ValueEventListener mValueEventListener;
+    private List<String> mSpinnerCities = new ArrayList<>();
+    private List<String> mSpinnerCompanies = new ArrayList<>();
 
     @Nullable
     @Override
@@ -45,7 +55,10 @@ public class SearchTrainerFragment extends Fragment {
         adjustTrainersRatingRangeSeekBar();
         adjustTrainersSearchView();
         adjustOrderBySpinner();
+        adjustSpinners();
         adjustFilterOptionsApplyButton();
+
+        Toast.makeText(getContext(), "Loading Trainers...", Toast.LENGTH_SHORT).show();
     }
 
     private void buildRecyclerView() {
@@ -142,9 +155,6 @@ public class SearchTrainerFragment extends Fragment {
                 if (selectedItem.equals(getResources().getString(R.string.order_by_none))) {
                     mTrainersListAdapter.sortTrainersListByName();
                 }
-                else if (selectedItem.equals(getResources().getString(R.string.order_by_newest_first))) {
-
-                }
                 else if (selectedItem.equals(getResources().getString(R.string.order_by_highest_price))) {
                     mTrainersListAdapter.sortTrainersListByPrice(false);
                 }
@@ -177,6 +187,48 @@ public class SearchTrainerFragment extends Fragment {
         minPriceTextView.setText(Integer.toString(mTrainersListAdapter.getMinPrice()));
     }
 
+    private void adjustSpinners() {
+        mSpinnerCities.add("None");
+        mSpinnerCompanies.add("None");
+
+        mValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    String city = data.child("Profile/trainingCity").getValue(String.class);
+                    String company = data.child("Profile/companyName").getValue(String.class);
+
+                    if (!mSpinnerCities.contains(city)) {
+                        mSpinnerCities.add(city);
+                    }
+
+                    if (!mSpinnerCompanies.contains(company)) {
+                        mSpinnerCompanies.add(company);
+                    }
+                }
+
+                setSpinnersAdapters();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        mDatabaseTrainersReference.addValueEventListener(mValueEventListener);
+    }
+
+    private void setSpinnersAdapters() {
+        Spinner trainersCitiesSpinner = getView().findViewById(R.id.trainers_cities_spinner);
+        Spinner trainersCompaniesSpinner = getView().findViewById(R.id.trainers_companies_spinner);
+        ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, mSpinnerCities);
+        ArrayAdapter<String> companiesAdapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, mSpinnerCompanies);
+
+        trainersCitiesSpinner.setAdapter(citiesAdapter);
+        trainersCompaniesSpinner.setAdapter(companiesAdapter);
+    }
+
     private void adjustFilterOptionsApplyButton() {
         Button filterOptionsApplyButton = getView().findViewById(R.id.filter_options_apply_button);
 
@@ -184,12 +236,12 @@ public class SearchTrainerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Spinner trainersCitiesSpinner = getView().findViewById(R.id.trainers_cities_spinner);
-                Spinner trainersGymsSpinner = getView().findViewById(R.id.trainers_gyms_spinner);
+                Spinner trainersCompaniesSpinner = getView().findViewById(R.id.trainers_companies_spinner);
                 CrystalRangeSeekbar trainersPriceRangeSeekBar = getView().findViewById(R.id.trainers_price_range_seek_bar);
                 CrystalRangeSeekbar trainersRatingRangeSeekBar = getView().findViewById(R.id.trainers_rating_range_seek_bar);
 
                 String cityName = trainersCitiesSpinner.getSelectedItem().toString();
-                String gymName = trainersGymsSpinner.getSelectedItem().toString();
+                String companyName = trainersCompaniesSpinner.getSelectedItem().toString();
                 int priceMinVal = trainersPriceRangeSeekBar.getSelectedMinValue().intValue();
                 int priceMaxVal = trainersPriceRangeSeekBar.getSelectedMaxValue().intValue();
                 int ratingMinVal = trainersRatingRangeSeekBar.getSelectedMinValue().intValue();
@@ -199,11 +251,11 @@ public class SearchTrainerFragment extends Fragment {
                     cityName = null;
                 }
 
-                if (gymName.equals("None")) {
-                    gymName = null;
+                if (companyName.equals("None")) {
+                    companyName = null;
                 }
 
-                if (!mTrainersListAdapter.filterTrainersListByFilterOptions(cityName, gymName, priceMinVal,
+                if (!mTrainersListAdapter.filterTrainersListByFilterOptions(cityName, companyName, priceMinVal,
                         priceMaxVal, ratingMinVal, ratingMaxVal)) {
                     Toast.makeText(getContext(), "No Results", Toast.LENGTH_SHORT).show();
                 }
@@ -211,5 +263,12 @@ public class SearchTrainerFragment extends Fragment {
                 mExpandableViewGroup.collapseAndMakeArrowAnimation();
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mDatabaseTrainersReference.removeEventListener(mValueEventListener);
+        mTrainersListAdapter.cleanUp();
     }
 }
