@@ -11,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.Status;
 import com.gil_shiran_or.keepon.trainer_weekly_planner.TimeComparator;
 import com.gil_shiran_or.keepon.trainer_weekly_planner.TimeSlot;
 import com.google.firebase.database.ChildEventListener;
@@ -114,15 +117,19 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mTitleSlot, mDescSlot, mTimeSlot;
+        TextView mTitleSlot, mDescSlot, mTimeSlot, mIsMe;
         ImageView mImageView;
+        LinearLayout mTimeSlotLinearLayout;
+
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             mTitleSlot = (TextView) itemView.findViewById(R.id.slot_title);
             mDescSlot = (TextView) itemView.findViewById(R.id.slot_desc);
             mTimeSlot = (TextView) itemView.findViewById(R.id.slot_date_time);
+            mIsMe = (TextView) itemView.findViewById(R.id.if_slot_occupied_by_user);
             mImageView = (ImageView) itemView.findViewById(R.id.slot_group_icon);
+            mTimeSlotLinearLayout = (LinearLayout) itemView.findViewById(R.id.all_time_slot);
         }
     }
 
@@ -136,9 +143,13 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
         final String getTimeFrom = mTimeSlots.get(i).getTimeFrom();
         final String getTimeUntil = mTimeSlots.get(i).getTimeUntil();
         final String getTimes = getTimeFrom + " - " + getTimeUntil;
-        //final String getDay = mTimeSlots.get(i).getDay();
+        final String getTrainerId = mTimeSlots.get(i).getTrainerId();
+        final String getTraineeId = mTimeSlots.get(i).getTraineeId(); //TODO: GET LIST OF TRAINEES
         final boolean isOccupied = mTimeSlots.get(i).isOccupied();
         final boolean getGroupSession = mTimeSlots.get(i).isGroupSession();
+        final int getCurrentSumPeopleInGroup = mTimeSlots.get(i).getCurrentSumPeopleInGroup();
+        final int getGroupLimit = mTimeSlots.get(i).getGroupLimit();
+        boolean deleteSlotPermission = false;
 
         myViewHolder.mTitleSlot.setText(mTimeSlots.get(i).getTitle());
         myViewHolder.mDescSlot.setText(mTimeSlots.get(i).getDescription());
@@ -153,31 +164,60 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
             myViewHolder.mImageView.setImageResource(R.drawable.one_person);
         }
 
-        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent editIntent = new Intent(mActivity , RegisterSlotActivity.class);
-
-                Bundle bundle = new Bundle();
 
 
+        if(mTraineeId.equals(getTraineeId))
+        {
+            myViewHolder.mIsMe.setVisibility(View.VISIBLE);
+            deleteSlotPermission = true;
+        }
 
-                bundle.putString("title", getTitleSlot);
-                bundle.putString("description", getDescSlot);
-                bundle.putString("dateForApp", mDateForApp);
-                bundle.putString("timeFrom", getTimeFrom);
-                bundle.putString("timeUntil", getTimeUntil);
-                bundle.putString("dateForDB", mDateForDB);
-                bundle.putString("key", getIdSlot);
-                bundle.putString("traineeId", mTraineeId);
-                bundle.putBoolean("isOccupied", isOccupied);
-                bundle.putBoolean("isGroupSession", getGroupSession);
+        if(isOccupied)
+        {
+            myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_unavailable_slot);
+        }
+
+        if(!isOccupied || deleteSlotPermission)
+        {
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent editIntent = new Intent(mActivity, RegisterSlotActivity.class);
+
+                    Bundle bundle = new Bundle();
+
+                    bundle.putString("title", getTitleSlot);
+                    bundle.putString("description", getDescSlot);
+                    bundle.putString("dateForApp", mDateForApp);
+                    bundle.putString("timeFrom", getTimeFrom);
+                    bundle.putString("timeUntil", getTimeUntil);
+                    bundle.putString("dateForDB", mDateForDB);
+                    bundle.putString("key", getIdSlot);
+                    bundle.putString("currentTraineeId", mTraineeId);
+                    bundle.putString("traineeId", getTraineeId);
+                    bundle.putString("trainerId", getTrainerId);
+                    bundle.putBoolean("isOccupied", isOccupied);
+                    bundle.putBoolean("isGroupSession", getGroupSession);
+                    bundle.putInt("currentSumPeopleInGroup", getCurrentSumPeopleInGroup);
+                    bundle.putInt("groupLimit", getGroupLimit);
+
+                    editIntent.putExtras(bundle);
+                    mActivity.startActivity(editIntent);
+                }
+            });
+        }
+        else
+        {
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mActivity, "This training is not available", Toast.LENGTH_SHORT).show();
+                }
+            });
+            myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_unavailable_slot);
+        }
 
 
-                editIntent.putExtras(bundle);
-                mActivity.startActivity(editIntent);
-            }
-        });
 
 
         // import font

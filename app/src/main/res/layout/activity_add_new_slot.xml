@@ -44,7 +44,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/bg_item_slot"
+                android:background="@drawable/bg_item_time_slot"
                 android:orientation="vertical"
                 android:paddingTop="22dp"
                 android:paddingBottom="22dp">

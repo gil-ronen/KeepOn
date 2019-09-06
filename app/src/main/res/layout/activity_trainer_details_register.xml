@@ -155,9 +155,10 @@
                     android:id="@+id/phoneText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_phone"
-                    android:inputType="phone"
                     android:background="@drawable/reg_edittext_style"
+                    android:hint="@string/prompt_phone"
+                    android:maxLength="7"
+                    android:inputType="phone"
                     android:singleLine="true" />
             </LinearLayout>
         </RelativeLayout>
@@ -177,7 +178,7 @@
             app:layout_constraintTop_toBottomOf="@+id/settings_mobile_phone" />
 
         <Button
-            android:id="@+id/settings_update_button"
+            android:id="@+id/settings_register_button"
             android:layout_width="151dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -187,7 +188,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/reg_btn_style"
-            android:onClick="updateDetails"
+            android:onClick="onRegisterTrainerDetailsClicked"
             android:text="@string/action_sign_up"
             android:textColor="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -200,10 +201,10 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/settings_update_button"
-            app:layout_constraintEnd_toEndOf="@+id/settings_update_button"
-            app:layout_constraintStart_toStartOf="@+id/settings_update_button"
-            app:layout_constraintTop_toTopOf="@+id/settings_update_button" />
+            app:layout_constraintBottom_toBottomOf="@+id/settings_register_button"
+            app:layout_constraintEnd_toEndOf="@+id/settings_register_button"
+            app:layout_constraintStart_toStartOf="@+id/settings_register_button"
+            app:layout_constraintTop_toTopOf="@+id/settings_register_button" />
 
         <RadioGroup
             android:id="@+id/settings_user_gender_radioGroup"
@@ -251,7 +252,7 @@
             android:lines="5"
             android:hint="@string/prompt_aboutme"
             android:inputType="textMultiLine"
-            app:layout_constraintBottom_toTopOf="@+id/settings_update_button"
+            app:layout_constraintBottom_toTopOf="@+id/settings_register_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settings_user_gender_radioGroup" />

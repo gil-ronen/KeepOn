@@ -97,7 +97,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
         mBtnCancel = findViewById(R.id.add_btnCancel);
 
         //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
-        mTrainerId = "1EnOxPPh0cez6CzKnypPXvSZ1052";
+        mTrainerId = "ayAWQUYKUZbISD7FicSJvYOWShE3";
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId).child("WeeklySchedule");
 
 

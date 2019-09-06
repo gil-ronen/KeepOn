@@ -70,7 +70,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
     private Spinner mSpinner;
     private String mPhoneCode;
     private ProgressBar loadingProgress;
-    private Button updateButton;
+    private Button registerButton;
     private Button mBirthDate;
     private String mGender;
     private RadioGroup mRadioUserGenderGroup;
@@ -109,7 +109,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         mRadioFemale = findViewById(R.id.femaleRadioButton);
         mAboutMeView = findViewById(R.id.settings_aboutme);
         loadingProgress = findViewById(R.id.settings_ProgressBar);
-        updateButton = findViewById(R.id.settings_update_button);
+        registerButton = findViewById(R.id.settings_register_button);
 
         loadingProgress.setVisibility(View.INVISIBLE);
 
@@ -192,15 +192,18 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
     }
 
     // Executed when Sign Up button is pressed.
-    public void updateDetails(View v) {
-        attemptUpdate();
+    public void onRegisterTrainerDetailsClicked(View v)
+    {
+        registerButton.setVisibility(View.INVISIBLE);
+        loadingProgress.setVisibility(View.VISIBLE);
+        checkValidInput();
     }
 
 
-    private void attemptUpdate() {
+    private void checkValidInput() {
 
-        updateButton.setVisibility(View.INVISIBLE);
-        loadingProgress.setVisibility(View.VISIBLE);
+        //registerButton.setVisibility(View.INVISIBLE);
+        //loadingProgress.setVisibility(View.VISIBLE);
 
         // Reset errors displayed in the form.
         mNameView.setError(null);
@@ -282,22 +285,20 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            updateButton.setVisibility(View.VISIBLE);
-            loadingProgress.setVisibility(View.INVISIBLE);
 
             if (focusView != null) {
                 focusView.requestFocus();
             }
             Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
+            registerButton.setVisibility(View.VISIBLE);
+            loadingProgress.setVisibility(View.INVISIBLE);
 
         } else {
             try {
                 uploadUserDetailsToFirebase();
-                updateButton.setVisibility(View.VISIBLE);
-                loadingProgress.setVisibility(View.INVISIBLE);
 
             } catch (Exception e) {
-                updateButton.setVisibility(View.VISIBLE);
+                registerButton.setVisibility(View.VISIBLE);
                 loadingProgress.setVisibility(View.INVISIBLE);
                 showErrorDialog(e.getMessage());
             }
@@ -324,6 +325,9 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                     if (!task.isSuccessful()) {
                         Log.d("KeepOn", "user creation failed");
                         showErrorDialog("Registration attempt failed");
+                        registerButton.setVisibility(View.VISIBLE);
+                        loadingProgress.setVisibility(View.INVISIBLE);
+
                     } else {
                         Log.d("KeepOn", "user creation success");
                         String user_id = mAuth.getCurrentUser().getUid();
@@ -352,6 +356,8 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
 
         } else {
             showErrorDialog("must upload a profile photo of you");
+            registerButton.setVisibility(View.VISIBLE);
+            loadingProgress.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -392,6 +398,8 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                                         if (!task.isSuccessful()) {
                                             // user info failed update
                                             showErrorDialog("User info failed to update");
+                                            registerButton.setVisibility(View.VISIBLE);
+                                            loadingProgress.setVisibility(View.INVISIBLE);
                                         }
                                     }
                                 });

@@ -2,9 +2,10 @@
 <LinearLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
-android:background="@drawable/bg_item_slot"
+android:background="@drawable/bg_item_time_available"
 android:orientation="horizontal"
 android:layout_marginBottom="20dp"
+android:id="@+id/all_time_slot"
 android:layout_height="100dp">
 
 
@@ -35,7 +36,7 @@ android:layout_height="100dp">
             android:layout_marginTop="19dp"
             android:textSize="22sp"
             android:textColor="#000C5D"
-            android:text="Buy whiskas"
+            android:text="Training Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -44,7 +45,7 @@ android:layout_height="100dp">
             android:textSize="18sp"
             android:textColor="#ADADAD"
             android:layout_marginTop="8dp"
-            android:text="Nearly market good to"
+            android:text="some details about training"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -53,6 +54,7 @@ android:layout_height="100dp">
     <LinearLayout
         android:layout_marginTop="30dp"
         android:layout_width="125dp"
+        android:orientation="vertical"
         android:layout_height="wrap_content">
 
         <TextView
@@ -64,6 +66,17 @@ android:layout_height="100dp">
             android:gravity="right"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/if_slot_occupied_by_user"
+            android:textSize="12sp"
+            android:textColor="#000C5D"
+            android:layout_marginTop="8dp"
+            android:text="This training is yours"
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 

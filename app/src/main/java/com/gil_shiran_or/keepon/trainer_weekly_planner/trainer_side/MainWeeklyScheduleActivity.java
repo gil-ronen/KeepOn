@@ -87,7 +87,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         mEndPage = findViewById(R.id.main_endPage);
 
         //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
-        mTrainerId = "1EnOxPPh0cez6CzKnypPXvSZ1052";
+        mTrainerId = "ayAWQUYKUZbISD7FicSJvYOWShE3";
         //mAuth = FirebaseAuth.getInstance();
         //String userId = mAuth.getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId).child("WeeklySchedule");
