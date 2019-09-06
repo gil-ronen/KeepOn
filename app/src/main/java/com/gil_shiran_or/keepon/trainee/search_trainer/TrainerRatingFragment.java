@@ -70,7 +70,7 @@ public class TrainerRatingFragment extends Fragment {
         final ProgressBar fiveStarProgressBar = getView().findViewById(R.id.trainer_rating_5_stars);
         final TextView fiveStarTextView = getView().findViewById(R.id.trainer_rating_5_stars_reviewers);
 
-        final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/username");
+        final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/name");
 
         databaseTrainerReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -85,44 +85,33 @@ public class TrainerRatingFragment extends Fragment {
             }
         });
 
-        mDatabaseRatingReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/rating");
+        mDatabaseRatingReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/Rating");
         mRatingValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mRating = dataSnapshot.getValue(Rating.class);
 
-                /*int reviewersNum = mRating.getOne_star_reviewers_num() + mRating.getTwo_stars_reviewers_num() +
-                        mRating.getThree_stars_reviewers_num() + mRating.getFour_stars_reviewers_num() + mRating.getFive_stars_reviewers_num();
-                float ratingScore;
+                trainerRatingBar.setRating(mRating.getRating());
+                trainerRatingScore.setText(String.format("%,.2f", mRating.getRating()) + " (" + mRating.getTotalRaters() + ")");
+                oneStarProgressBar.setMax(mRating.getTotalRaters());
+                oneStarProgressBar.setProgress(mRating.getOneStarRaters());
+                oneStarTextView.setText("(" + mRating.getOneStarRaters() + ")");
 
-                if (reviewersNum == 0) {
-                    ratingScore = 0;
-                }
-                else {
-                    ratingScore = mRating.getSum_rates() / reviewersNum;
-                }*/
+                twoStarProgressBar.setMax(mRating.getTotalRaters());
+                twoStarProgressBar.setProgress(mRating.getTwoStarsRaters());
+                twoStarTextView.setText("(" + mRating.getTwoStarsRaters() + ")");
 
-                /*trainerRatingBar.setRating(ratingScore);
-                trainerRatingScore.setText(String.format("%,.2f", ratingScore) + " (" + reviewersNum + ")");
-                oneStarProgressBar.setMax(reviewersNum);
-                oneStarProgressBar.setProgress(mRating.getOne_star_reviewers_num());
-                oneStarTextView.setText("(" + mRating.getOne_star_reviewers_num() + ")");
+                threeStarProgressBar.setMax(mRating.getTotalRaters());
+                threeStarProgressBar.setProgress(mRating.getThreeStarsRaters());
+                threeStarTextView.setText("(" + mRating.getThreeStarsRaters() + ")");
 
-                twoStarProgressBar.setMax(reviewersNum);
-                twoStarProgressBar.setProgress(mRating.getTwo_stars_reviewers_num());
-                twoStarTextView.setText("(" + mRating.getTwo_stars_reviewers_num() + ")");
+                fourStarProgressBar.setMax(mRating.getTotalRaters());
+                fourStarProgressBar.setProgress(mRating.getFourStarsRaters());
+                fourStarTextView.setText("(" + mRating.getFourStarsRaters() + ")");
 
-                threeStarProgressBar.setMax(reviewersNum);
-                threeStarProgressBar.setProgress(mRating.getThree_stars_reviewers_num());
-                threeStarTextView.setText("(" + mRating.getThree_stars_reviewers_num() + ")");
-
-                fourStarProgressBar.setMax(reviewersNum);
-                fourStarProgressBar.setProgress(mRating.getFour_stars_reviewers_num());
-                fourStarTextView.setText("(" + mRating.getFour_stars_reviewers_num() + ")");
-
-                fiveStarProgressBar.setMax(reviewersNum);
-                fiveStarProgressBar.setProgress(mRating.getFive_stars_reviewers_num());
-                fiveStarTextView.setText("(" + mRating.getFive_stars_reviewers_num() + ")");*/
+                fiveStarProgressBar.setMax(mRating.getTotalRaters());
+                fiveStarProgressBar.setProgress(mRating.getFiveStarsRaters());
+                fiveStarTextView.setText("(" + mRating.getFiveStarsRaters() + ")");
             }
 
             @Override
@@ -148,5 +137,6 @@ public class TrainerRatingFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         mDatabaseRatingReference.removeEventListener(mRatingValueEventListener);
+        mTrainerReviewsListAdapter.cleanUp();
     }
 }

@@ -1,9 +1,11 @@
 package com.gil_shiran_or.keepon.trainee.main;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.trainee.utilities.ExpandableViewGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +33,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostsViewHolder> {
 
     private List<Post> mPostsList = new ArrayList<>();
-    private List<PostRepliesConnector> mPostRepliesConnectorsList = new ArrayList<>();
     private DatabaseReference mDatabasePostsReference = FirebaseDatabase.getInstance().getReference().child("Posts");
     private DatabaseReference mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
     private ChildEventListener mChildEventListener;
@@ -41,33 +41,29 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     public static class PostsViewHolder extends RecyclerView.ViewHolder {
 
+        public CardView postCardView;
         public CircleImageView authorCircleImageView;
         public TextView authorTextView;
         public TextView dateTextView;
         public TextView titleTextView;
         public TextView bodyTextView;
-        public ViewGroup expanderViewGroup;
         public ImageView likeImageView;
         public TextView likesTextView;
         public ImageView dislikeImageView;
         public TextView dislikesTextView;
-        public TextView replyButtonTextView;
-        public RecyclerView repliesRecyclerView;
 
         public PostsViewHolder(View itemView) {
             super(itemView);
+            postCardView = itemView.findViewById(R.id.post_item);
             authorCircleImageView = itemView.findViewById(R.id.post_author_img);
             authorTextView = itemView.findViewById(R.id.post_author);
             dateTextView = itemView.findViewById(R.id.post_date);
             titleTextView = itemView.findViewById(R.id.post_title);
             bodyTextView = itemView.findViewById(R.id.post_body);
-            expanderViewGroup = itemView.findViewById(R.id.replies_expander);
             likeImageView = itemView.findViewById(R.id.post_like_img);
             likesTextView = itemView.findViewById(R.id.post_likes);
             dislikeImageView = itemView.findViewById(R.id.post_dislike_img);
             dislikesTextView = itemView.findViewById(R.id.post_dislikes);
-            replyButtonTextView = itemView.findViewById(R.id.post_reply_button);
-            repliesRecyclerView = itemView.findViewById(R.id.post_replies_list);
         }
     }
 
@@ -83,16 +79,24 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 Post post = dataSnapshot.getValue(Post.class);
 
                 for (DataSnapshot usersLikedData : dataSnapshot.child("usersLiked").getChildren()) {
-                    post.addUserToUsersLiked(usersLikedData.child("userId").getValue(String.class));
+                    if (usersLikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
+                        post.setIsLiked(true);
+                        break;
+                    }
                 }
 
-                for (DataSnapshot usersDislikedData : dataSnapshot.child("usersDisliked").getChildren()) {
-                    post.addUserToUsersDisliked(usersDislikedData.child("userId").getValue(String.class));
+                if (!post.getIsLiked()) {
+                    for (DataSnapshot usersDislikedData : dataSnapshot.child("usersDisliked").getChildren()) {
+                        if (usersDislikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
+                            post.setIsDisliked(true);
+                            break;
+                        }
+                    }
                 }
 
                 post.setPostId(dataSnapshot.getKey());
                 mPostsList.add(0, post);
-                notifyDataSetChanged();
+                notifyItemInserted(0);
 
                 final RecyclerView postsRecyclerView = mMainFragment.getView().findViewById(R.id.posts_list);
                 postsRecyclerView.post(new Runnable() {
@@ -101,15 +105,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                         postsRecyclerView.smoothScrollToPosition(0);
                     }
                 });
-
-                if (!mPostRepliesConnectorsList.isEmpty()) {
-                    for (PostRepliesConnector postRepliesConnector : mPostRepliesConnectorsList) {
-                        if (postRepliesConnector.getPostId().equals(post.getPostId())) {
-                            postRepliesConnector.getRepliesListAdapter().notifyDataSetChanged();
-                            break;
-                        }
-                    }
-                }
             }
 
             @Override
@@ -118,21 +113,28 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     if (mPostsList.get(i).getPostId().equals(dataSnapshot.getKey())) {
                         Post post = dataSnapshot.getValue(Post.class);
 
-                        for (DataSnapshot data : dataSnapshot.child("usersLiked").getChildren()) {
-                            post.addUserToUsersLiked(data.child("userId").getValue(String.class));
+                        for (DataSnapshot usersLikedData : dataSnapshot.child("usersLiked").getChildren()) {
+                            if (usersLikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
+                                post.setIsLiked(true);
+                                break;
+                            }
                         }
 
-                        for (DataSnapshot data : dataSnapshot.child("usersDisliked").getChildren()) {
-                            post.addUserToUsersDisliked(data.child("userId").getValue(String.class));
+                        if (!post.getIsLiked()) {
+                            for (DataSnapshot usersDislikedData : dataSnapshot.child("usersDisliked").getChildren()) {
+                                if (usersDislikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
+                                    post.setIsDisliked(true);
+                                    break;
+                                }
+                            }
                         }
 
                         post.setPostId(dataSnapshot.getKey());
                         mPostsList.set(i, post);
+                        notifyItemChanged(i);
                         break;
                     }
                 }
-
-                notifyDataSetChanged();
             }
 
             @Override
@@ -168,57 +170,15 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         setPostHeader(holder, currentPost);
         setPostLikes(holder, currentPost);
         setPostDislikes(holder, currentPost);
-
-        holder.replyButtonTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddReplyDialog addReplyDialog = new AddReplyDialog();
-
-                addReplyDialog.setPostId(currentPost.getPostId());
-                addReplyDialog.setTargetFragment(mMainFragment, 0);
-                addReplyDialog.show(mMainFragment.getFragmentManager(), "add reply dialog");
-            }
-        });
-
-        boolean isPostHasConnector = false;
-
-        if (!mPostRepliesConnectorsList.isEmpty()) {
-            for (PostRepliesConnector postRepliesConnector : mPostRepliesConnectorsList) {
-                if (postRepliesConnector.getPostId().equals(currentPost.getPostId())) {
-                    isPostHasConnector = true;
-                    break;
-                }
-            }
-        }
-
-        if (!isPostHasConnector) {
-            RepliesListAdapter repliesListAdapter = buildRepliesRecyclerView(holder, currentPost);
-            PostRepliesConnector postRepliesConnector = new PostRepliesConnector(currentPost.getPostId(), repliesListAdapter);
-
-            mPostRepliesConnectorsList.add(postRepliesConnector);
-
-            new ExpandableViewGroup("View replies", "Hide replies", holder.expanderViewGroup, holder.repliesRecyclerView);
-        }
-    }
-
-    private RepliesListAdapter buildRepliesRecyclerView(PostsViewHolder holder, Post currentPost) {
-
-        holder.repliesRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mMainFragment.getContext());
-        RepliesListAdapter repliesListAdapter = new RepliesListAdapter(mMainFragment, currentPost.getPostId());
-
-        holder.repliesRecyclerView.setLayoutManager(layoutManager);
-        holder.repliesRecyclerView.setAdapter(repliesListAdapter);
-
-        return repliesListAdapter;
+        setPostCardClick(holder, currentPost);
     }
 
     private void setPostHeader(final PostsViewHolder holder, final Post currentPost) {
         mDatabaseTraineesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String author = dataSnapshot.child(currentPost.getUserId() + "/profile/name").getValue(String.class);
-                String authorImageUrl = dataSnapshot.child(currentPost.getUserId() + "/profile/profilePhotoUrl").getValue(String.class);
+                String author = dataSnapshot.child(currentPost.getUserId() + "/Profile/name").getValue(String.class);
+                String authorImageUrl = dataSnapshot.child(currentPost.getUserId() + "/Profile/profilePhotoUrl").getValue(String.class);
 
                 holder.authorTextView.setText(author);
                 Picasso.with(mMainFragment.getContext()).load(authorImageUrl).fit().into(holder.authorCircleImageView);
@@ -242,13 +202,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private void setPostLikes(final PostsViewHolder holder, final Post currentPost) {
         holder.likesTextView.setText(Integer.toString(currentPost.getLikes()));
 
-        if (currentPost.isUsersLikedContainsUserId(mCurrentUserId)) {
+        if (currentPost.getIsLiked()) {
             holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
             holder.dislikeImageView.setClickable(false);
             holder.dislikeImageView.setFocusable(false);
-        } else if (!currentPost.isUsersDislikedContainsUserId(mCurrentUserId)) {
+        } else if (!currentPost.getIsDisliked()) {
             holder.likeImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -267,13 +227,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private void setPostDislikes(final PostsViewHolder holder, final Post currentPost) {
         holder.dislikesTextView.setText(Integer.toString(currentPost.getDislikes()));
 
-        if (currentPost.isUsersDislikedContainsUserId(mCurrentUserId)) {
+        if (currentPost.getIsDisliked()) {
             holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
             holder.dislikeImageView.setClickable(false);
             holder.dislikeImageView.setFocusable(false);
-        } else if (!currentPost.isUsersLikedContainsUserId(mCurrentUserId)) {
+        } else if (!currentPost.getIsLiked()) {
             holder.dislikeImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -287,6 +247,19 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 }
             });
         }
+    }
+
+    private void setPostCardClick(final PostsViewHolder holder, final Post currentPost) {
+        holder.postCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("postId", currentPost.getPostId());
+                Intent intent = new Intent(mMainFragment.getContext(), PostRepliesActivity.class);
+                intent.putExtras(bundle);
+                mMainFragment.getContext().startActivity(intent);
+            }
+        });
     }
 
     private void changePostLikesInFirebase(Post post) {
@@ -327,21 +300,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         mDatabasePostsReference.updateChildren(childUpdates);
     }
 
-    public void setReplyPostToFirebase(Reply reply, String postId) {
-        String key = mDatabasePostsReference.child(postId + "/replies").push().getKey();
-        Map<String, Object> replyValues = reply.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
-
-        childUpdates.put(postId + "/replies/" + key, replyValues);
-
-        mDatabasePostsReference.updateChildren(childUpdates);
-    }
-
     public void cleanUp() {
         mDatabasePostsReference.removeEventListener(mChildEventListener);
-
-        for (PostRepliesConnector connector : mPostRepliesConnectorsList) {
-            connector.getRepliesListAdapter().cleanUp();
-        }
     }
 }

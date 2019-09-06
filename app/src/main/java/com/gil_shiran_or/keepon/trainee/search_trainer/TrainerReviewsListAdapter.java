@@ -26,6 +26,7 @@ public class TrainerReviewsListAdapter extends RecyclerView.Adapter<TrainerRevie
 
     private List<Review> mReviewsList = new ArrayList<>();
     private DatabaseReference mDatabaseReviewsReference;
+    private ChildEventListener mChildEventListener;
     private String mTrainerId;
 
     public static class MyTrainerReviewsViewHolder extends RecyclerView.ViewHolder {
@@ -43,12 +44,12 @@ public class TrainerReviewsListAdapter extends RecyclerView.Adapter<TrainerRevie
     public TrainerReviewsListAdapter(String trainerId) {
         mTrainerId = trainerId;
 
-        mDatabaseReviewsReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/rating/reviews");
-        mDatabaseReviewsReference.addChildEventListener(new ChildEventListener() {
+        mDatabaseReviewsReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/Rating/reviews");
+        mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 mReviewsList.add(dataSnapshot.getValue(Review.class));
-                notifyDataSetChanged();
+                notifyItemInserted(mReviewsList.size() - 1);
             }
 
             @Override
@@ -70,7 +71,9 @@ public class TrainerReviewsListAdapter extends RecyclerView.Adapter<TrainerRevie
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        mDatabaseReviewsReference.addChildEventListener(mChildEventListener);
     }
 
     @Override
@@ -91,5 +94,9 @@ public class TrainerReviewsListAdapter extends RecyclerView.Adapter<TrainerRevie
     @Override
     public int getItemCount() {
         return mReviewsList.size();
+    }
+
+    public void cleanUp() {
+        mDatabaseReviewsReference.removeEventListener(mChildEventListener);
     }
 }

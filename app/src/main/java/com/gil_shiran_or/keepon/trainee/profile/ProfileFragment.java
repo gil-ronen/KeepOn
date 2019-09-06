@@ -47,19 +47,21 @@ public class ProfileFragment extends Fragment {
         final CircleImageView traineeCircleImageView = getView().findViewById(R.id.trainee_profile_img);
         final TextView traineeNameTextView = getView().findViewById(R.id.trainee_name);
         final TextView traineeEmailTextView = getView().findViewById(R.id.trainee_email);
-        final TextView traineeGymAddressTextView = getView().findViewById(R.id.trainee_address);
+        final TextView traineeCityTextView = getView().findViewById(R.id.trainee_city);
+        final TextView traineeStreetTextView = getView().findViewById(R.id.trainee_street);
         final TextView traineeBirthDateTextView = getView().findViewById(R.id.trainee_birth_date);
         final TextView traineePhoneNumberTextView = getView().findViewById(R.id.trainee_phone_number);
         final ImageView traineeGenderImageView = getView().findViewById(R.id.trainee_gender);
 
-        mDatabaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId);
+        mDatabaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/Profile");
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.with(getContext()).load(dataSnapshot.child("profilePhotoUri").getValue(String.class)).fit().into(traineeCircleImageView);
-                traineeNameTextView.setText(dataSnapshot.child("username").getValue(String.class));
+                Picasso.with(getContext()).load(dataSnapshot.child("profilePhotoUrl").getValue(String.class)).fit().into(traineeCircleImageView);
+                traineeNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
                 traineeEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
-                traineeGymAddressTextView.setText(dataSnapshot.child("residence").getValue(String.class));
+                traineeCityTextView.setText(dataSnapshot.child("city").getValue(String.class));
+                traineeStreetTextView.setText(dataSnapshot.child("street").getValue(String.class));
                 traineeBirthDateTextView.setText(dataSnapshot.child("birthDate").getValue(String.class));
                 traineePhoneNumberTextView.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
 
@@ -86,11 +88,6 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), EditProfileActivity.class);
                 startActivity(intent);
-                /*FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-                ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                ft.addToBackStack(null);
-                ft.replace(R.id.fragment_container, new EditProfileFragment()).commit();*/
             }
         });
     }

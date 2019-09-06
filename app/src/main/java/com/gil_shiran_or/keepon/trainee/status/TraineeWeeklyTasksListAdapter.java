@@ -52,7 +52,7 @@ public class TraineeWeeklyTasksListAdapter extends RecyclerView.Adapter<TraineeW
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        mDatabaseTraineeWeeklyTasksReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/weeklyTasks");
+        mDatabaseTraineeWeeklyTasksReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/Status/weeklyTasks");
 
         mChildEventListener = new ChildEventListener() {
             @Override

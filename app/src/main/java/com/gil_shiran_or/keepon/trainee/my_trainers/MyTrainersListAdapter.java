@@ -1,6 +1,5 @@
 package com.gil_shiran_or.keepon.trainee.my_trainers;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.trainee.main.Post;
-import com.gil_shiran_or.keepon.trainee.main.PostRepliesConnector;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -58,12 +55,12 @@ public class MyTrainersListAdapter extends RecyclerView.Adapter<MyTrainersListAd
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         String currentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        mDatabaseTraineeTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + currentUserId + "/myTrainers");
+        mDatabaseTraineeTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + currentUserId + "/MyTrainers");
         mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 mMyTrainersList.add(dataSnapshot.getValue(MyTrainer.class));
-                notifyDataSetChanged();
+                notifyItemInserted(mMyTrainersList.size() - 1);
             }
 
             @Override
@@ -76,11 +73,10 @@ public class MyTrainersListAdapter extends RecyclerView.Adapter<MyTrainersListAd
                 for (int i = 0; i < mMyTrainersList.size(); i++) {
                     if (mMyTrainersList.get(i).getUserId().equals(dataSnapshot.child("userId").getValue(String.class))) {
                         mMyTrainersList.remove(i);
+                        notifyItemChanged(i);
                         break;
                     }
                 }
-
-                notifyDataSetChanged();
             }
 
             @Override
@@ -122,8 +118,8 @@ public class MyTrainersListAdapter extends RecyclerView.Adapter<MyTrainersListAd
         mDatabaseTrainersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String trainerName = dataSnapshot.child(currentMyTrainer.getUserId() + "/username").getValue(String.class);
-                String trainerImageUrl = dataSnapshot.child(currentMyTrainer.getUserId() + "/profilePhotoUri").getValue(String.class);
+                String trainerName = dataSnapshot.child(currentMyTrainer.getUserId() + "/Profile/name").getValue(String.class);
+                String trainerImageUrl = dataSnapshot.child(currentMyTrainer.getUserId() + "/Profile/profilePhotoUrl").getValue(String.class);
 
                 holder.trainerNameTextView.setText(trainerName);
                 Picasso.with(mMyTrainersFragment.getContext()).load(trainerImageUrl).fit().into(holder.trainerCircleImageView);

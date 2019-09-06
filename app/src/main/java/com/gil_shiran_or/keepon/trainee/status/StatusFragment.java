@@ -40,7 +40,7 @@ public class StatusFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        mDatabaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId);
+        mDatabaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/Status");
 
         buildTraineeWeeklyTasksRecyclerView();
 
@@ -52,9 +52,9 @@ public class StatusFragment extends Fragment {
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String levelId = "Level " + dataSnapshot.child("level").getValue(Integer.class);
-                int totalScore = dataSnapshot.child("total_score").getValue(Integer.class);
-                int scoreToNextLevel = dataSnapshot.child("score_to_next_level").getValue(Integer.class);
+                String levelId = dataSnapshot.child("level").getValue(String.class);
+                int totalScore = dataSnapshot.child("totalScore").getValue(Integer.class);
+                int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
 
                 statusLevelTextView.setText(levelId);
                 statusProgressBar.setMaxProgress(totalScore + scoreToNextLevel);

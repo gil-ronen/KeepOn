@@ -16,6 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.Rating;
 import com.gil_shiran_or.keepon.Trainer;
 import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainerActivity;
 import com.google.firebase.database.ChildEventListener;
@@ -79,9 +80,11 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
         mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Trainer trainer = dataSnapshot.getValue(Trainer.class);
+                Trainer trainer = dataSnapshot.child("Profile").getValue(Trainer.class);
+                Rating rating = dataSnapshot.child("Rating").getValue(Rating.class);
 
                 trainer.setUserId(dataSnapshot.getKey());
+                trainer.setRating(rating);
                 mFullTrainersList.add(trainer);
                 mTrainersList = new ArrayList<>(mFullTrainersList);
 
@@ -205,21 +208,9 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
         holder.trainerCityTextView.setText(currentTrainer.getTrainingCity());
         holder.trainerPriceTextView.setText(currentTrainer.getPrice() + "\u20aa");
 
-        /*int reviewersNum = currentTrainer.get().getOne_star_reviewers_num() + currentTrainer.getRating().getTwo_stars_reviewers_num() +
-                currentTrainer.getRating().getThree_stars_reviewers_num() + currentTrainer.getRating().getFour_stars_reviewers_num() +
-                currentTrainer.getRating().getFive_stars_reviewers_num();
-        float ratingScore;
-
-        if (reviewersNum == 0) {
-            ratingScore = 0;
-        }
-        else {
-            ratingScore = currentTrainer.getRating().getSum_rates() / reviewersNum;
-        }
-
-        holder.trainerRatingBar.setRating(ratingScore);
-        holder.trainerRatingScoreTextView.setText(String.format("%,.2f", ratingScore));
-        holder.trainerRatingReviewersTextView.setText(" (" + reviewersNum + ")");*/
+        holder.trainerRatingBar.setRating(currentTrainer.getRating().getRating());
+        holder.trainerRatingScoreTextView.setText(String.format("%,.2f", currentTrainer.getRating().getRating()));
+        holder.trainerRatingReviewersTextView.setText(" (" + currentTrainer.getRating().getTotalRaters() + ")");
     }
 
     @Override
@@ -233,35 +224,35 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
     }
 
     public void sortTrainersListByName() {
-        /*Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
+        Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
             @Override
             public int compare(Trainer trainer1, Trainer trainer2) {
-                return trainer1.getUsername().compareTo(trainer2.getUsername());
+                return trainer1.getName().compareTo(trainer2.getName());
             }
         });
 
         Collections.sort(mTrainersList, new Comparator<Trainer>() {
             @Override
             public int compare(Trainer trainer1, Trainer trainer2) {
-                return trainer1.getUsername().compareTo(trainer2.getUsername());
+                return trainer1.getName().compareTo(trainer2.getName());
             }
         });
 
-        notifyDataSetChanged();*/
+        notifyDataSetChanged();
     }
 
     public void sortTrainersListByPrice(boolean isAscending) {
-        /*Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
+        Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
             @Override
             public int compare(Trainer trainer1, Trainer trainer2) {
-                return Integer.compare(Integer.parseInt(trainer1.getPrice()), Integer.parseInt(trainer2.getPrice()));
+                return Integer.compare(trainer1.getPrice(), trainer2.getPrice());
             }
         });
 
         Collections.sort(mTrainersList, new Comparator<Trainer>() {
             @Override
             public int compare(Trainer trainer1, Trainer trainer2) {
-                return Integer.compare(Integer.parseInt(trainer1.getPrice()), Integer.parseInt(trainer2.getPrice()));
+                return Integer.compare(trainer1.getPrice(), trainer2.getPrice());
             }
         });
 
@@ -271,85 +262,36 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
             Collections.reverse(mTrainersList);
         }
 
-        notifyDataSetChanged();*/
+        notifyDataSetChanged();
     }
 
     public void sortTrainersListByRating() {
-        /*Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
+        Collections.sort(mFullTrainersList, new Comparator<Trainer>() {
             @Override
             public int compare(Trainer trainer1, Trainer trainer2) {
-                int reviewersNum1 = trainer1.getRating().getOne_star_reviewers_num() + trainer1.getRating().getTwo_stars_reviewers_num() +
-                        trainer1.getRating().getThree_stars_reviewers_num() + trainer1.getRating().getFour_stars_reviewers_num() +
-                        trainer1.getRating().getFive_stars_reviewers_num();
-                float ratingScore1;
-
-                if (reviewersNum1 == 0) {
-                    ratingScore1 = 0;
-                }
-                else {
-                    ratingScore1 = trainer1.getRating().getSum_rates() / reviewersNum1;
-                }
-
-                int reviewersNum2 = trainer2.getRating().getOne_star_reviewers_num() + trainer2.getRating().getTwo_stars_reviewers_num() +
-                        trainer2.getRating().getThree_stars_reviewers_num() + trainer2.getRating().getFour_stars_reviewers_num() +
-                        trainer2.getRating().getFive_stars_reviewers_num();
-                float ratingScore2;
-
-                if (reviewersNum2 == 0) {
-                    ratingScore2 = 0;
-                }
-                else {
-                    ratingScore2 = trainer1.getRating().getSum_rates() / reviewersNum1;
-                }
-
-                return Float.compare(ratingScore1, ratingScore2);
+                return Float.compare(trainer1.getRating().getRating(), trainer2.getRating().getRating());
             }
         });
 
         Collections.sort(mTrainersList, new Comparator<Trainer>() {
             @Override
             public int compare(Trainer trainer1, Trainer trainer2) {
-                int reviewersNum1 = trainer1.getRating().getOne_star_reviewers_num() + trainer1.getRating().getTwo_stars_reviewers_num() +
-                        trainer1.getRating().getThree_stars_reviewers_num() + trainer1.getRating().getFour_stars_reviewers_num() +
-                        trainer1.getRating().getFive_stars_reviewers_num();
-                float ratingScore1;
-
-                if (reviewersNum1 == 0) {
-                    ratingScore1 = 0;
-                }
-                else {
-                    ratingScore1 = trainer1.getRating().getSum_rates() / reviewersNum1;
-                }
-
-                int reviewersNum2 = trainer2.getRating().getOne_star_reviewers_num() + trainer2.getRating().getTwo_stars_reviewers_num() +
-                        trainer2.getRating().getThree_stars_reviewers_num() + trainer2.getRating().getFour_stars_reviewers_num() +
-                        trainer2.getRating().getFive_stars_reviewers_num();
-                float ratingScore2;
-
-                if (reviewersNum2 == 0) {
-                    ratingScore2 = 0;
-                }
-                else {
-                    ratingScore2 = trainer1.getRating().getSum_rates() / reviewersNum1;
-                }
-
-
-                return Float.compare(ratingScore1, ratingScore2);
+                return Float.compare(trainer1.getRating().getRating(), trainer2.getRating().getRating());
             }
         });
 
         Collections.reverse(mFullTrainersList);
         Collections.reverse(mTrainersList);
-        notifyDataSetChanged();*/
+        notifyDataSetChanged();
     }
 
     public boolean filterTrainersListByFilterOptions(String cityName, String gymName, int priceMinVal,
                                                   int priceMaxVal, int ratingMinVal, int ratingMaxVal) {
-        /*optionsFilteredTrainersList.clear();
+        optionsFilteredTrainersList.clear();
 
         for (Trainer trainer : mFullTrainersList) {
             if (cityName != null) {
-                if (!trainer.getTrainingPlaceAddress().equals(cityName)) {
+                if (!trainer.getTrainingCity().equals(cityName)) {
                     continue;
                 }
             }
@@ -360,23 +302,11 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
                 }
             }
 
-            if (Integer.parseInt(trainer.getPrice()) < priceMinVal || Integer.parseInt(trainer.getPrice()) > priceMaxVal) {
+            if (trainer.getPrice() < priceMinVal || trainer.getPrice() > priceMaxVal) {
                 continue;
             }
 
-            int reviewersNum = trainer.getRating().getOne_star_reviewers_num() + trainer.getRating().getTwo_stars_reviewers_num() +
-                    trainer.getRating().getThree_stars_reviewers_num() + trainer.getRating().getFour_stars_reviewers_num() +
-                    trainer.getRating().getFive_stars_reviewers_num();
-            float ratingScore;
-
-            if (reviewersNum == 0) {
-                ratingScore = 0;
-            }
-            else {
-                ratingScore = trainer.getRating().getSum_rates() / reviewersNum;
-            }
-
-            if (ratingScore < ratingMinVal || ratingScore > ratingMaxVal) {
+            if (trainer.getRating().getRating() < ratingMinVal || trainer.getRating().getRating() > ratingMaxVal) {
                 continue;
             }
 
@@ -389,7 +319,7 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
 
         mTrainersList.clear();
         mTrainersList.addAll(optionsFilteredTrainersList);
-        notifyDataSetChanged();*/
+        notifyDataSetChanged();
 
         return true;
     }

@@ -1,8 +1,8 @@
 package com.gil_shiran_or.keepon.trainee.main;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +34,7 @@ public class RepliesListAdapter extends RecyclerView.Adapter<RepliesListAdapter.
     private DatabaseReference mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
     private ChildEventListener mChildEventListener;
     private String mCurrentUserId;
-    private Fragment mMainFragment;
+    private Activity mPostRepliesActivity;
 
     public static class RepliesViewHolder extends RecyclerView.ViewHolder {
 
@@ -60,8 +60,9 @@ public class RepliesListAdapter extends RecyclerView.Adapter<RepliesListAdapter.
         }
     }
 
-    public RepliesListAdapter(Fragment mainFragment, String postId) {
-        mMainFragment = mainFragment;
+    public RepliesListAdapter(Activity postRepliesActivity, String postId) {
+        mPostRepliesActivity = postRepliesActivity;
+        //mMainFragment = mainFragment;
         mDatabasePostRepliesReference = FirebaseDatabase.getInstance().getReference().child("Posts/" + postId + "/replies");
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -73,16 +74,24 @@ public class RepliesListAdapter extends RecyclerView.Adapter<RepliesListAdapter.
                 Reply reply = dataSnapshot.getValue(Reply.class);
 
                 for (DataSnapshot usersLikedData : dataSnapshot.child("usersLiked").getChildren()) {
-                    reply.addUserToUsersLiked(usersLikedData.child("userId").getValue(String.class));
+                    if (usersLikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
+                        reply.setIsLiked(true);
+                        break;
+                    }
                 }
 
-                for (DataSnapshot usersDislikedData : dataSnapshot.child("usersDisliked").getChildren()) {
-                    reply.addUserToUsersDisliked(usersDislikedData.child("userId").getValue(String.class));
+                if (!reply.getIsLiked()) {
+                    for (DataSnapshot usersDislikedData : dataSnapshot.child("usersDisliked").getChildren()) {
+                        if (usersDislikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
+                            reply.setIsDisliked(true);
+                            break;
+                        }
+                    }
                 }
 
                 reply.setReplyId(dataSnapshot.getKey());
                 mRepliesList.add(reply);
-                notifyDataSetChanged();
+                notifyItemInserted(mRepliesList.size() - 1);
             }
 
             @Override
@@ -91,21 +100,28 @@ public class RepliesListAdapter extends RecyclerView.Adapter<RepliesListAdapter.
                     if (mRepliesList.get(i).getReplyId().equals(dataSnapshot.getKey())) {
                         Reply reply = dataSnapshot.getValue(Reply.class);
 
-                        for (DataSnapshot data : dataSnapshot.child("usersLiked").getChildren()) {
-                            reply.addUserToUsersLiked(data.child("userId").getValue(String.class));
+                        for (DataSnapshot usersLikedData : dataSnapshot.child("usersLiked").getChildren()) {
+                            if (usersLikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
+                                reply.setIsLiked(true);
+                                break;
+                            }
                         }
 
-                        for (DataSnapshot data : dataSnapshot.child("usersDisliked").getChildren()) {
-                            reply.addUserToUsersDisliked(data.child("userId").getValue(String.class));
+                        if (!reply.getIsLiked()) {
+                            for (DataSnapshot usersDislikedData : dataSnapshot.child("usersDisliked").getChildren()) {
+                                if (usersDislikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
+                                    reply.setIsDisliked(true);
+                                    break;
+                                }
+                            }
                         }
 
                         reply.setReplyId(dataSnapshot.getKey());
                         mRepliesList.set(i, reply);
+                        notifyItemChanged(i);
                         break;
                     }
                 }
-
-                notifyDataSetChanged();
             }
 
             @Override
@@ -147,11 +163,11 @@ public class RepliesListAdapter extends RecyclerView.Adapter<RepliesListAdapter.
         mDatabaseTraineesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String author = dataSnapshot.child(currentReply.getUserId() + "/profile/name").getValue(String.class);
-                String authorImageUrl = dataSnapshot.child(currentReply.getUserId() + "/profile/profilePhotoUrl").getValue(String.class);
+                String author = dataSnapshot.child(currentReply.getUserId() + "/Profile/name").getValue(String.class);
+                String authorImageUrl = dataSnapshot.child(currentReply.getUserId() + "/Profile/profilePhotoUrl").getValue(String.class);
 
                 holder.authorTextView.setText(author);
-                Picasso.with(mMainFragment.getContext()).load(authorImageUrl).fit().into(holder.authorCircleImageView);
+                Picasso.with(mPostRepliesActivity).load(authorImageUrl).fit().into(holder.authorCircleImageView);
 
                 mDatabaseTraineesReference.removeEventListener(this);
             }
@@ -164,24 +180,24 @@ public class RepliesListAdapter extends RecyclerView.Adapter<RepliesListAdapter.
 
         holder.dateTextView.setText(currentReply.getDate());
         holder.bodyTextView.setText(currentReply.getBody());
-        holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like));
-        holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike));
+        holder.likeImageView.setImageDrawable(mPostRepliesActivity.getResources().getDrawable(R.drawable.ic_like));
+        holder.dislikeImageView.setImageDrawable(mPostRepliesActivity.getResources().getDrawable(R.drawable.ic_dislike));
     }
 
     private void setPostLikes(final RepliesViewHolder holder, final Reply currentReply) {
         holder.likesTextView.setText(Integer.toString(currentReply.getLikes()));
 
-        if (currentReply.isUsersLikedContainsUserId(mCurrentUserId)) {
-            holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like_pressed));
+        if (currentReply.getIsLiked()) {
+            holder.likeImageView.setImageDrawable(mPostRepliesActivity.getResources().getDrawable(R.drawable.ic_like_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
             holder.dislikeImageView.setClickable(false);
             holder.dislikeImageView.setFocusable(false);
-        } else if (!currentReply.isUsersDislikedContainsUserId(mCurrentUserId)) {
+        } else if (!currentReply.getIsDisliked()) {
             holder.likeImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like_pressed));
+                    holder.likeImageView.setImageDrawable(mPostRepliesActivity.getResources().getDrawable(R.drawable.ic_like_pressed));
                     holder.likeImageView.setClickable(false);
                     holder.likeImageView.setFocusable(false);
                     holder.dislikeImageView.setClickable(false);
@@ -196,17 +212,17 @@ public class RepliesListAdapter extends RecyclerView.Adapter<RepliesListAdapter.
     private void setPostDislikes(final RepliesViewHolder holder, final Reply currentReply) {
         holder.dislikesTextView.setText(Integer.toString(currentReply.getDislikes()));
 
-        if (currentReply.isUsersDislikedContainsUserId(mCurrentUserId)) {
-            holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike_pressed));
+        if (currentReply.getIsDisliked()) {
+            holder.dislikeImageView.setImageDrawable(mPostRepliesActivity.getResources().getDrawable(R.drawable.ic_dislike_pressed));
             holder.likeImageView.setClickable(false);
             holder.likeImageView.setFocusable(false);
             holder.dislikeImageView.setClickable(false);
             holder.dislikeImageView.setFocusable(false);
-        } else if (!currentReply.isUsersLikedContainsUserId(mCurrentUserId)) {
+        } else if (!currentReply.getIsLiked()) {
             holder.dislikeImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike_pressed));
+                    holder.dislikeImageView.setImageDrawable(mPostRepliesActivity.getResources().getDrawable(R.drawable.ic_dislike_pressed));
                     holder.likeImageView.setClickable(false);
                     holder.likeImageView.setFocusable(false);
                     holder.dislikeImageView.setClickable(false);
@@ -244,6 +260,16 @@ public class RepliesListAdapter extends RecyclerView.Adapter<RepliesListAdapter.
     @Override
     public int getItemCount() {
         return mRepliesList.size();
+    }
+
+    public void setReplyPostToFirebase(Reply reply) {
+        String key = mDatabasePostRepliesReference.push().getKey();
+        Map<String, Object> replyValues = reply.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        childUpdates.put(key, replyValues);
+
+        mDatabasePostRepliesReference.updateChildren(childUpdates);
     }
 
     public void cleanUp() {

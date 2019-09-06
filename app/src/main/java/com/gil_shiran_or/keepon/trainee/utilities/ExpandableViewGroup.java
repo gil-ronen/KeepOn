@@ -130,4 +130,12 @@ public class ExpandableViewGroup {
             labelTextView.setText(labelBefore);
         }
     }
+
+    public void setMasterLayout(ViewGroup masterLayout) {
+        this.masterLayout = masterLayout;
+    }
+
+    public void setSlaveLayout(ViewGroup slaveLayout) {
+        this.slaveLayout = slaveLayout;
+    }
 }

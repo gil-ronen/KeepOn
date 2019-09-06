@@ -16,7 +16,6 @@ import com.gil_shiran_or.keepon.R;
 public class AddReplyDialog extends AppCompatDialogFragment {
 
     private AddReplyListener mListener;
-    private String mPostId;
     private EditText mAddReplyBodyEditText;
 
     @Override
@@ -55,7 +54,7 @@ public class AddReplyDialog extends AppCompatDialogFragment {
                             Toast.makeText(view.getContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            mListener.applyReply(mAddReplyBodyEditText.getText().toString(), mPostId);
+                            mListener.applyReply(mAddReplyBodyEditText.getText().toString());
                             dialog.dismiss();
                         }
                     }
@@ -69,14 +68,10 @@ public class AddReplyDialog extends AppCompatDialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mListener = (AddReplyDialog.AddReplyListener) getTargetFragment();
+        mListener = (AddReplyDialog.AddReplyListener) getActivity();
     }
 
     public interface AddReplyListener {
-        void applyReply(String replyBody, String postId);
-    }
-
-    public void setPostId(String postId) {
-        this.mPostId = postId;
+        void applyReply(String replyBody);
     }
 }

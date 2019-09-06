@@ -35,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TraineeNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawer;
-    private DatabaseReference mDatabaseTraineesReference;
+    private DatabaseReference mDatabaseTraineeReference;
     private ValueEventListener mValueEventListener;
 
     @Override
@@ -65,7 +65,7 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
 
         final View header = navigationView.getHeaderView(0);
         String currentUserId = FirebaseAuth.getInstance().getUid();
-        mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees").child(currentUserId);
+        mDatabaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + currentUserId + "/Profile");
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -73,8 +73,8 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
                 TextView traineeNameTextView = header.findViewById(R.id.nav_header_trainee_name);
                 TextView traineeEmailTextView = header.findViewById(R.id.nav_header_trainee_email);
 
-                Picasso.with(TraineeNavActivity.this).load(dataSnapshot.child("profilePhotoUri").getValue(String.class)).fit().into(traineeCircleImageView);
-                traineeNameTextView.setText(dataSnapshot.child("username").getValue(String.class));
+                Picasso.with(TraineeNavActivity.this).load(dataSnapshot.child("profilePhotoUrl").getValue(String.class)).fit().into(traineeCircleImageView);
+                traineeNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
                 traineeEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
             }
 
@@ -84,7 +84,7 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
             }
         };
 
-        mDatabaseTraineesReference.addValueEventListener(mValueEventListener);
+        mDatabaseTraineeReference.addValueEventListener(mValueEventListener);
     }
 
     @Override
@@ -142,6 +142,6 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
     }
 
     private void cleanUp() {
-        mDatabaseTraineesReference.removeEventListener(mValueEventListener);
+        mDatabaseTraineeReference.removeEventListener(mValueEventListener);
     }
 }

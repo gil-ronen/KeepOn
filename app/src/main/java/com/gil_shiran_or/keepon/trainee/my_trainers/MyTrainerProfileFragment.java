@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ public class MyTrainerProfileFragment extends Fragment {
     private ValueEventListener mValueEventListener;
     private String mTrainerId;
     private String mCurrentUserId;
+    private boolean mIsFabOpen = false;
 
     @Nullable
     @Override
@@ -40,7 +43,7 @@ public class MyTrainerProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mTrainerId = getArguments().getString("trainerId");
-        mDatabaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId);
+        mDatabaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/Profile");
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
@@ -49,23 +52,27 @@ public class MyTrainerProfileFragment extends Fragment {
         final TextView trainerNameTextView = getView().findViewById(R.id.my_trainer_name);
         final TextView trainerAboutMeTextView = getView().findViewById(R.id.my_trainer_about_me);
         final TextView trainerEmailTextView = getView().findViewById(R.id.my_trainer_email);
-        final TextView trainerGymNameTextView = getView().findViewById(R.id.my_trainer_gym_name);
-        final TextView trainerGymAddressTextView = getView().findViewById(R.id.my_trainer_gym_address);
+        final TextView trainerGymNameTextView = getView().findViewById(R.id.my_trainer_company_name);
+        final TextView trainerTrainingCityTextView = getView().findViewById(R.id.my_trainer_training_city);
+        final TextView trainerTrainingStreetTextView = getView().findViewById(R.id.my_trainer_training_street);
         final TextView trainerBirthDateTextView = getView().findViewById(R.id.my_trainer_birth_date);
         final TextView trainerPhoneNumberTextView = getView().findViewById(R.id.my_trainer_phone_number);
+        final TextView trainerPriceTextView = getView().findViewById(R.id.my_trainer_price);
         final ImageView trainerGenderImageView = getView().findViewById(R.id.my_trainer_gender);
 
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.with(getContext()).load(dataSnapshot.child("profile/profilePhotoUrl").getValue(String.class)).fit().into(trainerCircleImageView);
-                trainerNameTextView.setText(dataSnapshot.child("profile/name").getValue(String.class));
-                trainerAboutMeTextView.setText(dataSnapshot.child("profile/aboutMe").getValue(String.class));
-                trainerEmailTextView.setText(dataSnapshot.child("profile/email").getValue(String.class));
-                trainerGymNameTextView.setText(dataSnapshot.child("profile/companyName").getValue(String.class));
-                trainerGymAddressTextView.setText(dataSnapshot.child("trainingPlaceAddress").getValue(String.class));
+                Picasso.with(getContext()).load(dataSnapshot.child("profilePhotoUrl").getValue(String.class)).fit().into(trainerCircleImageView);
+                trainerNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
+                trainerAboutMeTextView.setText(dataSnapshot.child("aboutMe").getValue(String.class));
+                trainerEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
+                trainerGymNameTextView.setText(dataSnapshot.child("companyName").getValue(String.class));
+                trainerTrainingCityTextView.setText(dataSnapshot.child("trainingCity").getValue(String.class));
+                trainerTrainingStreetTextView.setText(dataSnapshot.child("trainingStreet").getValue(String.class));
                 trainerBirthDateTextView.setText(dataSnapshot.child("birthDate").getValue(String.class));
                 trainerPhoneNumberTextView.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
+                trainerPriceTextView.setText(dataSnapshot.child("price").getValue(Integer.class) + "\u20aa");
 
                 if (dataSnapshot.child("gender").getValue(String.class).equals("male")) {
                     trainerGenderImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_male_sign));
@@ -83,7 +90,34 @@ public class MyTrainerProfileFragment extends Fragment {
 
         mDatabaseTrainerReference.addValueEventListener(mValueEventListener);
 
-        FloatingActionButton quitTrainerFloatingActionButton = getView().findViewById(R.id.my_trainer_quit_button);
+        final FloatingActionButton optionsFloatingActionButton = getView().findViewById(R.id.my_trainer_show_options);
+        final FloatingActionButton quitTrainerFloatingActionButton = getView().findViewById(R.id.my_trainer_quit_button);
+        final FloatingActionButton scheduleFloatingActionButton = getView().findViewById(R.id.my_trainer_schedule_button);
+        final Animation fabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
+        final Animation fabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+        final Animation fabClockwise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_clockwise);
+        final Animation fabAntiClockwise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_anti_clockwise);
+
+        optionsFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mIsFabOpen) {
+                    quitTrainerFloatingActionButton.startAnimation(fabClose);
+                    scheduleFloatingActionButton.startAnimation(fabClose);
+                    optionsFloatingActionButton.startAnimation(fabAntiClockwise);
+
+                    mIsFabOpen = false;
+                }
+                else {
+                    quitTrainerFloatingActionButton.startAnimation(fabOpen);
+                    scheduleFloatingActionButton.startAnimation(fabOpen);
+                    optionsFloatingActionButton.startAnimation(fabClockwise);
+
+                    mIsFabOpen = true;
+                }
+            }
+        });
+
 
         quitTrainerFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +128,7 @@ public class MyTrainerProfileFragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                final DatabaseReference databaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/myTrainers");
+                                final DatabaseReference databaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/MyTrainers");
 
                                 databaseTraineeReference.addValueEventListener(new ValueEventListener() {
                                     @Override

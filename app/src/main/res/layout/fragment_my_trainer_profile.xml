@@ -26,8 +26,7 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_centerHorizontal="true"
-                    android:elevation="1dp"
-                    android:src="@drawable/default_profile_img" />
+                    android:elevation="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -48,8 +47,7 @@
                             android:id="@+id/my_trainer_gender"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:layout_gravity="end"
-                            android:src="@drawable/ic_profile_male_sign" />
+                            android:layout_gravity="end" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -63,7 +61,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="60dp"
-                                android:text="Name"
                                 android:textSize="25sp"
                                 android:textStyle="bold" />
 
@@ -71,7 +68,6 @@
                                 android:id="@+id/my_trainer_about_me"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="I love to do yoga everyday"
                                 android:textSize="20sp" />
 
                         </LinearLayout>
@@ -115,8 +111,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:paddingLeft="20dp"
-                                        android:text="Email"
+                                        android:paddingStart="20dp"
                                         android:textSize="15sp" />
 
                                 </TableRow>
@@ -133,12 +128,11 @@
                                         android:src="@drawable/ic_profile_gym_name" />
 
                                     <TextView
-                                        android:id="@+id/my_trainer_gym_name"
+                                        android:id="@+id/my_trainer_company_name"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:paddingLeft="20dp"
-                                        android:text="Gym Name"
+                                        android:paddingStart="20dp"
                                         android:textSize="15sp" />
 
                                 </TableRow>
@@ -152,15 +146,35 @@
                                     <ImageView
                                         android:layout_width="36dp"
                                         android:layout_height="36dp"
-                                        android:src="@drawable/ic_profile_address" />
+                                        android:src="@drawable/ic_profile_city" />
 
                                     <TextView
-                                        android:id="@+id/my_trainer_gym_address"
+                                        android:id="@+id/my_trainer_training_city"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:paddingLeft="20dp"
-                                        android:text="Gym Name"
+                                        android:paddingStart="20dp"
+                                        android:textSize="15sp" />
+
+                                </TableRow>
+
+                                <TableRow
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:gravity="center">
+
+                                    <ImageView
+                                        android:layout_width="36dp"
+                                        android:layout_height="36dp"
+                                        android:src="@drawable/ic_profile_street" />
+
+                                    <TextView
+                                        android:id="@+id/my_trainer_training_street"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:paddingStart="20dp"
                                         android:textSize="15sp" />
 
                                 </TableRow>
@@ -181,8 +195,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:paddingLeft="20dp"
-                                        android:text="Gym Name"
+                                        android:paddingStart="20dp"
                                         android:textSize="15sp" />
 
                                 </TableRow>
@@ -190,6 +203,7 @@
                                 <TableRow
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginBottom="20dp"
                                     android:gravity="center">
 
                                     <ImageView
@@ -202,8 +216,27 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:paddingLeft="20dp"
-                                        android:text="Gym Name"
+                                        android:paddingStart="20dp"
+                                        android:textSize="15sp" />
+
+                                </TableRow>
+
+                                <TableRow
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center">
+
+                                    <ImageView
+                                        android:layout_width="36dp"
+                                        android:layout_height="36dp"
+                                        android:src="@drawable/ic_profile_price" />
+
+                                    <TextView
+                                        android:id="@+id/my_trainer_price"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:paddingStart="20dp"
                                         android:textSize="15sp" />
 
                                 </TableRow>
@@ -226,17 +259,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/my_trainer_quit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="25dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_leave_trainer"
-            app:backgroundTint="@color/purple"
-            app:elevation="4dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|end"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/my_trainer_schedule_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_trainer_schedule"
+                android:visibility="invisible"
+                app:backgroundTint="@color/purple"
+                app:elevation="4dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/my_trainer_quit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_leave_trainer"
+                android:visibility="invisible"
+                app:backgroundTint="@color/purple"
+                app:elevation="4dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/my_trainer_show_options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="25dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_show_options"
+                app:backgroundTint="@color/purple"
+                app:elevation="4dp" />
+
+        </LinearLayout>
 
     </FrameLayout>
 

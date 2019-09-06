@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.gil_shiran_or.keepon">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,7 +11,8 @@
         android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".trainer_weekly_planner.trainee_side.MyTrainingsListActivity"></activity>
         <activity android:name=".trainer_weekly_planner.trainee_side.RegisterSlotActivity" />
         <activity android:name=".trainer_weekly_planner.trainee_side.MainWeeklySlotsPickerActivity" />
@@ -43,8 +45,13 @@
             android:name=".chat.MainChatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
+
         <activity
             android:name=".trainee.nav.TraineeNavActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".trainee.main.PostRepliesActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".trainee.my_trainers.MyTrainerActivity"
@@ -55,6 +62,7 @@
         <activity
             android:name=".trainee.search_trainer.TrainerActivity"
             android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

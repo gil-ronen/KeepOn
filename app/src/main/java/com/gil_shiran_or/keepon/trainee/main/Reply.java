@@ -1,8 +1,6 @@
 package com.gil_shiran_or.keepon.trainee.main;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Reply {
@@ -13,8 +11,8 @@ public class Reply {
     private String body;
     private int likes = 0;
     private int dislikes = 0;
-    private List<UserLikedDisliked> usersLiked = new ArrayList<>();
-    private List<UserLikedDisliked> usersDisliked = new ArrayList<>();
+    private boolean isLiked = false;
+    private boolean isDisliked = false;
 
     public Reply() {}
 
@@ -52,32 +50,20 @@ public class Reply {
         return dislikes;
     }
 
-    public void addUserToUsersLiked(String userId) {
-        usersLiked.add(new UserLikedDisliked(userId));
+    public boolean getIsLiked() {
+        return isLiked;
     }
 
-    public void addUserToUsersDisliked(String userId) {
-        usersDisliked.add(new UserLikedDisliked(userId));
+    public void setIsLiked(boolean isLiked) {
+        this.isLiked = isLiked;
     }
 
-    public boolean isUsersLikedContainsUserId(String userId) {
-        for (UserLikedDisliked userLiked : usersLiked) {
-            if (userLiked.getUserId().equals(userId)) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean getIsDisliked() {
+        return isDisliked;
     }
 
-    public boolean isUsersDislikedContainsUserId(String userId) {
-        for (UserLikedDisliked userDisliked : usersDisliked) {
-            if (userDisliked.getUserId().equals(userId)) {
-                return true;
-            }
-        }
-
-        return false;
+    public void setIsDisliked(boolean isDisliked) {
+        this.isDisliked = isDisliked;
     }
 
     public Map<String, Object> toMap() {

@@ -33,12 +33,12 @@ public class ProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_trainee_profile, container, false);
+        return inflater.inflate(R.layout.fragment_trainer_profile, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        getActivity().setTitle("Profile");
+        /*getActivity().setTitle("Profile");
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
@@ -76,7 +76,7 @@ public class ProfileFragment extends Fragment {
             }
         };
 
-        mDatabaseTraineeReference.addValueEventListener(mValueEventListener);
+        mDatabaseTraineeReference.addValueEventListener(mValueEventListener);*/
 
         FloatingActionButton editProfileButton = getView().findViewById(R.id.profile_edit);
 
@@ -85,11 +85,6 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), EditProfileActivity.class);
                 startActivity(intent);
-                /*FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-                ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                ft.addToBackStack(null);
-                ft.replace(R.id.fragment_container, new EditProfileFragment()).commit();*/
             }
         });
     }

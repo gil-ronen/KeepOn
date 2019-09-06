@@ -59,7 +59,7 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
         final FloatingActionButton addReviewFloatingActionButton = getView().findViewById(R.id.my_trainer_rating_add_review_button);
         final MyTrainerRatingFragment fragment = this;
 
-        mDatabaseMyTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/myTrainers");
+        mDatabaseMyTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/MyTrainers");
         mReviewValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -96,7 +96,6 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
 
         mDatabaseMyTrainersReference.addValueEventListener(mReviewValueEventListener);
 
-
         buildReviewsRecyclerView();
 
         ViewGroup reviewsExpanderViewGroup = getView().findViewById(R.id.my_trainer_reviews_expander);
@@ -118,7 +117,7 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
         final ProgressBar fiveStarProgressBar = getView().findViewById(R.id.my_trainer_rating_5_stars);
         final TextView fiveStarTextView = getView().findViewById(R.id.my_trainer_rating_5_stars_reviewers);
 
-        final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/username");
+        final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/Profile/name");
 
         databaseTrainerReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -133,42 +132,31 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
             }
         });
 
-        mDatabaseRatingReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/rating");
+        mDatabaseRatingReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/Rating");
         mRatingValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mRating = dataSnapshot.getValue(Rating.class);
 
-                int reviewersNum = mRating.getOneStarRaters() + mRating.getTwoStarsRaters() +
-                        mRating.getThreeStarsRaters() + mRating.getFourStarsRaters() + mRating.getFiveStarsRaters();
-                float ratingScore;
-
-                if (reviewersNum == 0) {
-                    ratingScore = 0;
-                }
-                else {
-                    ratingScore = mRating.getSumRatings() / reviewersNum;
-                }
-
-                trainerRatingBar.setRating(ratingScore);
-                trainerRatingScore.setText(String.format("%,.2f", ratingScore) + " (" + reviewersNum + ")");
-                oneStarProgressBar.setMax(reviewersNum);
+                trainerRatingBar.setRating(mRating.getRating());
+                trainerRatingScore.setText(String.format("%,.2f", mRating.getRating()) + " (" + mRating.getTotalRaters() + ")");
+                oneStarProgressBar.setMax(mRating.getTotalRaters());
                 oneStarProgressBar.setProgress(mRating.getOneStarRaters());
                 oneStarTextView.setText("(" + mRating.getOneStarRaters() + ")");
 
-                twoStarProgressBar.setMax(reviewersNum);
+                twoStarProgressBar.setMax(mRating.getTotalRaters());
                 twoStarProgressBar.setProgress(mRating.getTwoStarsRaters());
                 twoStarTextView.setText("(" + mRating.getTwoStarsRaters() + ")");
 
-                threeStarProgressBar.setMax(reviewersNum);
+                threeStarProgressBar.setMax(mRating.getTotalRaters());
                 threeStarProgressBar.setProgress(mRating.getThreeStarsRaters());
                 threeStarTextView.setText("(" + mRating.getThreeStarsRaters() + ")");
 
-                fourStarProgressBar.setMax(reviewersNum);
+                fourStarProgressBar.setMax(mRating.getTotalRaters());
                 fourStarProgressBar.setProgress(mRating.getFourStarsRaters());
                 fourStarTextView.setText("(" + mRating.getFourStarsRaters() + ")");
 
-                fiveStarProgressBar.setMax(reviewersNum);
+                fiveStarProgressBar.setMax(mRating.getTotalRaters());
                 fiveStarProgressBar.setProgress(mRating.getFiveStarsRaters());
                 fiveStarTextView.setText("(" + mRating.getFiveStarsRaters() + ")");
             }
@@ -209,30 +197,34 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
     private void changeRatingInFirebase(float rating) {
         Map<String, Object> childUpdates = new HashMap<>();
 
-        /*mRating.setSumRatings(rating + mRating.getSumRatings());
+        mRating.setSumRatings((int) rating + mRating.getSumRatings());
+        mRating.setTotalRaters(mRating.getTotalRaters() + 1);
+        mRating.setRating((float) (mRating.getSumRatings() / mRating.getTotalRaters()));
 
         if (rating == 1) {
-            mRating.setOne_star_reviewers_num(mRating.getOne_star_reviewers_num() + 1);
+            mRating.setOneStarRaters(mRating.getOneStarRaters() + 1);
         }
         else if (rating == 2) {
-            mRating.setTwo_stars_reviewers_num(mRating.getTwo_stars_reviewers_num() + 1);
+            mRating.setTwoStarsRaters(mRating.getTwoStarsRaters() + 1);
         }
         else if (rating == 3) {
-            mRating.setThree_stars_reviewers_num(mRating.getThree_stars_reviewers_num() + 1);
+            mRating.setThreeStarsRaters(mRating.getThreeStarsRaters() + 1);
         }
         else if (rating == 4) {
-            mRating.setFour_stars_reviewers_num(mRating.getFour_stars_reviewers_num() + 1);
+            mRating.setFourStarsRaters(mRating.getFourStarsRaters() + 1);
         }
         else {
-            mRating.setFive_stars_reviewers_num(mRating.getFive_stars_reviewers_num() + 1);
-        }*/
+            mRating.setFiveStarsRaters(mRating.getFiveStarsRaters() + 1);
+        }
 
-        childUpdates.put("/sum_rates", mRating.getSumRatings());
-        childUpdates.put("/one_star_reviewers_num", mRating.getOneStarRaters());
-        childUpdates.put("/two_stars_reviewers_num", mRating.getTwoStarsRaters());
-        childUpdates.put("/three_stars_reviewers_num", mRating.getThreeStarsRaters());
-        childUpdates.put("/four_stars_reviewers_num", mRating.getFourStarsRaters());
-        childUpdates.put("/five_stars_reviewers_num", mRating.getFiveStarsRaters());
+        childUpdates.put("rating", mRating.getRating());
+        childUpdates.put("totalRaters", mRating.getTotalRaters());
+        childUpdates.put("sumRatings", mRating.getSumRatings());
+        childUpdates.put("oneStarRaters", mRating.getOneStarRaters());
+        childUpdates.put("twoStarsRaters", mRating.getTwoStarsRaters());
+        childUpdates.put("threeStarsRaters", mRating.getThreeStarsRaters());
+        childUpdates.put("fourStarsRaters", mRating.getFourStarsRaters());
+        childUpdates.put("fiveStarsRaters", mRating.getFiveStarsRaters());
 
         mDatabaseRatingReference.updateChildren(childUpdates);
     }
@@ -242,5 +234,6 @@ public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog
         super.onDestroy();
         mDatabaseRatingReference.removeEventListener(mRatingValueEventListener);
         mDatabaseMyTrainersReference.removeEventListener(mReviewValueEventListener);
+        mMyTrainerReviewsListAdapter.cleanUp();
     }
 }

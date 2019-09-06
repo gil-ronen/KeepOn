@@ -16,7 +16,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainee_details_register);
+        setContentView(R.layout.fragment_trainee_profile);
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_trainee);
 
