@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.trainer_weekly_planner.trainer_side;
+package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.create_and_edit_time_slots;
 
 
 import android.app.TimePickerDialog;
@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.gil_shiran_or.keepon.trainer_weekly_planner.TimeSlot;
+import com.gil_shiran_or.keepon.trainings_weekly_schedule.TimeSlot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

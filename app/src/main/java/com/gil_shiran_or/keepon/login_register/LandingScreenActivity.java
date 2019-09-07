@@ -7,8 +7,8 @@ import android.os.Bundle;
 import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
-import com.gil_shiran_or.keepon.trainer_weekly_planner.trainee_side.MainWeeklySlotsPickerActivity;
-import com.gil_shiran_or.keepon.trainer_weekly_planner.trainer_side.MainWeeklyScheduleActivity;
+import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.MainWeeklyScheduleActivity;
+import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainerWeeklyScheduleActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,9 +33,10 @@ public class LandingScreenActivity extends AppCompatActivity {
 
         if(mUser == null)
         {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            //Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             //Intent intent = new Intent(getApplicationContext(), MainWeeklySlotsPickerActivity.class);
             //Intent intent = new Intent(getApplicationContext(), MainWeeklyScheduleActivity.class);
+            Intent intent = new Intent(getApplicationContext(), TrainerWeeklyScheduleActivity.class);
             startActivity(intent);
             finish();
         }
