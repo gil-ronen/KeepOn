@@ -2,6 +2,7 @@ package com.gil_shiran_or.keepon.trainee.my_trainers;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.trainer_weekly_planner.trainee_side.MainWeeklySlotsPickerActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -169,6 +171,18 @@ public class MyTrainerProfileFragment extends Fragment {
                 });
 
                 alertDialog.show();
+            }
+        });
+
+        final Fragment fragment = this;
+        scheduleFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("trainerId", mTrainerId);
+                Intent intent = new Intent(fragment.getContext(), MainWeeklySlotsPickerActivity.class);
+                intent.putExtras(bundle);
+                fragment.getContext().startActivity(intent);
             }
         });
     }
