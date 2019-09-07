@@ -98,9 +98,7 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId); //trainer ID
         //databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("trainerId").child("WeeklySchedule");
 
-        //TODO:
         getTrainerFullName();
-
         synchronizeDates();
 
         mTimeSlotsRecyclerView1 = findViewById(R.id.mainPicker_timeSlotsList1);

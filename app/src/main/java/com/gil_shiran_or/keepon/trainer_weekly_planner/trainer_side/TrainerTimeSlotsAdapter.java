@@ -137,7 +137,7 @@ public class TrainerTimeSlotsAdapter extends RecyclerView.Adapter<TrainerTimeSlo
         final String getTimeUntil = mTimeSlots.get(i).getTimeUntil();
         final String getTimes = getTimeFrom + " - " + getTimeUntil;
         final String getTrainerId = mTimeSlots.get(i).getTrainerId();
-        final String getTraineeId = mTimeSlots.get(i).getTraineeId(); //TODO: GET LIST OF TRAINEES
+        //final String getTraineeId = mTimeSlots.get(i).getTraineeId(); //TODO: GET LIST OF TRAINEES
         final boolean isOccupied = mTimeSlots.get(i).isOccupied();
         final boolean getGroupSession = mTimeSlots.get(i).isGroupSession();
         final int getCurrentSumPeopleInGroup = mTimeSlots.get(i).getCurrentSumPeopleInGroup();
@@ -159,7 +159,7 @@ public class TrainerTimeSlotsAdapter extends RecyclerView.Adapter<TrainerTimeSlo
 
         if(isOccupied)
         {
-            myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_unavailable_slot);
+            myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_registered_slot);
         }
 
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +178,7 @@ public class TrainerTimeSlotsAdapter extends RecyclerView.Adapter<TrainerTimeSlo
                 bundle.putString("dateForDB", mDateForDB);
                 bundle.putString("key", getIdSlot);
                 //bundle.putString("currentTraineeId", mTraineeId);
-                bundle.putString("traineeId", getTraineeId);
+                //bundle.putString("traineeId", getTraineeId);
                 bundle.putString("trainerId", getTrainerId);
                 bundle.putBoolean("isOccupied", isOccupied);
                 bundle.putBoolean("isGroupSession", getGroupSession);

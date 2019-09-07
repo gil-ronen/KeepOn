@@ -1,5 +1,10 @@
 package com.gil_shiran_or.keepon.trainer_weekly_planner;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class TimeSlot {
 
     private String timeSlotId;
@@ -8,32 +13,28 @@ public class TimeSlot {
     private String timeFrom;
     private String timeUntil;
     private String day;
-    private String traineeId;
     private String trainerId;
     private int groupLimit;
     private int currentSumPeopleInGroup;
-
-
-    private boolean isOccupied;
-    private boolean isGroupSession;
+    private boolean groupSession;
+    private boolean occupied;
+    private List<TraineeRegisterTimeSlot> traineesId = new ArrayList<>();
 
 
     public TimeSlot() {
     }
 
-
-    public TimeSlot(String title, String description, String timeFrom, String timeUntil, String day, String traineeId, String trainerId, int groupLimit, int currentSumPeopleInGroup, boolean isOccupied, boolean isGroupSession) {
+    public TimeSlot(String title, String description, String timeFrom, String timeUntil, String day, String trainerId, int groupLimit, int currentSumPeopleInGroup, boolean groupSession, boolean occupied) {
         this.title = title;
         this.description = description;
         this.timeFrom = timeFrom;
         this.timeUntil = timeUntil;
         this.day = day;
-        this.traineeId = traineeId;
         this.trainerId = trainerId;
         this.groupLimit = groupLimit;
         this.currentSumPeopleInGroup = currentSumPeopleInGroup;
-        this.isOccupied = isOccupied;
-        this.isGroupSession = isGroupSession;
+        this.groupSession = groupSession;
+        this.occupied = occupied;
     }
 
     public String getTimeSlotId() {
@@ -84,30 +85,6 @@ public class TimeSlot {
         this.day = day;
     }
 
-    public boolean isOccupied() {
-        return isOccupied;
-    }
-
-    public void setOccupied(boolean occupied) {
-        isOccupied = occupied;
-    }
-
-    public boolean isGroupSession() {
-        return isGroupSession;
-    }
-
-    public void setGroupSession(boolean groupSession) {
-        isGroupSession = groupSession;
-    }
-
-    public String getTraineeId() {
-        return traineeId;
-    }
-
-    public void setTraineeId(String traineeId) {
-        this.traineeId = traineeId;
-    }
-
     public String getTrainerId() {
         return trainerId;
     }
@@ -115,7 +92,6 @@ public class TimeSlot {
     public void setTrainerId(String trainerId) {
         this.trainerId = trainerId;
     }
-
 
     public int getGroupLimit() {
         return groupLimit;
@@ -132,4 +108,71 @@ public class TimeSlot {
     public void setCurrentSumPeopleInGroup(int currentSumPeopleInGroup) {
         this.currentSumPeopleInGroup = currentSumPeopleInGroup;
     }
+
+    public boolean isGroupSession() {
+        return groupSession;
+    }
+
+    public void setGroupSession(boolean groupSession) {
+        this.groupSession = groupSession;
+    }
+
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
+    }
+
+
+    public void addTraineeToTrainerTimeSlots(String traineeId) {
+        traineesId.add(new TraineeRegisterTimeSlot(traineeId));
+    }
+
+
+    public void removeTraineeFromTrainerTimeSlots(String traineeId) {
+        for (TraineeRegisterTimeSlot traineeRegisterTimeSlot : traineesId) {
+            if (traineeRegisterTimeSlot.getUserId().equals(traineeId)) {
+                traineesId.remove(traineeRegisterTimeSlot);
+            }
+        }
+
+        traineesId.remove(traineeId);
+    }
+
+    public void clearTraineesId() {
+        traineesId.clear();
+    }
+
+
+
+    public boolean isTraineesIdListContainsTraineeId(String traineeId) {
+        for (TraineeRegisterTimeSlot traineeRegisterTimeSlot : traineesId) {
+            if (traineeRegisterTimeSlot.getUserId().equals(traineeId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+
+        result.put("title", title);
+        result.put("description", description);
+        result.put("timeFrom", timeFrom);
+        result.put("timeUntil", timeUntil);
+        result.put("day", day);
+        result.put("trainerId", trainerId);
+        result.put("groupLimit", groupLimit);
+        result.put("currentSumPeopleInGroup", currentSumPeopleInGroup);
+        result.put("groupSession", groupSession);
+        result.put("occupied", occupied);
+
+        return result;
+    }
+
 }
