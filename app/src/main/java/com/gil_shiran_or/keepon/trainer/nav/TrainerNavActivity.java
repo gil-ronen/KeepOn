@@ -73,8 +73,8 @@ public class TrainerNavActivity extends AppCompatActivity implements NavigationV
                 TextView traineeNameTextView = header.findViewById(R.id.nav_header_trainee_name);
                 TextView traineeEmailTextView = header.findViewById(R.id.nav_header_trainee_email);
 
-                Picasso.with(TrainerNavActivity.this).load(dataSnapshot.child("profilePhotoUri").getValue(String.class)).fit().into(traineeCircleImageView);
-                traineeNameTextView.setText(dataSnapshot.child("username").getValue(String.class));
+                Picasso.with(TrainerNavActivity.this).load(dataSnapshot.child("profilePhotoUrl").getValue(String.class)).fit().into(traineeCircleImageView);
+                traineeNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
                 traineeEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
             }
 
