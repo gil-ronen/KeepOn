@@ -7,7 +7,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/background_trainee"
-tools:context=".trainer_weekly_planner.trainer_side.MainWeeklyScheduleActivity">
+tools:context=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.MainWeeklyScheduleActivity">
 
     <LinearLayout
         android:orientation="vertical"

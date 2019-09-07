@@ -1,6 +1,5 @@
-package com.gil_shiran_or.keepon.trainer_weekly_planner.trainee_side;
+package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainee_side;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,17 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.trainer_weekly_planner.TraineeRegisterTimeSlot;
+import com.gil_shiran_or.keepon.trainings_weekly_schedule.TraineeRegisterTimeSlot;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;

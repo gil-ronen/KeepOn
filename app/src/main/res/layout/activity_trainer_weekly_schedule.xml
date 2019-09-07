@@ -7,7 +7,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/background_trainee"
-tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity">
+tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainerWeeklyScheduleActivity">
 
 <LinearLayout
     android:orientation="vertical"
@@ -27,37 +27,38 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/mainPicker_titlePage"
+                android:id="@+id/trainerView_titlePage"
                 android:layout_marginTop="20dp"
                 android:textSize="32sp"
                 android:textColor="#FFF"
-                android:text="Register to Training"
+                android:text="My Weekly Schedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/mainPicker_subtitlePage"
+                android:id="@+id/trainerView_subtitlePage"
                 android:textSize="18sp"
                 android:textColor="#4A4E6A"
                 android:layout_marginTop="8dp"
-                android:text=""
+                android:text="Work program for the coming week"
                 android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-        <Button
-            android:layout_marginTop="35dp"
-            android:layout_marginLeft="60dp"
-            android:id="@+id/mainPicker_btnTrainingsList"
-            android:text="My Trainings"
-            android:background="@drawable/bg_btn_new_slot"
-            android:textSize="12sp"
-            android:textColor="#FFF"
-            android:textAlignment="center"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/trainerView_btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="25dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_profile_edit"
+            app:backgroundTint="@color/purple"
+            app:elevation="4dp" />
 
     </LinearLayout>
 
@@ -76,14 +77,14 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay1"
+            android:id="@+id/trainerView_expandableDay1"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList1"
+            android:id="@+id/trainerView_timeSlotsList1"
             android:nestedScrollingEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -98,14 +99,14 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay2"
+            android:id="@+id/trainerView_expandableDay2"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList2"
+            android:id="@+id/trainerView_timeSlotsList2"
             android:nestedScrollingEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -120,14 +121,14 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay3"
+            android:id="@+id/trainerView_expandableDay3"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList3"
+            android:id="@+id/trainerView_timeSlotsList3"
             android:nestedScrollingEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -142,14 +143,14 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay4"
+            android:id="@+id/trainerView_expandableDay4"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList4"
+            android:id="@+id/trainerView_timeSlotsList4"
             android:nestedScrollingEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -164,14 +165,14 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay5"
+            android:id="@+id/trainerView_expandableDay5"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList5"
+            android:id="@+id/trainerView_timeSlotsList5"
             android:nestedScrollingEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -186,14 +187,14 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay6"
+            android:id="@+id/trainerView_expandableDay6"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList6"
+            android:id="@+id/trainerView_timeSlotsList6"
             android:nestedScrollingEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -208,14 +209,14 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay7"
+            android:id="@+id/trainerView_expandableDay7"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList7"
+            android:id="@+id/trainerView_timeSlotsList7"
             android:nestedScrollingEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -228,7 +229,7 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
             android:visibility="visible" />
 
         <TextView
-            android:id="@+id/mainPicker_endPage"
+            android:id="@+id/trainerView_endPage"
             android:textSize="16sp"
             android:textColor="@color/colorPrimaryDark"
             android:layout_marginTop="20dp"
