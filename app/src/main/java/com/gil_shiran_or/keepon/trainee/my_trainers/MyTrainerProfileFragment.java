@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.trainer_weekly_planner.trainee_side.MainWeeklySlotsPickerActivity;
+import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
