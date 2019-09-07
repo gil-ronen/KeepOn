@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.trainer_weekly_planner.trainee_side;
+package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainee_side;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

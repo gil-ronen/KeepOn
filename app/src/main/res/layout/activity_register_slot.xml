@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_trainee"
     android:orientation="vertical"
-    tools:context=".trainer_weekly_planner.trainee_side.RegisterSlotActivity">
+    tools:context=".trainings_weekly_schedule.trainee_side.RegisterSlotActivity">
 
 
     <LinearLayout

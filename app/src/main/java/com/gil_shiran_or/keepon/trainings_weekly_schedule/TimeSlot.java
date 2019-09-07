@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.trainer_weekly_planner;
+package com.gil_shiran_or.keepon.trainings_weekly_schedule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
