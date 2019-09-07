@@ -1,6 +1,8 @@
 package com.gil_shiran_or.keepon.trainer_weekly_planner.trainer_side;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -144,10 +146,8 @@ public class EditSlotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                mDatabaseReference.removeValue();
-                Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
-                startActivity(intent);
-                finish();
+                showDeleteDialog();
+
             }
         });
 
@@ -173,11 +173,11 @@ public class EditSlotActivity extends AppCompatActivity {
                         groupLimit = 1;
                     }
 
-                    if(groupLimit == mCurrentSumPeopleInGroup)
+                    if(groupLimit <= mCurrentSumPeopleInGroup)
                     {
                         mDatabaseReference.child("occupied").setValue(true);
                     }
-                    else if(groupLimit > mCurrentSumPeopleInGroup)
+                    else
                     {
                         mDatabaseReference.child("occupied").setValue(false);
                     }
@@ -333,5 +333,24 @@ public class EditSlotActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private void showDeleteDialog()
+    {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete training")
+                .setMessage("Are you sure you want to delete this training?\n" +
+                        "If registered trainees participate in this training, it will automatically cancel them.")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDatabaseReference.removeValue();
+                        Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

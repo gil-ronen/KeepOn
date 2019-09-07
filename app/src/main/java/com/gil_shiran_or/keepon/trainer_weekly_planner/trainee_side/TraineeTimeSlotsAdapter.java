@@ -19,6 +19,7 @@ import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.Status;
 import com.gil_shiran_or.keepon.trainer_weekly_planner.TimeComparator;
 import com.gil_shiran_or.keepon.trainer_weekly_planner.TimeSlot;
+import com.gil_shiran_or.keepon.trainer_weekly_planner.TraineeRegisterTimeSlot;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlotsAdapter.MyViewHolder>{
@@ -38,6 +40,8 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
     private String mDateForApp;
     private String mDateForDB;
     private String mTraineeId;
+
+    //private boolean isTraineeExistInThisSlot;
 
 
 
@@ -56,9 +60,13 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
 
                 TimeSlot timeSlot = dataSnapshot.getValue(TimeSlot.class);
                 timeSlot.setTimeSlotId(dataSnapshot.getKey());
+                for (DataSnapshot data : dataSnapshot.child("traineesId").getChildren()) {
+                    timeSlot.addTraineeToTrainerTimeSlots(data.child("userId").getValue(String.class));
+                }
 
                 mTimeSlots.add(timeSlot);
                 notifyDataSetChanged();
+                //notifyItemInserted(mTimeSlots.size()-1);
                 Collections.sort(mTimeSlots, new TimeComparator());
             }
 
@@ -71,8 +79,14 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
                     {
                         TimeSlot timeSlot = dataSnapshot.getValue(TimeSlot.class);
                         timeSlot.setTimeSlotId(dataSnapshot.getKey());
+                        //timeSlot.clearTraineesId();
+                        for (DataSnapshot data : dataSnapshot.child("traineesId").getChildren()) {
+                            timeSlot.addTraineeToTrainerTimeSlots(data.child("userId").getValue(String.class));
+
+                        }
+
                         mTimeSlots.set(i, timeSlot);
-                        notifyDataSetChanged();
+                        notifyItemChanged(i);
                         Collections.sort(mTimeSlots, new TimeComparator());
                         break;
                     }
@@ -144,12 +158,13 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
         final String getTimeUntil = mTimeSlots.get(i).getTimeUntil();
         final String getTimes = getTimeFrom + " - " + getTimeUntil;
         final String getTrainerId = mTimeSlots.get(i).getTrainerId();
-        final String getTraineeId = mTimeSlots.get(i).getTraineeId(); //TODO: GET LIST OF TRAINEES
+        final TimeSlot timeSlot = mTimeSlots.get(i); //TODO: GET LIST OF TRAINEES
         final boolean isOccupied = mTimeSlots.get(i).isOccupied();
         final boolean getGroupSession = mTimeSlots.get(i).isGroupSession();
         final int getCurrentSumPeopleInGroup = mTimeSlots.get(i).getCurrentSumPeopleInGroup();
         final int getGroupLimit = mTimeSlots.get(i).getGroupLimit();
         boolean deleteSlotPermission = false;
+        //boolean isTraineeExistInThisSlot = false;
 
         myViewHolder.mTitleSlot.setText(mTimeSlots.get(i).getTitle());
         myViewHolder.mDescSlot.setText(mTimeSlots.get(i).getDescription());
@@ -166,19 +181,32 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
 
 
 
-        if(mTraineeId.equals(getTraineeId))
+
+        if(timeSlot.isTraineesIdListContainsTraineeId(mTraineeId))
         {
             myViewHolder.mIsMe.setVisibility(View.VISIBLE);
             deleteSlotPermission = true;
+            //isTraineeExistInThisSlot = true;
         }
+
+
 
         if(isOccupied)
         {
             myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_unavailable_slot);
         }
+        else
+        {
+            myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_time_available);
+            myViewHolder.mIsMe.setVisibility(View.INVISIBLE);
+        }
+
+
+
 
         if(!isOccupied || deleteSlotPermission)
         {
+
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -194,15 +222,26 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
                     bundle.putString("dateForDB", mDateForDB);
                     bundle.putString("key", getIdSlot);
                     bundle.putString("currentTraineeId", mTraineeId);
-                    bundle.putString("traineeId", getTraineeId);
+                    //bundle.putString("traineeId", getTraineeId);
                     bundle.putString("trainerId", getTrainerId);
                     bundle.putBoolean("isOccupied", isOccupied);
                     bundle.putBoolean("isGroupSession", getGroupSession);
                     bundle.putInt("currentSumPeopleInGroup", getCurrentSumPeopleInGroup);
                     bundle.putInt("groupLimit", getGroupLimit);
+                    //bundle.putBoolean("isTraineeExistInThisSlot", isTraineeExistInThisSlot);
 
+                    if(timeSlot.isTraineesIdListContainsTraineeId(mTraineeId))
+                    {
+                        bundle.putBoolean("isTraineeExistInThisSlot", true);
+                    }
+                    else
+                    {
+                        bundle.putBoolean("isTraineeExistInThisSlot", false);
+                    }
                     editIntent.putExtras(bundle);
+
                     mActivity.startActivity(editIntent);
+
                 }
             });
         }
@@ -214,7 +253,7 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
                     Toast.makeText(mActivity, "This training is not available", Toast.LENGTH_SHORT).show();
                 }
             });
-            myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_unavailable_slot);
+            //myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_unavailable_slot);
         }
 
 
