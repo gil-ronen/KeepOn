@@ -260,14 +260,14 @@
         android:layout_height="match_parent">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/trainer_profile_edit"
+            android:id="@+id/trainer_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_margin="25dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_profile_edit"
+            android:src="@drawable/ic_add_trainer"
             app:backgroundTint="@color/purple"
             app:elevation="4dp" />
 

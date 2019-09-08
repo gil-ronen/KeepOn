@@ -26,8 +26,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
-    private DatabaseReference mDatabaseTraineeReference;
-    private ValueEventListener mValueEventListener;
+    private DatabaseReference mDatabaseTrainerReference;
+    private ValueEventListener mTrainerValueEventListener;
     private String mCurrentUserId;
 
     @Nullable
@@ -38,35 +38,41 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        /*getActivity().setTitle("Profile");
-
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        final CircleImageView traineeCircleImageView = getView().findViewById(R.id.trainee_profile_img);
-        final TextView traineeNameTextView = getView().findViewById(R.id.trainee_name);
-        final TextView traineeEmailTextView = getView().findViewById(R.id.trainee_email);
-        final TextView traineeGymAddressTextView = getView().findViewById(R.id.trainee_address);
-        final TextView traineeBirthDateTextView = getView().findViewById(R.id.trainee_birth_date);
-        final TextView traineePhoneNumberTextView = getView().findViewById(R.id.trainee_phone_number);
-        final ImageView traineeGenderImageView = getView().findViewById(R.id.trainee_gender);
+        mDatabaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mCurrentUserId + "/Profile");
 
-        mDatabaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId);
-        mValueEventListener = new ValueEventListener() {
+        final CircleImageView trainerCircleImageView = getView().findViewById(R.id.trainer_profile_img);
+        final TextView trainerNameTextView = getView().findViewById(R.id.trainer_name);
+        final TextView trainerAboutMeTextView = getView().findViewById(R.id.trainer_about_me);
+        final TextView trainerEmailTextView = getView().findViewById(R.id.trainer_email);
+        final TextView trainerCompanyNameTextView = getView().findViewById(R.id.trainer_company_name);
+        final TextView trainerTrainingCityTextView = getView().findViewById(R.id.trainer_training_city);
+        final TextView trainerTrainingStreetTextView = getView().findViewById(R.id.trainer_training_street);
+        final TextView trainerBirthDateTextView = getView().findViewById(R.id.trainer_birth_date);
+        final TextView trainerPhoneNumberTextView = getView().findViewById(R.id.trainer_phone_number);
+        final TextView trainerPriceTextView = getView().findViewById(R.id.trainer_price);
+        final ImageView trainerGenderImageView = getView().findViewById(R.id.trainer_gender);
+
+        mTrainerValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.with(getContext()).load(dataSnapshot.child("profilePhotoUri").getValue(String.class)).fit().into(traineeCircleImageView);
-                traineeNameTextView.setText(dataSnapshot.child("username").getValue(String.class));
-                traineeEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
-                traineeGymAddressTextView.setText(dataSnapshot.child("residence").getValue(String.class));
-                traineeBirthDateTextView.setText(dataSnapshot.child("birthDate").getValue(String.class));
-                traineePhoneNumberTextView.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
+                Picasso.with(getContext()).load(dataSnapshot.child("profilePhotoUrl").getValue(String.class)).fit().into(trainerCircleImageView);
+                trainerNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
+                trainerAboutMeTextView.setText(dataSnapshot.child("aboutMe").getValue(String.class));
+                trainerEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
+                trainerCompanyNameTextView.setText(dataSnapshot.child("companyName").getValue(String.class));
+                trainerTrainingCityTextView.setText(dataSnapshot.child("trainingCity").getValue(String.class));
+                trainerTrainingStreetTextView.setText(dataSnapshot.child("trainingStreet").getValue(String.class));
+                trainerBirthDateTextView.setText(dataSnapshot.child("birthDate").getValue(String.class));
+                trainerPhoneNumberTextView.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
+                trainerPriceTextView.setText(dataSnapshot.child("price").getValue(Integer.class) + "\u20aa");
 
                 if (dataSnapshot.child("gender").getValue(String.class).equals("male")) {
-                    traineeGenderImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_male_sign));
-                }
-                else {
-                    traineeGenderImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_female_sign));
+                    trainerGenderImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_male_sign));
+                } else {
+                    trainerGenderImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_female_sign));
                 }
             }
 
@@ -76,9 +82,9 @@ public class ProfileFragment extends Fragment {
             }
         };
 
-        mDatabaseTraineeReference.addValueEventListener(mValueEventListener);*/
+        mDatabaseTrainerReference.addValueEventListener(mTrainerValueEventListener);
 
-        FloatingActionButton editProfileButton = getView().findViewById(R.id.profile_edit);
+        FloatingActionButton editProfileButton = getView().findViewById(R.id.trainer_profile_edit);
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +98,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDatabaseTraineeReference.removeEventListener(mValueEventListener);
+        mDatabaseTrainerReference.removeEventListener(mTrainerValueEventListener);
     }
 }

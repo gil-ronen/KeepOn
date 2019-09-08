@@ -18,10 +18,11 @@ import com.gil_shiran_or.keepon.login_register.LoginActivity;
 import com.gil_shiran_or.keepon.trainee.about.AboutFragment;
 import com.gil_shiran_or.keepon.trainee.main.MainFragment;
 import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainersFragment;
-import com.gil_shiran_or.keepon.trainee.profile.ProfileFragment;
 import com.gil_shiran_or.keepon.trainee.search_trainer.SearchTrainerFragment;
 import com.gil_shiran_or.keepon.trainee.settings.SettingsFragment;
 import com.gil_shiran_or.keepon.trainee.status.StatusFragment;
+import com.gil_shiran_or.keepon.trainer.profile.ProfileFragment;
+import com.gil_shiran_or.keepon.trainer.rating.MyRatingFragment;
 import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainerWeeklyScheduleFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -108,21 +109,9 @@ public class TrainerNavActivity extends AppCompatActivity implements NavigationV
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
                 break;
-            case R.id.nav_status:
+            case R.id.nav_my_rating:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new StatusFragment()).commit();
-                break;
-            case R.id.nav_search_trainer:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new SearchTrainerFragment()).commit();
-                break;
-            case R.id.nav_my_trainers:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new MyTrainersFragment()).commit();
-                break;
-            case R.id.nav_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new SettingsFragment()).commit();
+                        new MyRatingFragment()).commit();
                 break;
             case R.id.nav_about:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
