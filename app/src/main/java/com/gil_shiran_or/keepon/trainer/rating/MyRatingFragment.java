@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.trainee.search_trainer;
+package com.gil_shiran_or.keepon.trainer.rating;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,29 +16,31 @@ import android.widget.TextView;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.db.Rating;
 import com.gil_shiran_or.keepon.trainee.utilities.ExpandableViewGroup;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class TrainerRatingFragment extends Fragment {
+public class MyRatingFragment extends Fragment {
 
     private DatabaseReference mDatabaseRatingReference;
     private TrainerReviewsListAdapter mTrainerReviewsListAdapter;
     private ValueEventListener mRatingValueEventListener;
-    private String mTrainerId;
+    private String mCurrentUserId;
     private Rating mRating;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search_trainer_rating, container, false);
+        return inflater.inflate(R.layout.fragment_trainer_rating, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mTrainerId = getArguments().getString("trainerId");
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
         buildReviewsRecyclerView();
 
@@ -61,7 +63,7 @@ public class TrainerRatingFragment extends Fragment {
         final ProgressBar fiveStarProgressBar = getView().findViewById(R.id.trainer_rating_5_stars);
         final TextView fiveStarTextView = getView().findViewById(R.id.trainer_rating_5_stars_reviewers);
 
-        final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/Profile/name");
+        final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mCurrentUserId + "/Profile/name");
 
         databaseTrainerReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,7 +78,7 @@ public class TrainerRatingFragment extends Fragment {
             }
         });
 
-        mDatabaseRatingReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/Rating");
+        mDatabaseRatingReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mCurrentUserId + "/Rating");
         mRatingValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -118,7 +120,7 @@ public class TrainerRatingFragment extends Fragment {
         RecyclerView reviewsRecyclerView = getView().findViewById(R.id.trainer_reviews_list);
         reviewsRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mTrainerReviewsListAdapter = new TrainerReviewsListAdapter(mTrainerId);
+        mTrainerReviewsListAdapter = new TrainerReviewsListAdapter();
 
         reviewsRecyclerView.setLayoutManager(layoutManager);
         reviewsRecyclerView.setAdapter(mTrainerReviewsListAdapter);

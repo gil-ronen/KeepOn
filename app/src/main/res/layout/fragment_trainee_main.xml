@@ -37,7 +37,6 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:elevation="1dp"
-                        android:src="@drawable/default_profile_img"
                         app:civ_border_color="@color/gold"
                         app:civ_border_width="10dp" />
 
@@ -48,7 +47,6 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:elevation="1dp"
-                        android:src="@drawable/default_profile_img"
                         app:civ_border_color="@color/silver"
                         app:civ_border_width="10dp" />
 
@@ -57,7 +55,6 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:elevation="1dp"
-                        android:src="@drawable/default_profile_img"
                         app:civ_border_color="@color/bronze"
                         app:civ_border_width="10dp" />
 
