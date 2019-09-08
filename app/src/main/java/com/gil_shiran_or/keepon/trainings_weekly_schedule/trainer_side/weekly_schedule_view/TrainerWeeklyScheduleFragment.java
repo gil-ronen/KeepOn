@@ -2,10 +2,12 @@ package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_s
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class TrainerWeeklyScheduleActivity extends AppCompatActivity {
+public class TrainerWeeklyScheduleFragment extends Fragment {
 
     private TextView mTitlePage;
     private TextView mSubtitlePage;
@@ -77,15 +79,21 @@ public class TrainerWeeklyScheduleActivity extends AppCompatActivity {
     private String dateForDB7;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainer_weekly_schedule);
 
-        mTitlePage = findViewById(R.id.trainerView_titlePage);
-        mSubtitlePage = findViewById(R.id.trainerView_subtitlePage);
-        mBtnEditSlots = findViewById(R.id.trainerView_btnEdit);
-        mEndPage = findViewById(R.id.trainerView_endPage);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_trainer_weekly_schedule, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+
+        mTitlePage = view.findViewById(R.id.trainerView_titlePage);
+        mSubtitlePage = view.findViewById(R.id.trainerView_subtitlePage);
+        mBtnEditSlots = view.findViewById(R.id.trainerView_btnEdit);
+        mEndPage = view.findViewById(R.id.trainerView_endPage);
 
         //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
         mTrainerId = "ayAWQUYKUZbISD7FicSJvYOWShE3";
@@ -96,95 +104,95 @@ public class TrainerWeeklyScheduleActivity extends AppCompatActivity {
 
         synchronizeDates();
 
-        mTimeSlotsRecyclerView1 = findViewById(R.id.trainerView_timeSlotsList1);
+        mTimeSlotsRecyclerView1 = view.findViewById(R.id.trainerView_timeSlotsList1);
         mTimeSlotsRecyclerView1.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(this.getApplicationContext());
+        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(this.getContext());
         mTimeSlotsRecyclerView1.setLayoutManager(layoutManager1);
 
-        ViewGroup day1SlotsExpanderViewGroup = findViewById(R.id.trainerView_expandableDay1);
+        ViewGroup day1SlotsExpanderViewGroup = view.findViewById(R.id.trainerView_expandableDay1);
         ViewGroup day1SlotsViewGroup = mTimeSlotsRecyclerView1;
         View day1SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day1SlotsExpanderViewGroup, false);
         day1SlotsExpanderViewGroup.addView(day1SlotsExpandableLayoutView);
         expandableViewGroup1 = new ExpandableViewGroup(dateForApp1, dateForApp1, (ViewGroup) day1SlotsExpandableLayoutView, day1SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView2 = findViewById(R.id.trainerView_timeSlotsList2);
+        mTimeSlotsRecyclerView2 = view.findViewById(R.id.trainerView_timeSlotsList2);
         mTimeSlotsRecyclerView2.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(this.getApplicationContext());
+        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(this.getContext());
         mTimeSlotsRecyclerView2.setLayoutManager(layoutManager2);
 
-        ViewGroup day2SlotsExpanderViewGroup = findViewById(R.id.trainerView_expandableDay2);
+        ViewGroup day2SlotsExpanderViewGroup = view.findViewById(R.id.trainerView_expandableDay2);
         ViewGroup day2SlotsViewGroup = mTimeSlotsRecyclerView2;
         View day2SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day2SlotsExpanderViewGroup, false);
         day2SlotsExpanderViewGroup.addView(day2SlotsExpandableLayoutView);
         expandableViewGroup2 = new ExpandableViewGroup(dateForApp2, dateForApp2, (ViewGroup) day2SlotsExpandableLayoutView, day2SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView3 = findViewById(R.id.trainerView_timeSlotsList3);
+        mTimeSlotsRecyclerView3 = view.findViewById(R.id.trainerView_timeSlotsList3);
         mTimeSlotsRecyclerView3.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(this.getApplicationContext());
+        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(this.getContext());
         mTimeSlotsRecyclerView3.setLayoutManager(layoutManager3);
 
-        ViewGroup day3SlotsExpanderViewGroup = findViewById(R.id.trainerView_expandableDay3);
+        ViewGroup day3SlotsExpanderViewGroup = view.findViewById(R.id.trainerView_expandableDay3);
         ViewGroup day3SlotsViewGroup = mTimeSlotsRecyclerView3;
         View day3SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day3SlotsExpanderViewGroup, false);
         day3SlotsExpanderViewGroup.addView(day3SlotsExpandableLayoutView);
         expandableViewGroup3 = new ExpandableViewGroup(dateForApp3, dateForApp3, (ViewGroup) day3SlotsExpandableLayoutView, day3SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView4 = findViewById(R.id.trainerView_timeSlotsList4);
+        mTimeSlotsRecyclerView4 = view.findViewById(R.id.trainerView_timeSlotsList4);
         mTimeSlotsRecyclerView4.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager4 = new LinearLayoutManager(this.getApplicationContext());
+        RecyclerView.LayoutManager layoutManager4 = new LinearLayoutManager(this.getContext());
         mTimeSlotsRecyclerView4.setLayoutManager(layoutManager4);
 
-        ViewGroup day4SlotsExpanderViewGroup = findViewById(R.id.trainerView_expandableDay4);
+        ViewGroup day4SlotsExpanderViewGroup = view.findViewById(R.id.trainerView_expandableDay4);
         ViewGroup day4SlotsViewGroup = mTimeSlotsRecyclerView4;
         View day4SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day4SlotsExpanderViewGroup, false);
         day4SlotsExpanderViewGroup.addView(day4SlotsExpandableLayoutView);
         expandableViewGroup4 = new ExpandableViewGroup(dateForApp4, dateForApp4, (ViewGroup) day4SlotsExpandableLayoutView, day4SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView5 = findViewById(R.id.trainerView_timeSlotsList5);
+        mTimeSlotsRecyclerView5 = view.findViewById(R.id.trainerView_timeSlotsList5);
         mTimeSlotsRecyclerView5.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager5 = new LinearLayoutManager(this.getApplicationContext());
+        RecyclerView.LayoutManager layoutManager5 = new LinearLayoutManager(this.getContext());
         mTimeSlotsRecyclerView5.setLayoutManager(layoutManager5);
 
-        ViewGroup day5SlotsExpanderViewGroup = findViewById(R.id.trainerView_expandableDay5);
+        ViewGroup day5SlotsExpanderViewGroup = view.findViewById(R.id.trainerView_expandableDay5);
         ViewGroup day5SlotsViewGroup = mTimeSlotsRecyclerView5;
         View day5SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day5SlotsExpanderViewGroup, false);
         day5SlotsExpanderViewGroup.addView(day5SlotsExpandableLayoutView);
         expandableViewGroup5 = new ExpandableViewGroup(dateForApp5, dateForApp5, (ViewGroup) day5SlotsExpandableLayoutView, day5SlotsViewGroup);
 
 
-        mTimeSlotsRecyclerView6 = findViewById(R.id.trainerView_timeSlotsList6);
+        mTimeSlotsRecyclerView6 = view.findViewById(R.id.trainerView_timeSlotsList6);
         mTimeSlotsRecyclerView6.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager6 = new LinearLayoutManager(this.getApplicationContext());
+        RecyclerView.LayoutManager layoutManager6 = new LinearLayoutManager(this.getContext());
         mTimeSlotsRecyclerView6.setLayoutManager(layoutManager6);
 
-        ViewGroup day6SlotsExpanderViewGroup = findViewById(R.id.trainerView_expandableDay6);
+        ViewGroup day6SlotsExpanderViewGroup = view.findViewById(R.id.trainerView_expandableDay6);
         ViewGroup day6SlotsViewGroup = mTimeSlotsRecyclerView6;
         View day6SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day6SlotsExpanderViewGroup, false);
         day6SlotsExpanderViewGroup.addView(day6SlotsExpandableLayoutView);
         expandableViewGroup6 = new ExpandableViewGroup(dateForApp6, dateForApp6, (ViewGroup) day6SlotsExpandableLayoutView, day6SlotsViewGroup);
 
-        mTimeSlotsRecyclerView7 = findViewById(R.id.trainerView_timeSlotsList7);
+        mTimeSlotsRecyclerView7 = view.findViewById(R.id.trainerView_timeSlotsList7);
         mTimeSlotsRecyclerView7.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager7 = new LinearLayoutManager(this.getApplicationContext());
+        RecyclerView.LayoutManager layoutManager7 = new LinearLayoutManager(this.getContext());
         mTimeSlotsRecyclerView7.setLayoutManager(layoutManager7);
 
-        ViewGroup day7SlotsExpanderViewGroup = findViewById(R.id.trainerView_expandableDay7);
+        ViewGroup day7SlotsExpanderViewGroup = view.findViewById(R.id.trainerView_expandableDay7);
         ViewGroup day7SlotsViewGroup = mTimeSlotsRecyclerView7;
         View day7SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day7SlotsExpanderViewGroup, false);
         day7SlotsExpanderViewGroup.addView(day7SlotsExpandableLayoutView);
         expandableViewGroup7 = new ExpandableViewGroup(dateForApp7, dateForApp7, (ViewGroup) day7SlotsExpandableLayoutView, day7SlotsViewGroup);
 
 
-
+        final Fragment fragment = this;
         mBtnEditSlots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(TrainerWeeklyScheduleActivity.this, MainWeeklyScheduleActivity.class);
+                Intent intent = new Intent(fragment.getContext(), MainWeeklyScheduleActivity.class);
 
                 /*
                 Bundle bundle = new Bundle();
@@ -207,15 +215,14 @@ public class TrainerWeeklyScheduleActivity extends AppCompatActivity {
                 intent.putExtras(bundle);
                 */
                 startActivity(intent);
-                //finish();
             }
         });
 
 
 
         // import font
-        Typeface MLight = Typeface.createFromAsset(getAssets(), "fonts/ML.ttf");
-        Typeface MMedium = Typeface.createFromAsset(getAssets(), "fonts/MM.ttf");
+        Typeface MLight = Typeface.createFromAsset(getContext().getAssets(), "fonts/ML.ttf");
+        Typeface MMedium = Typeface.createFromAsset(getContext().getAssets(), "fonts/MM.ttf");
 
         // customize font
         mTitlePage.setTypeface(MMedium);

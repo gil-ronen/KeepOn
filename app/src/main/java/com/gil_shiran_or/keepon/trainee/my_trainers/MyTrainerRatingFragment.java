@@ -15,8 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.Rating;
-import com.gil_shiran_or.keepon.trainee.main.UserLikedDisliked;
+import com.gil_shiran_or.keepon.db.Rating;
 import com.gil_shiran_or.keepon.trainee.utilities.ExpandableViewGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,9 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MyTrainerRatingFragment extends Fragment implements AddReviewDialog.AddReviewListener {

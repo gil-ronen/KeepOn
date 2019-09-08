@@ -3,7 +3,6 @@ package com.gil_shiran_or.keepon.trainee.search_trainer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,21 +14,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.Rating;
-import com.gil_shiran_or.keepon.trainee.my_trainers.AddReviewDialog;
-import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainer;
-import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainerReviewsListAdapter;
-import com.gil_shiran_or.keepon.trainee.my_trainers.Review;
+import com.gil_shiran_or.keepon.db.Rating;
 import com.gil_shiran_or.keepon.trainee.utilities.ExpandableViewGroup;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TrainerRatingFragment extends Fragment {
 
@@ -70,7 +61,7 @@ public class TrainerRatingFragment extends Fragment {
         final ProgressBar fiveStarProgressBar = getView().findViewById(R.id.trainer_rating_5_stars);
         final TextView fiveStarTextView = getView().findViewById(R.id.trainer_rating_5_stars_reviewers);
 
-        final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/name");
+        final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/Profile/name");
 
         databaseTrainerReference.addValueEventListener(new ValueEventListener() {
             @Override

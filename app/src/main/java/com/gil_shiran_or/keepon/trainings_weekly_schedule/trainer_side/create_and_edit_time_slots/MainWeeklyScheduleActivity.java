@@ -28,7 +28,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
     private TextView mTitlePage;
     private TextView mSubtitlePage;
     private TextView mEndPage;
-    private Button mBtnAddNew;
+    private android.support.design.widget.FloatingActionButton mBtnAddNew;
 
     private RecyclerView mTimeSlotsRecyclerView1;
     private RecyclerView mTimeSlotsRecyclerView2;
@@ -202,7 +202,6 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
 
                 intent.putExtras(bundle);
                 startActivity(intent);
-                //finish();
             }
         });
 
@@ -215,7 +214,7 @@ public class MainWeeklyScheduleActivity extends AppCompatActivity {
         mTitlePage.setTypeface(MMedium);
         mSubtitlePage.setTypeface(MLight);
         mEndPage.setTypeface(MMedium);
-        mBtnAddNew.setTypeface(MLight);
+        //mBtnAddNew.setTypeface(MLight);
 
     }
 

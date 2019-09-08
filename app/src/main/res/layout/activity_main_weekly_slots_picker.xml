@@ -47,17 +47,6 @@ tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActi
 
         </LinearLayout>
 
-        <Button
-            android:layout_marginTop="35dp"
-            android:layout_marginLeft="60dp"
-            android:id="@+id/mainPicker_btnTrainingsList"
-            android:text="My Trainings"
-            android:background="@drawable/bg_btn_new_slot"
-            android:textSize="12sp"
-            android:textColor="#FFF"
-            android:textAlignment="center"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
 
     </LinearLayout>
 

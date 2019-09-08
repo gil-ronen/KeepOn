@@ -31,10 +31,10 @@ import android.widget.Toast;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
-import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.Rating;
-import com.gil_shiran_or.keepon.Trainer;
+import com.gil_shiran_or.keepon.db.Rating;
+import com.gil_shiran_or.keepon.db.Trainer;
+import com.gil_shiran_or.keepon.trainer.nav.TrainerNavActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -347,7 +347,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), TrainerNavActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -404,7 +404,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                                     }
                                 });
 
-                        Intent traineeIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                        Intent traineeIntent = new Intent(getApplicationContext(), TrainerNavActivity.class);
                         startActivity(traineeIntent);
                         finish();
                     }

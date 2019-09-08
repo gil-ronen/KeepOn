@@ -22,6 +22,7 @@ import com.gil_shiran_or.keepon.trainee.profile.ProfileFragment;
 import com.gil_shiran_or.keepon.trainee.search_trainer.SearchTrainerFragment;
 import com.gil_shiran_or.keepon.trainee.settings.SettingsFragment;
 import com.gil_shiran_or.keepon.trainee.status.StatusFragment;
+import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainerWeeklyScheduleFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,13 +60,13 @@ public class TrainerNavActivity extends AppCompatActivity implements NavigationV
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new MainFragment()).commit();
+                    new TrainerWeeklyScheduleFragment()).commit();
             navigationView.setCheckedItem((R.id.nav_main));
         }
 
         final View header = navigationView.getHeaderView(0);
         String currentUserId = FirebaseAuth.getInstance().getUid();
-        mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers").child(currentUserId);
+        mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + currentUserId + "/Profile");
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -101,7 +102,7 @@ public class TrainerNavActivity extends AppCompatActivity implements NavigationV
         switch (item.getItemId()) {
             case R.id.nav_main:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new MainFragment()).commit();
+                        new TrainerWeeklyScheduleFragment()).commit();
                 break;
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

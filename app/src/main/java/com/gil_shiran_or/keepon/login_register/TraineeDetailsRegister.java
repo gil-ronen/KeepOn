@@ -32,9 +32,11 @@ package com.gil_shiran_or.keepon.login_register;
         import android.support.v7.app.AlertDialog;
 
         import com.gil_shiran_or.keepon.R;
-        import com.gil_shiran_or.keepon.Trainee;
+        import com.gil_shiran_or.keepon.db.Trainee;
         import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
-        import com.gil_shiran_or.keepon.Status;
+        import com.gil_shiran_or.keepon.db.Status;
+        import com.gil_shiran_or.keepon.trainee.status.TraineeWeeklyTask;
+        import com.gil_shiran_or.keepon.trainee.status.WeeklyTask;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.OnSuccessListener;
         import com.google.android.gms.tasks.Task;
@@ -55,6 +57,7 @@ package com.gil_shiran_or.keepon.login_register;
         import java.util.Calendar;
         import java.util.HashMap;
         import java.util.Map;
+        import java.util.Random;
 
 
 public class TraineeDetailsRegister extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -317,6 +320,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
 
                         generateTraineeSectionInDatabase();
 
+
+
                     }
                 }
             });
@@ -359,6 +364,51 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });
+
+        final DatabaseReference databaseWeeklyTasksReference = FirebaseDatabase.getInstance().getReference().child("WeeklyTasks");
+
+
+        databaseWeeklyTasksReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Random random = new Random();
+                int num1, num2, weeklyTasksNum = 0;
+
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    data.getValue(WeeklyTask.class);
+                    weeklyTasksNum++;
+                }
+
+                num1 = random.nextInt(weeklyTasksNum) + 1;
+
+                do {
+                    num2 = random.nextInt(weeklyTasksNum) + 1;
+                } while (num2 == num1);
+
+                setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num1));
+                setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num2));
+
+                databaseWeeklyTasksReference.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setWeeklyTaskToFirebase(TraineeWeeklyTask traineeWeeklyTask) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String currentUserId = firebaseAuth.getCurrentUser().getUid();
+        DatabaseReference databaseTraineeWeeklyTasksReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + currentUserId + "/Status/weeklyTasks");
+        String key = databaseTraineeWeeklyTasksReference.push().getKey();
+        Map<String, Object> traineeWeeklyTaskValues = traineeWeeklyTask.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        childUpdates.put(key, traineeWeeklyTaskValues);
+
+        databaseTraineeWeeklyTasksReference.updateChildren(childUpdates);
     }
 
     // update user photo and name

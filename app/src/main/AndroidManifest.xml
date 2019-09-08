@@ -11,9 +11,9 @@
         android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainingsListGroupParticipatesActivity"></activity>
-        <activity android:name=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainerWeeklyScheduleActivity" />
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainingsListGroupParticipatesActivity"/>
         <activity android:name=".trainings_weekly_schedule.trainee_side.MyTrainingsListActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.RegisterSlotActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity" />
@@ -34,7 +34,6 @@
         <activity android:name=".login_register.ResetPasswordActivity" />
         <activity android:name=".login_register.TrainerDetailsRegister" />
         <activity android:name=".login_register.TraineeDetailsRegister" />
-        <activity android:name=".HomeActivity" />
         <activity
             android:name=".login_register.LoginActivity"
             android:screenOrientation="portrait"
@@ -62,6 +61,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".trainee.search_trainer.TrainerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".trainer.nav.TrainerNavActivity"
             android:screenOrientation="portrait" />
 
     </application>

@@ -7,7 +7,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/background_trainee"
-tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainerWeeklyScheduleActivity">
+tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainerWeeklyScheduleFragment">
 
 <LinearLayout
     android:orientation="vertical"
@@ -59,6 +59,8 @@ tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.Trai
             android:src="@drawable/ic_profile_edit"
             app:backgroundTint="@color/purple"
             app:elevation="4dp" />
+
+
 
     </LinearLayout>
 

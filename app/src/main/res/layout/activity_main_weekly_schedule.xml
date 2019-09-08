@@ -31,7 +31,7 @@ tools:context=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slot
                     android:layout_marginTop="20dp"
                     android:textSize="32sp"
                     android:textColor="#FFF"
-                    android:text="My Weekly Schedule"
+                    android:text="Plan your week"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -47,17 +47,19 @@ tools:context=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slot
 
             </LinearLayout>
 
-            <Button
-                android:layout_marginTop="35dp"
-                android:layout_marginLeft="60dp"
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/main_btnAddNew"
-                android:text="+"
-                android:background="@drawable/bg_btn_new_slot"
-                android:textSize="38sp"
-                android:textColor="#FFF"
-                android:textAlignment="center"
-                android:layout_width="52dp"
-                android:layout_height="52dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="25dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_show_options"
+                app:backgroundTint="@color/purple"
+                app:elevation="4dp" />
+
+
 
         </LinearLayout>
 

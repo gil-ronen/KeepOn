@@ -189,8 +189,6 @@ public class EditSlotActivity extends AppCompatActivity {
                     mDatabaseReference.child("groupSession").setValue(groupSession);
                     mDatabaseReference.child("groupLimit").setValue(groupLimit);
 
-                    Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
-                    startActivity(intent);
                     finish();
                 }
             }
@@ -344,8 +342,6 @@ public class EditSlotActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         mDatabaseReference.removeValue();
-                        Intent intent = new Intent(EditSlotActivity.this, MainWeeklyScheduleActivity.class);
-                        startActivity(intent);
                         finish();
                     }
                 })

@@ -12,9 +12,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.gil_shiran_or.keepon.HomeActivity;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainee.nav.TraineeNavActivity;
+import com.gil_shiran_or.keepon.trainer.nav.TrainerNavActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             else //the user is connected as Trainer
             {
-                intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent = new Intent(getApplicationContext(), TrainerNavActivity.class);
             }
 
             query.removeEventListener(this);

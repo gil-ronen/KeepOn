@@ -157,6 +157,16 @@ public class TimeSlot {
         return false;
     }
 
+    public String getTraineeId(int position)
+    {
+        return traineesId.get(position).getUserId();
+    }
+
+    public int getSizeOfTraineesList()
+    {
+        return traineesId.size();
+    }
+
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

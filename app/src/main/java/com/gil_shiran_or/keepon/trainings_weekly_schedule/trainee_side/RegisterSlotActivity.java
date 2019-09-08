@@ -153,8 +153,6 @@ public class RegisterSlotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(RegisterSlotActivity.this, MainWeeklySlotsPickerActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -200,8 +198,7 @@ public class RegisterSlotActivity extends AppCompatActivity {
             mTrainerScheduleDatabaseReference.child("occupied").setValue(true);
 
 
-        Intent intent = new Intent(RegisterSlotActivity.this, MainWeeklySlotsPickerActivity.class);
-        startActivity(intent);
+
         finish();
 
     }
@@ -235,8 +232,6 @@ public class RegisterSlotActivity extends AppCompatActivity {
         mTrainerScheduleDatabaseReference.child("occupied").setValue(false);
 
 
-        Intent intent = new Intent(RegisterSlotActivity.this, MainWeeklySlotsPickerActivity.class);
-        startActivity(intent);
         finish();
     }
 

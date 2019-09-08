@@ -16,9 +16,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.Rating;
-import com.gil_shiran_or.keepon.Trainer;
-import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainerActivity;
+import com.gil_shiran_or.keepon.db.Rating;
+import com.gil_shiran_or.keepon.db.Trainer;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

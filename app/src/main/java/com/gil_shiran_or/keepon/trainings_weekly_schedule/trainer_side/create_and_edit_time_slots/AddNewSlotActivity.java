@@ -136,8 +136,6 @@ public class AddNewSlotActivity extends AppCompatActivity {
         mBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddNewSlotActivity.this, MainWeeklyScheduleActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -203,8 +201,6 @@ public class AddNewSlotActivity extends AppCompatActivity {
                     }
 
 
-                    Intent intent = new Intent(AddNewSlotActivity.this, MainWeeklyScheduleActivity.class);
-                    startActivity(intent);
                     finish();
 
                 }
