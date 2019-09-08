@@ -7,7 +7,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/background_trainee"
-tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainerWeeklyScheduleFragment">
+tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.HomePageWeeklyScheduleFragment">
 
 <LinearLayout
     android:orientation="vertical"
@@ -46,19 +46,6 @@ tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.Trai
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/trainerView_btnEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="25dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_profile_edit"
-            app:backgroundTint="@color/purple"
-            app:elevation="4dp" />
 
 
 

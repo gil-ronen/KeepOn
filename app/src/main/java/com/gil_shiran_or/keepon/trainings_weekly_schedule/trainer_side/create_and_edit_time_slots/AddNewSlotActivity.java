@@ -23,6 +23,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.gil_shiran_or.keepon.trainings_weekly_schedule.TimeSlot;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -58,6 +59,7 @@ public class AddNewSlotActivity extends AppCompatActivity {
     Button mBtnCancel;
 
     DatabaseReference mDatabaseReference;
+    private FirebaseAuth mAuth;
     String mTrainerId;
 
     TimePickerDialog timePickerDialog;
@@ -96,8 +98,8 @@ public class AddNewSlotActivity extends AppCompatActivity {
         mBtnSaveSlot = findViewById(R.id.add_btnSaveSlot);
         mBtnCancel = findViewById(R.id.add_btnCancel);
 
-        //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
-        mTrainerId = "ayAWQUYKUZbISD7FicSJvYOWShE3";
+        mAuth = FirebaseAuth.getInstance();
+        mTrainerId = mAuth.getCurrentUser().getUid();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId).child("WeeklySchedule");
 
 

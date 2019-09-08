@@ -16,14 +16,10 @@ import android.widget.TextView;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.login_register.LoginActivity;
 import com.gil_shiran_or.keepon.trainee.about.AboutFragment;
-import com.gil_shiran_or.keepon.trainee.main.MainFragment;
-import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainersFragment;
-import com.gil_shiran_or.keepon.trainee.search_trainer.SearchTrainerFragment;
-import com.gil_shiran_or.keepon.trainee.settings.SettingsFragment;
-import com.gil_shiran_or.keepon.trainee.status.StatusFragment;
 import com.gil_shiran_or.keepon.trainer.profile.ProfileFragment;
 import com.gil_shiran_or.keepon.trainer.rating.MyRatingFragment;
-import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainerWeeklyScheduleFragment;
+import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.PlanWeeklyScheduleFragment;
+import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_schedule_view.HomePageWeeklyScheduleFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,7 +57,7 @@ public class TrainerNavActivity extends AppCompatActivity implements NavigationV
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new TrainerWeeklyScheduleFragment()).commit();
+                    new HomePageWeeklyScheduleFragment()).commit();
             navigationView.setCheckedItem((R.id.nav_main));
         }
 
@@ -103,7 +99,7 @@ public class TrainerNavActivity extends AppCompatActivity implements NavigationV
         switch (item.getItemId()) {
             case R.id.nav_main:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new TrainerWeeklyScheduleFragment()).commit();
+                        new HomePageWeeklyScheduleFragment()).commit();
                 break;
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -112,6 +108,10 @@ public class TrainerNavActivity extends AppCompatActivity implements NavigationV
             case R.id.nav_my_rating:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new MyRatingFragment()).commit();
+                break;
+            case R.id.nav_schedule_planner:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new PlanWeeklyScheduleFragment()).commit();
                 break;
             case R.id.nav_about:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

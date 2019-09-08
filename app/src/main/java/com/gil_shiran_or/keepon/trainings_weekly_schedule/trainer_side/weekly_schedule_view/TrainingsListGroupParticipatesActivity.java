@@ -49,8 +49,6 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
         mEndPage = findViewById(R.id.trainees_endPage);
 
 
-        //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
-        //mTrainerId = "ayAWQUYKUZbISD7FicSJvYOWShE3";
         mAuth = FirebaseAuth.getInstance();
         mTrainerId = mAuth.getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId).child("WeeklySchedule");
@@ -107,4 +105,3 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
     }
 
 }
-

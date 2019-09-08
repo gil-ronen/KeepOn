@@ -177,12 +177,8 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
             public void onClick(View v) {
                 /*
                 Intent traineeProfileIntent = new Intent(mActivity, null. class);
-
                 Bundle bundle = new Bundle();
-
                 //bundle.putString("traineeId", getTraineeId);
-
-
                 traineeProfileIntent.putExtras(bundle);
                 mActivity.startActivity(traineeProfileIntent);
                 */

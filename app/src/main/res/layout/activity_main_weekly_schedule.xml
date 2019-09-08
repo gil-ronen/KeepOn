@@ -7,7 +7,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/background_trainee"
-tools:context=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.MainWeeklyScheduleActivity">
+tools:context=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.PlanWeeklyScheduleFragment">
 
     <LinearLayout
         android:orientation="vertical"
@@ -31,7 +31,7 @@ tools:context=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slot
                     android:layout_marginTop="20dp"
                     android:textSize="32sp"
                     android:textColor="#FFF"
-                    android:text="Plan your week"
+                    android:text="Plan My Week"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

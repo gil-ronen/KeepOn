@@ -46,14 +46,11 @@ public class RegisterSlotActivity extends AppCompatActivity {
     private String mDateForApp;
     private String mDateForDB;
 
-    int currentHour;
-    int currentMinute;
 
     private String mTrainerFullName;
 
 
     private String mKeySlot;
-    //private String mTraineeId; //TODO: Fetch the list of registered trainees Id's
 
     private Boolean mIsOccupied;
     private Boolean mIsGroupSession;

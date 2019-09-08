@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainingsListGroupParticipatesActivity"/>
         <activity android:name=".trainings_weekly_schedule.trainee_side.MyTrainingsListActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.RegisterSlotActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity" />
@@ -29,8 +28,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.EditSlotActivity" />
+        <activity android:name=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainingsListGroupParticipatesActivity" />
         <activity android:name=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.AddNewSlotActivity" />
-        <activity android:name=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.MainWeeklyScheduleActivity" />
         <activity android:name=".login_register.ResetPasswordActivity" />
         <activity android:name=".login_register.TrainerDetailsRegister" />
         <activity android:name=".login_register.TraineeDetailsRegister" />

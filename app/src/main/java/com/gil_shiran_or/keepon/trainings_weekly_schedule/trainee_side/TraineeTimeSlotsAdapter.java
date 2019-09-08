@@ -195,7 +195,6 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
         else
         {
             myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_time_available);
-            myViewHolder.mIsMe.setVisibility(View.INVISIBLE);
         }
 
 

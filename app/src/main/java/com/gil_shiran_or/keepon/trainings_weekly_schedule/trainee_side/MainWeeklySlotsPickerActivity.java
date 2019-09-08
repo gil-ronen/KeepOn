@@ -92,12 +92,10 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
         mEndPage = findViewById(R.id.mainPicker_endPage);
 
         //TODO: TRAINER ID NEED TO TAKEN FROM CURRENT USER FROM DB!!!
-        //mTrainerId = "ayAWQUYKUZbISD7FicSJvYOWShE3";
         mTrainerId = getIntent().getExtras().getString("trainerId");
         mAuth = FirebaseAuth.getInstance();
         mTraineeId = mAuth.getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId); //trainer ID
-        //databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child("trainerId").child("WeeklySchedule");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId);
 
         getTrainerFullName();
         synchronizeDates();

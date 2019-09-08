@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -28,7 +29,7 @@ import java.util.Collections;
 
 public class TrainerEditTimeSlotsAdapter extends RecyclerView.Adapter<TrainerEditTimeSlotsAdapter.MyViewHolder>{
 
-    private Activity mActivity;
+    private Fragment mFragment;
     private ArrayList<TimeSlot> mTimeSlots;
     private ChildEventListener mChildEventListener;
     private DatabaseReference mDatabaseReference;
@@ -38,8 +39,8 @@ public class TrainerEditTimeSlotsAdapter extends RecyclerView.Adapter<TrainerEdi
 
 
 
-    public TrainerEditTimeSlotsAdapter(Activity activity, DatabaseReference ref, String dateForApp, String dateForDB) {
-        mActivity = activity;
+    public TrainerEditTimeSlotsAdapter(Fragment fragment, DatabaseReference ref, String dateForApp, String dateForDB) {
+        mFragment = fragment;
         mDatabaseReference = ref;
         mTimeSlots = new ArrayList<>();
         mDateForApp = dateForApp;
@@ -165,7 +166,7 @@ public class TrainerEditTimeSlotsAdapter extends RecyclerView.Adapter<TrainerEdi
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent editIntent = new Intent(mActivity , EditSlotActivity.class);
+                Intent editIntent = new Intent(mFragment.getContext() , EditSlotActivity.class);
 
                 Bundle bundle = new Bundle();
 
@@ -186,14 +187,14 @@ public class TrainerEditTimeSlotsAdapter extends RecyclerView.Adapter<TrainerEdi
                 bundle.putInt("groupLimit", getGroupLimit);
 
                 editIntent.putExtras(bundle);
-                mActivity.startActivity(editIntent);
+                mFragment.startActivity(editIntent);
             }
         });
 
 
         // import font
-        Typeface MLight = Typeface.createFromAsset(mActivity.getAssets(), "fonts/ML.ttf");
-        Typeface MMedium = Typeface.createFromAsset(mActivity.getAssets(), "fonts/MM.ttf");
+        Typeface MLight = Typeface.createFromAsset(mFragment.getContext().getAssets(), "fonts/ML.ttf");
+        Typeface MMedium = Typeface.createFromAsset(mFragment.getContext().getAssets(), "fonts/MM.ttf");
 
 
         myViewHolder.mTitleSlot.setText(getTitleSlot);
