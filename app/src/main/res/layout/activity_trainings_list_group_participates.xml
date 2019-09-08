@@ -1,9 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainingsListGroupParticipatesActivity">
+<LinearLayout
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/background_trainee"
+tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainingsListGroupParticipatesActivity">
 
-</android.support.constraint.ConstraintLayout>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:layout_height="220dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/trainees_trainingTitle"
+                android:layout_marginTop="20dp"
+                android:textSize="32sp"
+                android:textColor="#FFF"
+                android:text="Training Title"
+                android:textAlignment="textStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/trainees_trainingDesc"
+                android:textSize="18sp"
+                android:textColor="@color/dark_gray"
+                android:layout_marginTop="8dp"
+                android:text="Training description"
+                android:textAlignment="textStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/trainees_trainingDate"
+                android:textSize="18sp"
+                android:textColor="@color/dark_gray"
+                android:layout_marginTop="8dp"
+                android:textAlignment="textStart"
+                android:text="training date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/trainees_trainingTime"
+                android:textSize="18sp"
+                android:textColor="@color/dark_gray"
+                android:layout_marginTop="8dp"
+                android:text="training time"
+                android:textAlignment="textStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/trainees_counting"
+                android:textSize="18sp"
+                android:textColor="@color/dark_gray"
+                android:layout_marginTop="8dp"
+                android:text="Total registered 6 participants out of 8"
+                android:textAlignment="textStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/trainees_traineesList"
+            android:nestedScrollingEnabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="16dp"
+            android:divider="@null"
+            android:dividerHeight="10.0sp"
+            android:transcriptMode="alwaysScroll"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/trainees_endPage"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="There are no more participants"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</ScrollView>
+
+
+</LinearLayout>

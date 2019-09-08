@@ -133,7 +133,7 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_trainee_time_slot,viewGroup, false));
+        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_trainee_fragment_time_slot,viewGroup, false));
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -144,12 +144,12 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            mTraineeNameSlot = (TextView) itemView.findViewById(R.id.trainee_name);
-            mTitleSlot = (TextView) itemView.findViewById(R.id.training_title);
-            mTimeSlot = (TextView) itemView.findViewById(R.id.training_time);
-            mIsFull = (TextView) itemView.findViewById(R.id.if_slot_occupied);
-            mImageView = (CircleImageView) itemView.findViewById(R.id.trainee_profile_img);
-            mTimeSlotLinearLayout = (LinearLayout) itemView.findViewById(R.id.all_training_slot);
+            mTraineeNameSlot = (TextView) itemView.findViewById(R.id.fragment_trainee_name);
+            mTitleSlot = (TextView) itemView.findViewById(R.id.fragment_training_title);
+            mTimeSlot = (TextView) itemView.findViewById(R.id.fragment_training_time);
+            mIsFull = (TextView) itemView.findViewById(R.id.fragment_if_slot_occupied);
+            mImageView = (CircleImageView) itemView.findViewById(R.id.fragment_profile_img_trainee_list);
+            mTimeSlotLinearLayout = (LinearLayout) itemView.findViewById(R.id.fragment_all_training_slot);
         }
     }
 
@@ -158,17 +158,23 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
 
         final String getSlotId = mTimeSlots.get(i).getTimeSlotId();
-        final String getTitleSlot = mTimeSlots.get(i).getTitle();
-        final String getDescSlot = mTimeSlots.get(i).getDescription();
+
         final String getTimeFrom = mTimeSlots.get(i).getTimeFrom();
         final String getTimeUntil = mTimeSlots.get(i).getTimeUntil();
         final String getTimes = getTimeFrom + " - " + getTimeUntil;
+        final int getCurrentSumPeopleInGroup = mTimeSlots.get(i).getCurrentSumPeopleInGroup();
+        final int getGroupLimit = mTimeSlots.get(i).getGroupLimit();
+        final boolean getGroupSession = mTimeSlots.get(i).isGroupSession();
+        final String getTitleSlot = mTimeSlots.get(i).getTitle();
+        final String getDescSlot = mTimeSlots.get(i).getDescription();
+
+        /*
         final String getTrainerId = mTimeSlots.get(i).getTrainerId();
         //final String getTraineeId = mTimeSlots.get(i).getTraineeId(); //TODO: GET LIST OF TRAINEES
         final boolean isOccupied = mTimeSlots.get(i).isOccupied();
         final boolean getGroupSession = mTimeSlots.get(i).isGroupSession();
-        final int getCurrentSumPeopleInGroup = mTimeSlots.get(i).getCurrentSumPeopleInGroup();
-        final int getGroupLimit = mTimeSlots.get(i).getGroupLimit();
+
+        */
 
         if(getGroupSession)
         {
@@ -209,21 +215,13 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
             }
 
 
-
-            myViewHolder.mTraineeNameSlot.setText("Trainee Name"); //TODO: GET TRAINEE IMAGE
-            myViewHolder.mImageView.setImageResource(R.drawable.one_person); //TODO: GET TRAINEE IMAGE
         }
-
-
-
-
 
 
 
         myViewHolder.mTitleSlot.setText(mTimeSlots.get(i).getTitle());
         myViewHolder.mTimeSlot.setText(getTimes);
         myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_registered_slot);
-
 
 
 
@@ -240,13 +238,13 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
                     Bundle bundle = new Bundle();
 
                     bundle.putString("slotId", getSlotId);
-                    bundle.putString("title", getTitleSlot);
-                    bundle.putString("description", getDescSlot);
-                    bundle.putString("dateForApp", mDateForApp);
-                    bundle.putString("times", getTimes);
-                    bundle.putInt("currentSumPeopleInGroup", getCurrentSumPeopleInGroup);
-                    bundle.putInt("groupLimit", getGroupLimit);
-                    bundle.putBoolean("isOccupied", isOccupied);
+                    bundle.putString("dateForDB", mDateForDB);
+                    bundle.putString("trainingDate", mDateForApp);
+                    bundle.putString("trainingTitle", getTitleSlot);
+                    bundle.putString("trainingDesc", getDescSlot);
+                    bundle.putString("trainingTime", getTimes);
+                    bundle.putString("sumTrainees", "Total registered "+ getCurrentSumPeopleInGroup +" participants out of " + getGroupLimit);
+
 
                     groupListIntent.putExtras(bundle);
                     mFragment.getContext().startActivity(groupListIntent);

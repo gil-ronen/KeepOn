@@ -118,7 +118,7 @@ tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.Trai
             android:divider="@null"
             android:dividerHeight="10.0sp"
             android:transcriptMode="alwaysScroll"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -140,7 +140,7 @@ tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.Trai
             android:divider="@null"
             android:dividerHeight="10.0sp"
             android:transcriptMode="alwaysScroll"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -162,7 +162,7 @@ tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.Trai
             android:divider="@null"
             android:dividerHeight="10.0sp"
             android:transcriptMode="alwaysScroll"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -184,7 +184,7 @@ tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.Trai
             android:divider="@null"
             android:dividerHeight="10.0sp"
             android:transcriptMode="alwaysScroll"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -206,7 +206,7 @@ tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.Trai
             android:divider="@null"
             android:dividerHeight="10.0sp"
             android:transcriptMode="alwaysScroll"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -228,7 +228,7 @@ tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.Trai
             android:divider="@null"
             android:dividerHeight="10.0sp"
             android:transcriptMode="alwaysScroll"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/trainerView_endPage"

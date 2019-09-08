@@ -347,9 +347,6 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
 
                         uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
 
-                        Intent intent = new Intent(getApplicationContext(), TrainerNavActivity.class);
-                        startActivity(intent);
-                        finish();
                     }
                 }
             });

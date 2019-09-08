@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
@@ -83,7 +82,7 @@ public class TrainerWeeklyScheduleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_trainer_weekly_schedule, container, false);
+        return inflater.inflate(R.layout.fragment_trainer_weekly_schedule, container, false);
     }
 
     @Override
@@ -114,7 +113,7 @@ public class TrainerWeeklyScheduleFragment extends Fragment {
         View day1SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day1SlotsExpanderViewGroup, false);
         day1SlotsExpanderViewGroup.addView(day1SlotsExpandableLayoutView);
         expandableViewGroup1 = new ExpandableViewGroup(dateForApp1, dateForApp1, (ViewGroup) day1SlotsExpandableLayoutView, day1SlotsViewGroup);
-
+        expandableViewGroup1.changeArrow();
 
         mTimeSlotsRecyclerView2 = view.findViewById(R.id.trainerView_timeSlotsList2);
         mTimeSlotsRecyclerView2.setHasFixedSize(true);

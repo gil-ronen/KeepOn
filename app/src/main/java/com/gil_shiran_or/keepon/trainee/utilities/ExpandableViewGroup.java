@@ -18,7 +18,7 @@ public class ExpandableViewGroup {
 
     private TextView labelTextView;
     private ImageView arrowImageView;
-    private int repliesArrowRotationAngle = 0;
+    private int arrowRotationAngle = 0;
 
     public ExpandableViewGroup(String labelBefore, String labelAfter, ViewGroup masterLayout, ViewGroup slaveLayout) {
         this.labelBefore = labelBefore;
@@ -119,8 +119,8 @@ public class ExpandableViewGroup {
     }
 
     private void toggleArrowAnimation(View view) {
-        repliesArrowRotationAngle = repliesArrowRotationAngle == 0 ? 180 : 0;  //toggle
-        view.animate().rotation(repliesArrowRotationAngle).setDuration(250).start();
+        arrowRotationAngle = arrowRotationAngle == 0 ? 180 : 0;  //toggle
+        view.animate().rotation(arrowRotationAngle).setDuration(250).start();
     }
 
     public void setLabelBefore(String labelBefore) {
@@ -131,11 +131,8 @@ public class ExpandableViewGroup {
         }
     }
 
-    public void setMasterLayout(ViewGroup masterLayout) {
-        this.masterLayout = masterLayout;
-    }
-
-    public void setSlaveLayout(ViewGroup slaveLayout) {
-        this.slaveLayout = slaveLayout;
+    public void changeArrow() {
+        arrowRotationAngle = 180;
+        arrowImageView.animate().rotation(arrowRotationAngle).setDuration(250).start();
     }
 }

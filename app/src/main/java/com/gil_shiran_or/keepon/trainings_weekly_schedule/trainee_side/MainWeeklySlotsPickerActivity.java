@@ -112,7 +112,7 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
         View day1SlotsExpandableLayoutView = getLayoutInflater().inflate(R.layout.expandable_layout, day1SlotsExpanderViewGroup, false);
         day1SlotsExpanderViewGroup.addView(day1SlotsExpandableLayoutView);
         expandableViewGroup1 = new ExpandableViewGroup(dateForApp1, dateForApp1, (ViewGroup) day1SlotsExpandableLayoutView, day1SlotsViewGroup);
-
+        expandableViewGroup1.changeArrow();
 
         mTimeSlotsRecyclerView2 = findViewById(R.id.mainPicker_timeSlotsList2);
         mTimeSlotsRecyclerView2.setHasFixedSize(true);
