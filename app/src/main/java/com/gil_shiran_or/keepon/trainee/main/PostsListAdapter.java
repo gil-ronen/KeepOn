@@ -1,10 +1,12 @@
 package com.gil_shiran_or.keepon.trainee.main;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +24,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,6 +53,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         public TextView dateTextView;
         public TextView titleTextView;
         public TextView bodyTextView;
+        public ImageView imageView;
         public ImageView likeImageView;
         public TextView likesTextView;
         public ImageView dislikeImageView;
@@ -60,6 +67,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             dateTextView = itemView.findViewById(R.id.post_date);
             titleTextView = itemView.findViewById(R.id.post_title);
             bodyTextView = itemView.findViewById(R.id.post_body);
+            imageView = itemView.findViewById(R.id.post_img);
             likeImageView = itemView.findViewById(R.id.post_like_img);
             likesTextView = itemView.findViewById(R.id.post_likes);
             dislikeImageView = itemView.findViewById(R.id.post_dislike_img);
@@ -168,6 +176,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         final Post currentPost = mPostsList.get(position);
 
         setPostHeader(holder, currentPost);
+        setPostImage(holder, currentPost);
         setPostLikes(holder, currentPost);
         setPostDislikes(holder, currentPost);
         setPostCardClick(holder, currentPost);
@@ -197,6 +206,15 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         holder.bodyTextView.setText(currentPost.getBody());
         holder.likeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_like));
         holder.dislikeImageView.setImageDrawable(mMainFragment.getResources().getDrawable(R.drawable.ic_dislike));
+    }
+
+    private void setPostImage(PostsViewHolder holder, Post currentPost) {
+        holder.imageView.setVisibility(View.GONE);
+
+        if (!currentPost.getImageUrl().isEmpty()) {
+            holder.imageView.setVisibility(View.VISIBLE);
+            Picasso.with(mMainFragment.getContext()).load(currentPost.getImageUrl()).fit().into(holder.imageView);
+        }
     }
 
     private void setPostLikes(final PostsViewHolder holder, final Post currentPost) {
@@ -290,14 +308,44 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         return mPostsList.size();
     }
 
-    public void setPostToFirebase(Post post) {
+    public void setPostToFirebase(Post post, Uri imageUri) {
         String key = mDatabasePostsReference.push().getKey();
-        Map<String, Object> postValues = post.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put(key, postValues);
+        if (imageUri != null) {
+            uploadPostPhoto(post, key, imageUri);
+        }
+        else {
+            Map<String, Object> postValues = post.toMap();
+            Map<String, Object> childUpdates = new HashMap<>();
 
-        mDatabasePostsReference.updateChildren(childUpdates);
+            childUpdates.put(key, postValues);
+
+            mDatabasePostsReference.updateChildren(childUpdates);
+        }
+    }
+
+    private void uploadPostPhoto(final Post post, final String postId, Uri imageUri) {
+        StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("posts_photos").child(postId);
+        final StorageReference imageFilePath = mStorage.child(imageUri.getLastPathSegment());
+
+        imageFilePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        post.setImageUrl(uri.toString());
+
+                        Map<String, Object> postValues = post.toMap();
+                        Map<String, Object> childUpdates = new HashMap<>();
+
+                        childUpdates.put(postId, postValues);
+
+                        mDatabasePostsReference.updateChildren(childUpdates);
+                    }
+                });
+            }
+        });
     }
 
     public void cleanUp() {

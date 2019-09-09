@@ -128,6 +128,7 @@ public class PostRepliesActivity extends AppCompatActivity implements AddReplyDi
                 dateTextView.setText(post.getDate());
                 bodyTextView.setText(post.getBody());
 
+                setPostImage(post);
                 setPostLikes(post);
                 setPostDislikes(post);
             }
@@ -139,6 +140,15 @@ public class PostRepliesActivity extends AppCompatActivity implements AddReplyDi
         };
 
         mDatabasePostReference.addValueEventListener(mValueEventListener);
+    }
+
+    private void setPostImage(Post post) {
+        ImageView imageView = findViewById(R.id.post_img);
+
+        if (!post.getImageUrl().isEmpty()) {
+            imageView.setVisibility(View.VISIBLE);
+            Picasso.with(this).load(post.getImageUrl()).fit().into(imageView);
+        }
     }
 
     private void setPostLikes(final Post post) {

@@ -10,6 +10,7 @@ public class Post {
     private String date;
     private String title;
     private String body;
+    private String imageUrl = "";
     private int likes = 0;
     private int dislikes = 0;
     private boolean isLiked = false;
@@ -48,6 +49,14 @@ public class Post {
         return body;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public int getLikes() {
         return likes;
     }
@@ -79,6 +88,7 @@ public class Post {
         result.put("date", date);
         result.put("title", title);
         result.put("body", body);
+        result.put("imageUrl", imageUrl);
         result.put("likes", likes);
         result.put("dislikes", dislikes);
 
