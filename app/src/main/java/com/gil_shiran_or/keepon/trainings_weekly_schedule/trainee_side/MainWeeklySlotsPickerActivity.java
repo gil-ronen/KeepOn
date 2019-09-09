@@ -1,7 +1,6 @@
 package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainee_side;
 
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
@@ -54,13 +52,13 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
     private String mTrainerId;
 
 
-    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter1;
-    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter2;
-    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter3;
-    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter4;
-    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter5;
-    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter6;
-    private TraineeTimeSlotsAdapter traineeTimeSlotsAdapter7;
+    private MainWeeklySlotsPickerAdapter mainWeeklySlotsPickerAdapter1;
+    private MainWeeklySlotsPickerAdapter mainWeeklySlotsPickerAdapter2;
+    private MainWeeklySlotsPickerAdapter mainWeeklySlotsPickerAdapter3;
+    private MainWeeklySlotsPickerAdapter mainWeeklySlotsPickerAdapter4;
+    private MainWeeklySlotsPickerAdapter mainWeeklySlotsPickerAdapter5;
+    private MainWeeklySlotsPickerAdapter mainWeeklySlotsPickerAdapter6;
+    private MainWeeklySlotsPickerAdapter mainWeeklySlotsPickerAdapter7;
 
     private String dateForApp1;
     private String dateForDB1;
@@ -265,26 +263,26 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        traineeTimeSlotsAdapter1 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB1), dateForApp1, dateForDB1, mTraineeId);
-        mTimeSlotsRecyclerView1.setAdapter(traineeTimeSlotsAdapter1);
+        mainWeeklySlotsPickerAdapter1 = new MainWeeklySlotsPickerAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB1), dateForApp1, dateForDB1, mTraineeId);
+        mTimeSlotsRecyclerView1.setAdapter(mainWeeklySlotsPickerAdapter1);
 
-        traineeTimeSlotsAdapter2 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB2), dateForApp2, dateForDB2, mTraineeId);
-        mTimeSlotsRecyclerView2.setAdapter(traineeTimeSlotsAdapter2);
+        mainWeeklySlotsPickerAdapter2 = new MainWeeklySlotsPickerAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB2), dateForApp2, dateForDB2, mTraineeId);
+        mTimeSlotsRecyclerView2.setAdapter(mainWeeklySlotsPickerAdapter2);
 
-        traineeTimeSlotsAdapter3 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB3), dateForApp3, dateForDB3, mTraineeId);
-        mTimeSlotsRecyclerView3.setAdapter(traineeTimeSlotsAdapter3);
+        mainWeeklySlotsPickerAdapter3 = new MainWeeklySlotsPickerAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB3), dateForApp3, dateForDB3, mTraineeId);
+        mTimeSlotsRecyclerView3.setAdapter(mainWeeklySlotsPickerAdapter3);
 
-        traineeTimeSlotsAdapter4 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB4), dateForApp4, dateForDB4, mTraineeId);
-        mTimeSlotsRecyclerView4.setAdapter(traineeTimeSlotsAdapter4);
+        mainWeeklySlotsPickerAdapter4 = new MainWeeklySlotsPickerAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB4), dateForApp4, dateForDB4, mTraineeId);
+        mTimeSlotsRecyclerView4.setAdapter(mainWeeklySlotsPickerAdapter4);
 
-        traineeTimeSlotsAdapter5 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB5), dateForApp5, dateForDB5, mTraineeId);
-        mTimeSlotsRecyclerView5.setAdapter(traineeTimeSlotsAdapter5);
+        mainWeeklySlotsPickerAdapter5 = new MainWeeklySlotsPickerAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB5), dateForApp5, dateForDB5, mTraineeId);
+        mTimeSlotsRecyclerView5.setAdapter(mainWeeklySlotsPickerAdapter5);
 
-        traineeTimeSlotsAdapter6 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB6), dateForApp6, dateForDB6, mTraineeId);
-        mTimeSlotsRecyclerView6.setAdapter(traineeTimeSlotsAdapter6);
+        mainWeeklySlotsPickerAdapter6 = new MainWeeklySlotsPickerAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB6), dateForApp6, dateForDB6, mTraineeId);
+        mTimeSlotsRecyclerView6.setAdapter(mainWeeklySlotsPickerAdapter6);
 
-        traineeTimeSlotsAdapter7 = new TraineeTimeSlotsAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB7), dateForApp7, dateForDB7, mTraineeId);
-        mTimeSlotsRecyclerView7.setAdapter(traineeTimeSlotsAdapter7);
+        mainWeeklySlotsPickerAdapter7 = new MainWeeklySlotsPickerAdapter(this, databaseReference.child("WeeklySchedule").child(dateForDB7), dateForApp7, dateForDB7, mTraineeId);
+        mTimeSlotsRecyclerView7.setAdapter(mainWeeklySlotsPickerAdapter7);
 
     }
 
@@ -293,13 +291,13 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
         super.onStop();
 
         // Remove the Firebase event listener on the adapter.
-        traineeTimeSlotsAdapter1.clenup();
-        traineeTimeSlotsAdapter2.clenup();
-        traineeTimeSlotsAdapter3.clenup();
-        traineeTimeSlotsAdapter4.clenup();
-        traineeTimeSlotsAdapter5.clenup();
-        traineeTimeSlotsAdapter6.clenup();
-        traineeTimeSlotsAdapter7.clenup();
+        mainWeeklySlotsPickerAdapter1.clenup();
+        mainWeeklySlotsPickerAdapter2.clenup();
+        mainWeeklySlotsPickerAdapter3.clenup();
+        mainWeeklySlotsPickerAdapter4.clenup();
+        mainWeeklySlotsPickerAdapter5.clenup();
+        mainWeeklySlotsPickerAdapter6.clenup();
+        mainWeeklySlotsPickerAdapter7.clenup();
 
     }
 

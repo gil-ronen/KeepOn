@@ -30,6 +30,8 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference mDatabaseTraineeReference;
     private ValueEventListener mValueEventListener;
     private String mCurrentUserId;
+    private String mTraineeGender;
+    private String mTraineeProfilePhotoUrl;
 
     @Nullable
     @Override
@@ -57,15 +59,17 @@ public class ProfileFragment extends Fragment {
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.with(getContext()).load(dataSnapshot.child("profilePhotoUrl").getValue(String.class)).fit().into(traineeCircleImageView);
+                mTraineeProfilePhotoUrl = dataSnapshot.child("profilePhotoUrl").getValue(String.class);
+                Picasso.with(getContext()).load(mTraineeProfilePhotoUrl).fit().into(traineeCircleImageView);
                 traineeNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
                 traineeEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
                 traineeCityTextView.setText(dataSnapshot.child("city").getValue(String.class));
                 traineeStreetTextView.setText(dataSnapshot.child("street").getValue(String.class));
                 traineeBirthDateTextView.setText(dataSnapshot.child("birthDate").getValue(String.class));
                 traineePhoneNumberTextView.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
+                mTraineeGender = dataSnapshot.child("gender").getValue(String.class);
 
-                if (dataSnapshot.child("gender").getValue(String.class).equals("male")) {
+                if (mTraineeGender.equals("male")) {
                     traineeGenderImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_male_sign));
                 }
                 else {
@@ -86,7 +90,18 @@ public class ProfileFragment extends Fragment {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+
+                bundle.putString("name", traineeNameTextView.getText().toString());
+                bundle.putString("city", traineeCityTextView.getText().toString());
+                bundle.putString("street", traineeStreetTextView.getText().toString());
+                bundle.putString("phone", traineePhoneNumberTextView.getText().toString());
+                bundle.putString("birthDate", traineeBirthDateTextView.getText().toString());
+                bundle.putString("gender", mTraineeGender);
+                bundle.putString("profilePhotoUrl", mTraineeProfilePhotoUrl);
+
                 Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

@@ -29,6 +29,9 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference mDatabaseTrainerReference;
     private ValueEventListener mTrainerValueEventListener;
     private String mCurrentUserId;
+    private String mTrainerGender;
+    private String mTrainerProfilePhotoUrl;
+    private int mPrice;
 
     @Nullable
     @Override
@@ -58,7 +61,8 @@ public class ProfileFragment extends Fragment {
         mTrainerValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.with(getContext()).load(dataSnapshot.child("profilePhotoUrl").getValue(String.class)).fit().into(trainerCircleImageView);
+                mTrainerProfilePhotoUrl = dataSnapshot.child("profilePhotoUrl").getValue(String.class);
+                Picasso.with(getContext()).load(mTrainerProfilePhotoUrl).fit().into(trainerCircleImageView);
                 trainerNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
                 trainerAboutMeTextView.setText(dataSnapshot.child("aboutMe").getValue(String.class));
                 trainerEmailTextView.setText(dataSnapshot.child("email").getValue(String.class));
@@ -67,9 +71,11 @@ public class ProfileFragment extends Fragment {
                 trainerTrainingStreetTextView.setText(dataSnapshot.child("trainingStreet").getValue(String.class));
                 trainerBirthDateTextView.setText(dataSnapshot.child("birthDate").getValue(String.class));
                 trainerPhoneNumberTextView.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
-                trainerPriceTextView.setText(dataSnapshot.child("price").getValue(Integer.class) + "\u20aa");
+                mPrice = dataSnapshot.child("price").getValue(Integer.class);
+                trainerPriceTextView.setText(mPrice + "\u20aa");
+                mTrainerGender = dataSnapshot.child("gender").getValue(String.class);
 
-                if (dataSnapshot.child("gender").getValue(String.class).equals("male")) {
+                if (mTrainerGender.equals("male")) {
                     trainerGenderImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_male_sign));
                 } else {
                     trainerGenderImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_female_sign));
@@ -89,7 +95,21 @@ public class ProfileFragment extends Fragment {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                Bundle bundle = new Bundle();
+
+                bundle.putString("name", trainerNameTextView.getText().toString());
+                bundle.putString("city", trainerTrainingCityTextView.getText().toString());
+                bundle.putString("street", trainerTrainingStreetTextView.getText().toString());
+                bundle.putString("phone", trainerPhoneNumberTextView.getText().toString());
+                bundle.putString("birthDate", trainerBirthDateTextView.getText().toString());
+                bundle.putString("companyName", trainerCompanyNameTextView.getText().toString());
+                bundle.putString("aboutMe", trainerAboutMeTextView.getText().toString());
+                bundle.putInt("price", mPrice);
+                bundle.putString("gender", mTrainerGender);
+                bundle.putString("profilePhotoUrl", mTrainerProfilePhotoUrl);
+
+                Intent intent = new Intent(getContext(), EditTrainerProfileActivity.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

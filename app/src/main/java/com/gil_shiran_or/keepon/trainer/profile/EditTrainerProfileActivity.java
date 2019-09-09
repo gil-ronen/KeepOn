@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.login_register;
+package com.gil_shiran_or.keepon.trainer.profile;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -8,12 +8,17 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,10 +32,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.db.Rating;
 import com.gil_shiran_or.keepon.db.Trainer;
@@ -38,7 +39,6 @@ import com.gil_shiran_or.keepon.trainer.nav.TrainerNavActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,19 +48,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TrainerDetailsRegister extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditTrainerProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static int PReqCode = 1;
     private static int REQUESCODE = 1;
     private Uri mPickedImgUri;
 
-    private ImageView mImageUserPhoto;
+    private CircleImageView trainerCircleImageView;
     private EditText mNameView;
     private EditText mCompanyNameView;
     private EditText mPriceView;
@@ -70,9 +72,9 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
     private Spinner mSpinner;
     private String mPhoneCode;
     private ProgressBar loadingProgress;
-    private Button registerButton;
+    private Button updateButton;
     private Button mBirthDate;
-    private String mGender;
+    private String trainerGender;
     private RadioGroup mRadioUserGenderGroup;
     private RadioButton mRadioUserGenderButton;
     private RadioButton mRadioMale;
@@ -80,49 +82,95 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private EditText mAboutMeView;
 
+    private String trainerName;
+    private String companyName;
+    private int price;
+    private String trainingCity;
+    private String trainingStreet;
+    private String phoneNumber;
+    private String birthDate;
+    private String gender;
+    private String aboutMe;
+
+    private String trainerProfilePhotoUrl;
+
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-
-    private Trainer mTrainer;
-
-    private String mEmail;
-    private String mPassword;
+    private String mCurrentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_trainer_profile);
 
-        mImageUserPhoto = findViewById(R.id.settings_user_photo);
-        mNameView = findViewById(R.id.settings_trainerName);
-        mCompanyNameView = findViewById(R.id.settings_company_name);
-        mPriceView = findViewById(R.id.settings_price);
-        mTrainingCityView = findViewById(R.id.settings_trainingCity);
-        mTrainingStreetView = findViewById(R.id.settings_trainingStreet);
-        mPhoneNumberView = findViewById(R.id.phoneText);
-        mSpinner = findViewById(R.id.spinnerPhoneCode);
-        mPhoneCode = "050";
-        mBirthDate = findViewById(R.id.settings_birthdate);
-        mGender = "";
-        mRadioUserGenderGroup = findViewById(R.id.settings_user_gender_radioGroup);
-        mRadioMale = findViewById(R.id.maleRadioButton);
-        mRadioFemale = findViewById(R.id.femaleRadioButton);
-        mAboutMeView = findViewById(R.id.settings_aboutme);
-        loadingProgress = findViewById(R.id.settings_ProgressBar);
-        registerButton = findViewById(R.id.settings_register_button);
+        getWindow().setBackgroundDrawableResource(R.drawable.background_trainee);
+        Toolbar toolbar = findViewById(R.id.trainerEditProfile_toolbar);
+        toolbar.setTitle("Edit My Profile");
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        loadingProgress.setVisibility(View.INVISIBLE);
+        trainerCircleImageView = findViewById(R.id.trainerEditProfile_user_photo);
+        mNameView = findViewById(R.id.trainerEditProfile_trainerName);
+        mCompanyNameView = findViewById(R.id.trainerEditProfile_company_name);
+        mPriceView = findViewById(R.id.trainerEditProfile_price);
+        mTrainingCityView = findViewById(R.id.trainerEditProfile_trainingCity);
+        mTrainingStreetView = findViewById(R.id.trainerEditProfile_trainingStreet);
+        mPhoneNumberView = findViewById(R.id.trainerEditProfile_phoneText);
+        mSpinner = findViewById(R.id.trainerEditProfile_spinnerPhoneCode);
+        mBirthDate = findViewById(R.id.trainerEditProfile_birthdate);
+        mRadioUserGenderGroup = findViewById(R.id.trainerEditProfile_user_gender_radioGroup);
+        mRadioMale = findViewById(R.id.trainerEditProfile_maleRadioButton);
+        mRadioFemale = findViewById(R.id.trainerEditProfile_femaleRadioButton);
+        mAboutMeView = findViewById(R.id.trainerEditProfile_aboutme);
+        loadingProgress = findViewById(R.id.trainerEditProfile_ProgressBar);
+        updateButton = findViewById(R.id.trainerEditProfile_update_button);
 
 
         Bundle bundle = getIntent().getExtras();
-        mEmail = bundle.getString("email");
-        mPassword = bundle.getString("password");
 
+        trainerProfilePhotoUrl = bundle.getString("profilePhotoUrl");
+
+        Picasso.with(this).load(trainerProfilePhotoUrl).fit().into(trainerCircleImageView);
+
+        String allPhoneNumber = bundle.getString("phone");//"004-034556";
+        String[] parts = allPhoneNumber.split("-");
+        String code = parts[0]; // 004
+        String phone = parts[1]; // 034556
+
+        mNameView.setText(bundle.getString("name"));
+        mTrainingCityView.setText(bundle.getString("city"));
+        mTrainingStreetView.setText(bundle.getString("street"));
+        mPhoneCode = code;
+        mPhoneNumberView.setText(phone);
+        mBirthDate.setText(bundle.getString("birthDate"));
+        trainerGender = bundle.getString("gender");
+        mAboutMeView.setText(bundle.getString("aboutMe"));
+        mCompanyNameView.setText(bundle.getString("companyName"));
+        mPriceView.setText("" + bundle.getInt("price"));
+
+        if(trainerGender.equals("female"))
+        {
+            mRadioUserGenderGroup.check(R.id.trainerEditProfile_femaleRadioButton);
+        }
+        if(trainerGender.equals("male"))
+        {
+            mRadioUserGenderGroup.check(R.id.trainerEditProfile_maleRadioButton);
+        }
+
+
+
+        loadingProgress.setVisibility(View.INVISIBLE);
 
         mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers");
+        mCurrentUserId = mAuth.getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mCurrentUserId + "/Profile");
 
-        mImageUserPhoto.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+        trainerCircleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= 22) {
@@ -142,7 +190,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        TrainerDetailsRegister.this,
+                        EditTrainerProfileActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         year, month, day);
@@ -167,6 +215,19 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
         mSpinner.setOnItemSelectedListener(this);
+
+        setSpinText(mSpinner, code);
+    }
+
+    public void setSpinText(Spinner spin, String text)
+    {
+        for(int i= 0; i < spin.getAdapter().getCount(); i++)
+        {
+            if(spin.getAdapter().getItem(i).toString().contains(text))
+            {
+                spin.setSelection(i);
+            }
+        }
     }
 
     @Override
@@ -184,26 +245,22 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         mRadioUserGenderButton = findViewById(radioId);
         if (mRadioUserGenderButton.getText().toString().equals(mRadioFemale.getText().toString())) {
             Log.d("KeepOn", "User gender is female");
-            mGender = "female";
+            trainerGender = "female";
         } else if (mRadioUserGenderButton.getText().toString().equals(mRadioMale.getText().toString())) {
             Log.d("KeepOn", "User gender is male");
-            mGender = "male";
+            trainerGender = "male";
         }
     }
 
     // Executed when Sign Up button is pressed.
-    public void onRegisterTrainerDetailsClicked(View v)
-    {
-        registerButton.setVisibility(View.INVISIBLE);
+    public void onUpdateUserDetailsClicked(View v) {
+        updateButton.setVisibility(View.INVISIBLE);
         loadingProgress.setVisibility(View.VISIBLE);
         checkValidInput();
     }
 
 
     private void checkValidInput() {
-
-        //registerButton.setVisibility(View.INVISIBLE);
-        //loadingProgress.setVisibility(View.VISIBLE);
 
         // Reset errors displayed in the form.
         mNameView.setError(null);
@@ -215,16 +272,16 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         mBirthDate.setError(null);
         mAboutMeView.setError(null);
 
-        // Store values at the time of the login attempt.
-        String trainerName = mNameView.getText().toString();
-        String companyName = mCompanyNameView.getText().toString();
-        String price = mPriceView.getText().toString();
-        String trainingCity = mTrainingCityView.getText().toString();
-        String trainingStreet = mTrainingStreetView.getText().toString();
-        String phoneNumber = mPhoneNumberView.getText().toString();
-        String birthDate = mBirthDate.getText().toString();
-        String gender = mGender;
-        String aboutMe = mAboutMeView.getText().toString();
+
+        trainerName = mNameView.getText().toString();
+        companyName = mCompanyNameView.getText().toString();
+        price = Integer.parseInt(mPriceView.getText().toString());
+        trainingCity = mTrainingCityView.getText().toString();
+        trainingStreet = mTrainingStreetView.getText().toString();
+        phoneNumber = mPhoneNumberView.getText().toString();
+        birthDate = mBirthDate.getText().toString();
+        gender = trainerGender;
+        aboutMe = mAboutMeView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -241,7 +298,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(price)) {
+        if (TextUtils.isEmpty(mPriceView.getText().toString())) {
             mPriceView.setError(getString(R.string.error_field_required));
             focusView = mPriceView;
             cancel = true;
@@ -290,72 +347,37 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                 focusView.requestFocus();
             }
             Toast.makeText(this, "Please Verify All Field", Toast.LENGTH_SHORT).show();
-            registerButton.setVisibility(View.VISIBLE);
+            updateButton.setVisibility(View.VISIBLE);
             loadingProgress.setVisibility(View.INVISIBLE);
 
         } else {
             try {
-                uploadUserDetailsToFirebase();
+                updateUserDetailsToFirebase();
 
             } catch (Exception e) {
-                registerButton.setVisibility(View.VISIBLE);
+                updateButton.setVisibility(View.VISIBLE);
                 loadingProgress.setVisibility(View.INVISIBLE);
                 showErrorDialog(e.getMessage());
             }
         }
     }
 
-    private void uploadUserDetailsToFirebase() {
-        final String trainerName = mNameView.getText().toString();
-        final String companyName = mCompanyNameView.getText().toString();
-        final int price = Integer.parseInt(mPriceView.getText().toString());
-        final String trainingCity = mTrainingCityView.getText().toString();
-        final String trainingStreet = mTrainingStreetView.getText().toString();
-        final String phoneNumber = mPhoneNumberView.getText().toString();
-        final String birthDate = mBirthDate.getText().toString();
-        final String gender = mGender;
-        final String aboutMe = mAboutMeView.getText().toString();
+    private void updateUserDetailsToFirebase() {
+
+        mDatabase.child("birthDate").setValue(birthDate);
+        mDatabase.child("trainingCity").setValue(trainingCity);
+        mDatabase.child("gender").setValue(gender);
+        mDatabase.child("name").setValue(trainerName);
+        mDatabase.child("phoneNumber").setValue(mPhoneCode + "-" + phoneNumber);
+        mDatabase.child("trainingStreet").setValue(trainingStreet);
+        mDatabase.child("companyName").setValue(companyName);
+        mDatabase.child("price").setValue(price);
+        mDatabase.child("aboutMe").setValue(aboutMe);
 
         if (mPickedImgUri != null) {
-            mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    Log.d("KeepOn", "createUser onComplete: " + task.isSuccessful());
-
-                    if (!task.isSuccessful()) {
-                        Log.d("KeepOn", "user creation failed");
-                        showErrorDialog("Registration attempt failed");
-                        registerButton.setVisibility(View.VISIBLE);
-                        loadingProgress.setVisibility(View.INVISIBLE);
-
-                    } else {
-                        Log.d("KeepOn", "user creation success");
-                        String user_id = mAuth.getCurrentUser().getUid();
-                        DatabaseReference current_user_db = mDatabase.child(user_id);
-
-                        Rating rating = new Rating(0,0,0,0,0,0,0,0);
-                        mTrainer = new Trainer(trainerName, mEmail, mPassword, mPhoneCode + "-" + phoneNumber, birthDate, gender, "", companyName, aboutMe, trainingCity, trainingStreet, price, rating);
-
-                        Map<String, Object> trainerValues = mTrainer.toMap();
-                        Map<String, Object> ratingValues = rating.toMap();
-                        Map<String, Object> childUpdates = new HashMap<>();
-
-                        childUpdates.put("Profile", trainerValues);
-                        childUpdates.put("Rating", ratingValues);
-                        current_user_db.updateChildren(childUpdates);
-
-
-                        uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
-
-                    }
-                }
-            });
-
-        } else {
-            showErrorDialog("must upload a profile photo of you");
-            registerButton.setVisibility(View.VISIBLE);
-            loadingProgress.setVisibility(View.INVISIBLE);
+            uploadUserPhoto(mPickedImgUri, mAuth.getCurrentUser());
         }
+        finish();
     }
 
 
@@ -376,12 +398,10 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                     public void onSuccess(Uri uri) {
 
                         // uri contain user image url
-                        String user_id = mAuth.getCurrentUser().getUid();
-                        DatabaseReference current_user_db = mDatabase.child(user_id);
+                        DatabaseReference current_user_db = mDatabase;
                         Log.d("KeepOn: ", "download photo uri: " + uri.toString());
-                        current_user_db.child("Profile").child("profilePhotoUrl").setValue(uri.toString());
+                        current_user_db.child("profilePhotoUrl").setValue(uri.toString());
 
-                        mTrainer.setProfilePhotoUrl(uri.toString());
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(mNameView.getText().toString())
@@ -395,15 +415,11 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
                                         if (!task.isSuccessful()) {
                                             // user info failed update
                                             showErrorDialog("User info failed to update");
-                                            registerButton.setVisibility(View.VISIBLE);
+                                            updateButton.setVisibility(View.VISIBLE);
                                             loadingProgress.setVisibility(View.INVISIBLE);
                                         }
                                     }
                                 });
-
-                        Intent traineeIntent = new Intent(getApplicationContext(), TrainerNavActivity.class);
-                        startActivity(traineeIntent);
-                        finish();
                     }
                 });
             }
@@ -422,13 +438,13 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
 
     private void checkAndRequestForPermission() {
 
-        if (ContextCompat.checkSelfPermission(TrainerDetailsRegister.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(EditTrainerProfileActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(TrainerDetailsRegister.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(EditTrainerProfileActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-                Toast.makeText(TrainerDetailsRegister.this, "Please accept for required permission", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditTrainerProfileActivity.this, "Please accept for required permission", Toast.LENGTH_SHORT).show();
             } else {
-                ActivityCompat.requestPermissions(TrainerDetailsRegister.this,
+                ActivityCompat.requestPermissions(EditTrainerProfileActivity.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         PReqCode);
             }
@@ -458,9 +474,24 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
             // the user has successfully picked an image
             // we need to save its reference to a Uri variable
             mPickedImgUri = data.getData();
-            mImageUserPhoto.setImageURI(mPickedImgUri);
+            trainerCircleImageView.setImageURI(mPickedImgUri);
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
 
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
+

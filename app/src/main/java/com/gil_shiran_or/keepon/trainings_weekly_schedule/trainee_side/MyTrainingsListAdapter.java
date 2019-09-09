@@ -1,5 +1,9 @@
 package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainee_side;
 
+public class MyTrainingsListAdapter{}
+
+
+/*
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -26,8 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
-public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlotsAdapter.MyViewHolder>{
+public class MyTrainingsListAdapter extends RecyclerView.Adapter<MyTrainingsListAdapter.MyViewHolder>{
 
     private Activity mActivity;
     private ArrayList<TimeSlot> mTimeSlots;
@@ -41,15 +44,14 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
     //private boolean isTraineeExistInThisSlot;
 
 
-
-    public TraineeTimeSlotsAdapter(Activity activity, DatabaseReference ref, String dateForApp, String dateForDB, String traineeId) {
+    public MyTrainingsListAdapter(Activity activity, DatabaseReference refTrainers, DatabaseReference refMyTrainersList, String dateForApp, String dateForDB) {
         mActivity = activity;
-        mDatabaseReference = ref;
+        //mDatabaseReference = ref;
         mTimeSlots = new ArrayList<>();
         mDateForApp = dateForApp;
         mDateForDB = dateForDB;
         //TODO: TO GET CURRENT TRAINEE ID FROM DB
-        mTraineeId = traineeId;
+        //mTraineeId = traineeId;
 
         mChildEventListener = new ChildEventListener() {
             @Override
@@ -122,8 +124,8 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
 
     @NonNull
     @Override
-    public TraineeTimeSlotsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new TraineeTimeSlotsAdapter.MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_time_slot,viewGroup, false));
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_time_slot,viewGroup, false));
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -146,7 +148,7 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
 
 
     @Override
-    public void onBindViewHolder(@NonNull final TraineeTimeSlotsAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
 
         final String getIdSlot = mTimeSlots.get(i).getTimeSlotId();
         final String getTitleSlot = mTimeSlots.get(i).getTitle();
@@ -284,3 +286,4 @@ public class TraineeTimeSlotsAdapter extends RecyclerView.Adapter<TraineeTimeSlo
     }
 
 }
+*/

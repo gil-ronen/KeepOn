@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".trainer.profile.EditTrainerProfileActivity"></activity>
         <activity android:name=".trainings_weekly_schedule.trainee_side.MyTrainingsListActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.RegisterSlotActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity" />
@@ -44,8 +45,6 @@
             android:name=".chat.MainChatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
-
         <activity
             android:name=".trainee.nav.TraineeNavActivity"
             android:screenOrientation="portrait" />
@@ -64,7 +63,6 @@
         <activity
             android:name=".trainer.nav.TrainerNavActivity"
             android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>
