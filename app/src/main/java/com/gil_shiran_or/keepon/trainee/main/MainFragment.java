@@ -1,5 +1,6 @@
 package com.gil_shiran_or.keepon.trainee.main;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -152,11 +153,11 @@ public class MainFragment extends Fragment implements AddPostDialog.AddPostListe
     }
 
     @Override
-    public void applyPost(String postTitle, String postBody) {
+    public void applyPost(String postTitle, String postBody, Uri imageUri) {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-        mPostsListAdapter.setPostToFirebase(new Post(mCurrentUserId, formatter.format(date), postTitle, postBody));
+        mPostsListAdapter.setPostToFirebase(new Post(mCurrentUserId, formatter.format(date), postTitle, postBody), imageUri);
     }
 
     @Override
