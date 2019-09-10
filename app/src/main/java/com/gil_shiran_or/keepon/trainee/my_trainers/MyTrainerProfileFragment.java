@@ -120,7 +120,6 @@ public class MyTrainerProfileFragment extends Fragment {
             }
         });
 
-
         quitTrainerFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

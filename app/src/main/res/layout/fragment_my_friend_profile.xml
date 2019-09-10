@@ -210,17 +210,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/friend_add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="25dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_add_friend"
-            app:backgroundTint="@color/purple"
-            app:elevation="4dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|end"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/my_friend_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_chat"
+                android:visibility="invisible"
+                app:backgroundTint="@color/purple"
+                app:elevation="4dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/my_friend_quit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_leave_trainee"
+                android:visibility="invisible"
+                app:backgroundTint="@color/purple"
+                app:elevation="4dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/my_friend_show_options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="25dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_show_options"
+                app:backgroundTint="@color/purple"
+                app:elevation="4dp" />
+
+        </LinearLayout>
 
     </FrameLayout>
 
