@@ -63,6 +63,15 @@
         <activity
             android:name=".trainer.nav.TrainerNavActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".trainee.search_friend.TraineeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".trainee.my_friends.MyFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".trainee.my_friends.MyFriendTrainerActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

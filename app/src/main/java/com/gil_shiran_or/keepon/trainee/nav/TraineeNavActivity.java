@@ -17,8 +17,10 @@ import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.login_register.LoginActivity;
 import com.gil_shiran_or.keepon.trainee.about.AboutFragment;
 import com.gil_shiran_or.keepon.trainee.main.MainFragment;
+import com.gil_shiran_or.keepon.trainee.my_friends.MyFriendsFragment;
 import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainersFragment;
 import com.gil_shiran_or.keepon.trainee.profile.ProfileFragment;
+import com.gil_shiran_or.keepon.trainee.search_friend.SearchFriendFragment;
 import com.gil_shiran_or.keepon.trainee.search_trainer.SearchTrainerFragment;
 import com.gil_shiran_or.keepon.trainee.settings.SettingsFragment;
 import com.gil_shiran_or.keepon.trainee.status.StatusFragment;
@@ -115,9 +117,17 @@ public class TraineeNavActivity extends AppCompatActivity implements NavigationV
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new SearchTrainerFragment()).commit();
                 break;
+            case R.id.nav_search_friend:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new SearchFriendFragment()).commit();
+                break;
             case R.id.nav_my_trainers:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new MyTrainersFragment()).commit();
+                break;
+            case R.id.nav_my_friends:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MyFriendsFragment()).commit();
                 break;
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

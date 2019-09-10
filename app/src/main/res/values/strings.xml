@@ -69,8 +69,10 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="ratings_tab_1">Profile</string>
-    <string name="ratings_tab_2">Rating</string>
+    <string name="trainer_tab_1">Profile</string>
+    <string name="trainer_tab_2">Rating</string>
+    <string name="trainee_tab_1">Profile</string>
+    <string name="trainee_tab_2">Status</string>
     <string name="rating_state_very_bad">Very Bad</string>
     <string name="rating_state_need_improvement">Need Improvement</string>
     <string name="rating_state_good">Good</string>

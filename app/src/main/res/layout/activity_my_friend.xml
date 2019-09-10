@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/trainer_toolbar"
+            android:id="@+id/my_friend_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
@@ -21,7 +21,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/trainer_tab_layout"
+            android:id="@+id/my_friend_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
@@ -32,17 +32,22 @@
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trainer_tab_1" />
+                android:text="@string/trainee_tab_1" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trainer_tab_2" />
+                android:text="@string/trainee_tab_2" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trainers" />
 
         </android.support.design.widget.TabLayout>
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/trainer_tab_container"
+            android:id="@+id/my_friend_tab_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

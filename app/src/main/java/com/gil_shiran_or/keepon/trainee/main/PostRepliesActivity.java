@@ -60,7 +60,7 @@ public class PostRepliesActivity extends AppCompatActivity implements AddReplyDi
     }
 
     private void setToolbar() {
-        Toolbar toolbar = findViewById(R.id.my_trainer_toolbar);
+        Toolbar toolbar = findViewById(R.id.post_replies_toolbar);
         toolbar.setTitle("Post Replies");
         setSupportActionBar(toolbar);
 

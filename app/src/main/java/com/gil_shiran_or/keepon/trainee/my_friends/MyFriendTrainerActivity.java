@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon.trainee.my_trainers;
+package com.gil_shiran_or.keepon.trainee.my_friends;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,8 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainerPageAdapter;
 
-public class MyTrainerActivity extends AppCompatActivity {
+public class MyFriendTrainerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class MyTrainerActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawableResource(R.drawable.background_trainee);
 
         Toolbar toolbar = findViewById(R.id.trainer_toolbar);
-        toolbar.setTitle("My Trainer");
+        toolbar.setTitle("Friend's Trainer");
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -29,7 +30,7 @@ public class MyTrainerActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.trainer_tab_layout);
         final ViewPager viewPager = findViewById(R.id.trainer_tab_container);
 
-        MyTrainerPageAdapter pageAdapter = new MyTrainerPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), getIntent().getExtras());
+        MyFriendTrainerPageAdapter pageAdapter = new MyFriendTrainerPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), getIntent().getExtras());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 

@@ -18,4 +18,5 @@
     <color name="gold">#F9A602</color>
     <color name="silver">#C0C0C0</color>
     <color name="bronze">#B1560F</color>
+    <color name="disabled">#808080AA</color>
 </resources>

@@ -21,6 +21,11 @@
             android:title="My Trainers" />
 
         <item
+            android:id="@+id/nav_my_friends"
+            android:icon="@drawable/ic_profile"
+            android:title="My Friends" />
+
+        <item
             android:id="@+id/nav_status"
             android:icon="@drawable/ic_status"
             android:title="My Status" />
@@ -29,6 +34,11 @@
             android:id="@+id/nav_search_trainer"
             android:icon="@drawable/ic_search_trainer"
             android:title="Search Trainer" />
+
+        <item
+            android:id="@+id/nav_search_friend"
+            android:icon="@drawable/ic_search_friend"
+            android:title="Search Friend" />
 
     </group>
 

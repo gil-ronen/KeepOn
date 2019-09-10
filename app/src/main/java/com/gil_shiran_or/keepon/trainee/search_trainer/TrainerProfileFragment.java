@@ -158,10 +158,10 @@ public class TrainerProfileFragment extends Fragment {
 
     private void setMyTrainerToFirebase(MyTrainer myTrainer) {
         String key = mDatabaseTraineeReference.push().getKey();
-        Map<String, Object> postValues = myTrainer.toMap();
+        Map<String, Object> myTrainerValues = myTrainer.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put(key, postValues);
+        childUpdates.put(key, myTrainerValues);
 
         mDatabaseTraineeReference.updateChildren(childUpdates);
     }

@@ -100,11 +100,24 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 for (int i = 0; i < mFullTrainersList.size(); i++) {
                     if (mFullTrainersList.get(i).getUserId().equals(dataSnapshot.getKey())) {
-                        Trainer trainer = dataSnapshot.getValue(Trainer.class);
+                        Trainer trainer = dataSnapshot.child("Profile").getValue(Trainer.class);
+                        Rating rating = dataSnapshot.child("Rating").getValue(Rating.class);
 
                         trainer.setUserId(dataSnapshot.getKey());
+                        trainer.setRating(rating);
                         mFullTrainersList.set(i, trainer);
                         mTrainersList = new ArrayList<>(mFullTrainersList);
+
+                        if (trainer.getPrice() > mMaxPrice) {
+                            mMaxPrice = trainer.getPrice();
+                        }
+
+                        if (trainer.getPrice() < mMinPrice) {
+                            mMinPrice = trainer.getPrice();
+                        }
+
+                        ((SearchTrainerFragment) mSearchTrainerFragment).setPriceRange();
+
                         notifyItemChanged(i);
                         break;
                     }

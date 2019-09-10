@@ -16,19 +16,19 @@ public class TrainerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_trainer);
+        setContentView(R.layout.activity_trainer);
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_trainee);
 
-        Toolbar toolbar = findViewById(R.id.my_trainer_toolbar);
+        Toolbar toolbar = findViewById(R.id.trainer_toolbar);
         toolbar.setTitle("Trainer");
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        TabLayout tabLayout = findViewById(R.id.my_trainer_tab_layout);
-        final ViewPager viewPager = findViewById(R.id.my_trainer_tab_container);
+        TabLayout tabLayout = findViewById(R.id.trainer_tab_layout);
+        final ViewPager viewPager = findViewById(R.id.trainer_tab_container);
 
         TrainerPageAdapter pageAdapter = new TrainerPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), getIntent().getExtras());
         viewPager.setAdapter(pageAdapter);
