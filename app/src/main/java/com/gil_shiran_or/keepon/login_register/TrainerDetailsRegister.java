@@ -91,7 +91,7 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_trainer_profile);
+        setContentView(R.layout.activity_trainer_details_register);
 
         mImageUserPhoto = findViewById(R.id.settings_user_photo);
         mNameView = findViewById(R.id.settings_trainerName);
