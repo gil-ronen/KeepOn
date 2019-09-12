@@ -65,7 +65,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="share my name"
+                    android:text="Share my name"
                     android:textSize="15sp" />
 
                 <android.support.v7.widget.SwitchCompat
@@ -97,7 +97,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="share my profile image"
+                    android:text="Share my profile image"
                     android:textSize="15sp" />
 
                 <android.support.v7.widget.SwitchCompat
@@ -129,7 +129,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="share my status"
+                    android:text="Share my status"
                     android:textSize="15sp" />
 
                 <android.support.v7.widget.SwitchCompat
