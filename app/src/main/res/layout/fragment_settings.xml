@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_trainee"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,6 +18,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             app:cardCornerRadius="10dp"
             app:contentPaddingBottom="15dp"
             app:contentPaddingLeft="15dp"
@@ -32,12 +33,109 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Option 1"
-                    android:textSize="20sp" />
+                    android:text="Trainees can search me"
+                    android:textSize="15sp" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:theme="@style/SwitchCompat"
+                    app:switchMinWidth="50dp" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:contentPaddingBottom="15dp"
+            app:contentPaddingLeft="15dp"
+            app:contentPaddingRight="15dp"
+            app:contentPaddingTop="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="share my name"
+                    android:textSize="15sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:theme="@style/SwitchCompat"
+                    app:switchMinWidth="50dp" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:contentPaddingBottom="15dp"
+            app:contentPaddingLeft="15dp"
+            app:contentPaddingRight="15dp"
+            app:contentPaddingTop="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="share my profile image"
+                    android:textSize="15sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:theme="@style/SwitchCompat"
+                    app:switchMinWidth="50dp" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:contentPaddingBottom="15dp"
+            app:contentPaddingLeft="15dp"
+            app:contentPaddingRight="15dp"
+            app:contentPaddingTop="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="share my status"
+                    android:textSize="15sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
                     android:theme="@style/SwitchCompat"
                     app:switchMinWidth="50dp" />
 
