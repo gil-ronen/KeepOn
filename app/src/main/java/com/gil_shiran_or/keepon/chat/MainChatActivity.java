@@ -156,7 +156,7 @@ public class MainChatActivity extends AppCompatActivity {
         Log.d("KeepOn", "I sent: " + input);
 
         if (!input.equals("")) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd'/'MM'/'y hh:mm");
             String time = simpleDateFormat.format(new Date());
 
             Message message = new Message(input, mCurrentUserName, time);
