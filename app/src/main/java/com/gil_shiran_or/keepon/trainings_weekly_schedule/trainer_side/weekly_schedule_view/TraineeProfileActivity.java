@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon;
+package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_schedule_view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gil_shiran_or.keepon.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

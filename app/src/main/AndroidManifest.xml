@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".trainer.profile.EditTrainerProfileActivity"></activity>
+        <activity android:name=".trainer.profile.EditTrainerProfileActivity"/>
         <activity android:name=".trainings_weekly_schedule.trainee_side.MyTrainingsListActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.RegisterSlotActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity" />
@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.EditSlotActivity" />
         <activity android:name=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TrainingsListGroupParticipatesActivity" />
+        <activity android:name=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.TraineeProfileActivity" />
         <activity android:name=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.AddNewSlotActivity" />
         <activity android:name=".login_register.ResetPasswordActivity" />
         <activity android:name=".login_register.TrainerDetailsRegister" />
