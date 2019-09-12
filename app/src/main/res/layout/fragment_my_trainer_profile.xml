@@ -266,6 +266,19 @@
             android:orientation="vertical">
 
             <android.support.design.widget.FloatingActionButton
+                android:id="@+id/my_trainer_chat_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_chat"
+                android:visibility="invisible"
+                app:backgroundTint="@color/purple"
+                app:elevation="4dp" />
+
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/my_trainer_schedule_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

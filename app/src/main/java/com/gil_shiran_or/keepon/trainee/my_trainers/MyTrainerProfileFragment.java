@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gil_shiran_or.keepon.MyTrainee;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,6 +96,7 @@ public class MyTrainerProfileFragment extends Fragment {
         final FloatingActionButton optionsFloatingActionButton = getView().findViewById(R.id.my_trainer_show_options);
         final FloatingActionButton quitTrainerFloatingActionButton = getView().findViewById(R.id.my_trainer_quit_button);
         final FloatingActionButton scheduleFloatingActionButton = getView().findViewById(R.id.my_trainer_schedule_button);
+        final FloatingActionButton chatFloatingActionButton = getView().findViewById(R.id.my_trainer_chat_button);
         final Animation fabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
         final Animation fabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
         final Animation fabClockwise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_clockwise);
@@ -106,6 +108,7 @@ public class MyTrainerProfileFragment extends Fragment {
                 if (mIsFabOpen) {
                     quitTrainerFloatingActionButton.startAnimation(fabClose);
                     scheduleFloatingActionButton.startAnimation(fabClose);
+                    chatFloatingActionButton.startAnimation(fabClose);
                     optionsFloatingActionButton.startAnimation(fabAntiClockwise);
 
                     mIsFabOpen = false;
@@ -113,6 +116,7 @@ public class MyTrainerProfileFragment extends Fragment {
                 else {
                     quitTrainerFloatingActionButton.startAnimation(fabOpen);
                     scheduleFloatingActionButton.startAnimation(fabOpen);
+                    chatFloatingActionButton.startAnimation(fabOpen);
                     optionsFloatingActionButton.startAnimation(fabClockwise);
 
                     mIsFabOpen = true;
@@ -130,18 +134,44 @@ public class MyTrainerProfileFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 final DatabaseReference databaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/MyTrainers");
+                                final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/MyTrainees");
 
                                 databaseTraineeReference.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         for (DataSnapshot data : dataSnapshot.getChildren()) {
-                                            if (data.child("userId").getValue(String.class).equals(mTrainerId)) {
+                                            MyTrainer myTrainer = data.getValue(MyTrainer.class);
+
+                                            if (myTrainer.getUserId().equals(mTrainerId)) {
                                                 data.getRef().removeValue();
                                                 break;
                                             }
                                         }
 
                                         databaseTraineeReference.removeEventListener(this);
+
+                                        getActivity().finish();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                databaseTrainerReference.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                                            MyTrainee myTrainee = data.getValue(MyTrainee.class);
+
+                                            if (myTrainee.getUserId().equals(mCurrentUserId)) {
+                                                data.getRef().removeValue();
+                                                break;
+                                            }
+                                        }
+
+                                        databaseTrainerReference.removeEventListener(this);
 
                                         getActivity().finish();
                                     }
@@ -182,6 +212,14 @@ public class MyTrainerProfileFragment extends Fragment {
                 Intent intent = new Intent(fragment.getContext(), MainWeeklySlotsPickerActivity.class);
                 intent.putExtras(bundle);
                 fragment.getContext().startActivity(intent);
+            }
+        });
+
+        chatFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                //bundle.putString("")
             }
         });
     }

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gil_shiran_or.keepon.MyTrainee;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainer;
 import com.google.firebase.auth.FirebaseAuth;
@@ -120,6 +121,7 @@ public class TrainerProfileFragment extends Fragment {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             setMyTrainerToFirebase(new MyTrainer(mTrainerId));
+                                            setMyTraineeToFirebase(new MyTrainee(mCurrentUserId));
                                         }
                                     })
                                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -164,6 +166,17 @@ public class TrainerProfileFragment extends Fragment {
         childUpdates.put(key, myTrainerValues);
 
         mDatabaseTraineeReference.updateChildren(childUpdates);
+    }
+
+    private void setMyTraineeToFirebase(MyTrainee myTrainee) {
+        DatabaseReference databaseTrainerTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/MyTrainees");
+        String key = databaseTrainerTraineesReference.push().getKey();
+        Map<String, Object> myTrainerValues = myTrainee.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        childUpdates.put(key, myTrainerValues);
+
+        databaseTrainerTraineesReference.updateChildren(childUpdates);
     }
 
     @Override
