@@ -18,9 +18,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -29,21 +27,19 @@ public class ChatListAdapter extends BaseAdapter {
 
     private Activity mActivity;
     private DatabaseReference mDatabaseReference;
-    private String mDisplayName;
-    private String mUsername = "";
-    private ArrayList<DataSnapshot> mSnapshotList;
-
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabaseUsersReference;
-
+    private String mThisUserName = "";
+    private ArrayList<Message> mMessagesList;
 
 
     private ChildEventListener mListener = new ChildEventListener() {
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            mSnapshotList.add(dataSnapshot);
+            Message message = new Message(dataSnapshot.child("message").getValue().toString(), dataSnapshot.child("author").getValue().toString(), dataSnapshot.child("time").getValue().toString());
+            mMessagesList.add(message);
             notifyDataSetChanged();
+
+
         }
 
         @Override
@@ -67,18 +63,15 @@ public class ChatListAdapter extends BaseAdapter {
         }
     };
 
-    public ChatListAdapter(Activity activity, DatabaseReference ref, String name)
-    {
+    public ChatListAdapter(Activity activity, DatabaseReference ref, String thisUserName) {
         mActivity = activity;
-        mDisplayName = name;
-        mDatabaseReference = ref.child("messages");
+        mThisUserName = thisUserName;
+        mDatabaseReference = ref.child("Messages");
         mDatabaseReference.addChildEventListener(mListener);
-
-        mSnapshotList = new ArrayList<>();
+        mMessagesList = new ArrayList<>();
     }
 
-    static class ViewHolder
-    {
+    static class ViewHolder {
         TextView authorName;
         TextView body;
         TextView time;
@@ -89,14 +82,13 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return mSnapshotList.size();
+        return mMessagesList.size();
     }
 
     @Override
-    public InstantMessage getItem(int position) {
+    public Message getItem(int position) {
 
-        DataSnapshot snapshot = mSnapshotList.get(position);
-        return snapshot.getValue(InstantMessage.class);
+        return mMessagesList.get(position);
     }
 
     @Override
@@ -107,8 +99,7 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null)
-        {
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.chat_msg_row, parent, false);
 
@@ -120,25 +111,11 @@ public class ChatListAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
 
-        final  InstantMessage message = getItem(position);
+        final Message message = getItem(position);
         final ViewHolder holder = (ViewHolder) convertView.getTag();
 
-        mDatabaseUsersReference = FirebaseDatabase.getInstance().getReference().child("Users");
-        mAuth = FirebaseAuth.getInstance();
-        String user_id = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = mDatabaseUsersReference.child(user_id).child("username");
 
-        current_user_db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mUsername = dataSnapshot.getValue().toString();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) { }
-        });
-
-        boolean isMe = mUsername.equals( message.getAuthor());
+        boolean isMe = mThisUserName.equals(message.getAuthor());
 
 
         setChatRowApperance(isMe, holder);
@@ -156,17 +133,14 @@ public class ChatListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void setChatRowApperance(boolean isItMe, ViewHolder holder)
-    {
-        if(isItMe)
-        {
-            holder.params.gravity = Gravity.START;
+    private void setChatRowApperance(boolean isItMe, ViewHolder holder) {
+        if (isItMe) {
+            holder.params.gravity = Gravity.END;
             holder.authorName.setTextColor(Color.GREEN);
             holder.body.setBackgroundResource(R.drawable.bubble2);
-        }
-        else
-        {
-            holder.params.gravity = Gravity.END;
+
+        } else {
+            holder.params.gravity = Gravity.START;
             holder.authorName.setTextColor(Color.BLUE);
             holder.body.setBackgroundResource(R.drawable.bubble1);
         }
@@ -176,8 +150,7 @@ public class ChatListAdapter extends BaseAdapter {
         holder.time.setLayoutParams(holder.params);
     }
 
-    public void clenup()
-    {
+    public void clenup() {
         mDatabaseReference.removeEventListener(mListener);
     }
 }

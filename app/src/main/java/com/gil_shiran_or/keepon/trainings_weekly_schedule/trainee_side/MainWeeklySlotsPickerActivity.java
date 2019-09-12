@@ -2,10 +2,13 @@ package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainee_side;
 
 
 import android.graphics.Typeface;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -84,6 +87,13 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_weekly_slots_picker);
+
+        Toolbar toolbar = findViewById(R.id.main_weekly_slots_picker_toolbar);
+        toolbar.setTitle("Trainer Weekly Schedule");
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         mTitlePage = findViewById(R.id.mainPicker_titlePage);
         mSubtitlePage = findViewById(R.id.mainPicker_subtitlePage);
@@ -299,6 +309,22 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
         mainWeeklySlotsPickerAdapter6.clenup();
         mainWeeklySlotsPickerAdapter7.clenup();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
 }

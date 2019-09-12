@@ -175,19 +175,18 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Intent traineeProfileIntent = new Intent(mActivity, null. class);
+
+                Intent traineeProfile = new Intent(mActivity , TraineeProfileActivity.class);
                 Bundle bundle = new Bundle();
-                //bundle.putString("traineeId", getTraineeId);
-                traineeProfileIntent.putExtras(bundle);
-                mActivity.startActivity(traineeProfileIntent);
-                */
+                bundle.putString("traineeId", getTraineeId);
+                traineeProfile.putExtras(bundle);
+                mActivity.startActivity(traineeProfile);
+
             }
         });
 
 
         // import font
-        //Typeface MLight = Typeface.createFromAsset(mActivity.getAssets(), "fonts/ML.ttf");
         Typeface MMedium = Typeface.createFromAsset(mActivity.getAssets(), "fonts/MM.ttf");
 
 

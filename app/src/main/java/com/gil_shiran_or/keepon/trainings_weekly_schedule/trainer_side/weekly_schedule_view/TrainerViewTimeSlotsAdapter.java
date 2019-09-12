@@ -1,7 +1,6 @@
 package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_schedule_view;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,14 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainings_weekly_schedule.TimeComparator;
 import com.gil_shiran_or.keepon.trainings_weekly_schedule.TimeSlot;
-import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.EditSlotActivity;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -167,6 +164,7 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
         final boolean getGroupSession = mTimeSlots.get(i).isGroupSession();
         final String getTitleSlot = mTimeSlots.get(i).getTitle();
         final String getDescSlot = mTimeSlots.get(i).getDescription();
+        final int index = i;
 
         /*
         final String getTrainerId = mTimeSlots.get(i).getTrainerId();
@@ -225,8 +223,6 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
 
 
 
-        //TODO: OnItemClicked move to profile trainee page
-
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,9 +248,17 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
                 }
                 else
                 {
-                    //TODO: OnItemClicked move to profile trainee page
-                    //Intent traineeProfile = new Intent(mFragment.getContext() , TrainingsListGroupParticipatesActivity.class);
-                    //mFragment.getContext().startActivity(traineeProfile);
+                    if(mTimeSlots.get(index).getSizeOfTraineesList() > 0)
+                    {
+                        final String traineeId = mTimeSlots.get(index).getTraineeId(0);
+                        //TODO: OnItemClicked move to profile trainee page
+                        Intent traineeProfile = new Intent(mFragment.getContext() , TraineeProfileActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("traineeId", traineeId);
+                        traineeProfile.putExtras(bundle);
+                        mFragment.getContext().startActivity(traineeProfile);
+                    }
+
                 }
 
 

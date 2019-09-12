@@ -1,235 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-android:orientation="vertical"
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@drawable/background_trainee"
-tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity">
-
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_trainee"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:layout_height="120dp">
+    tools:context=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_weekly_slots_picker_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_marginLeft="16dp"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/mainPicker_titlePage"
-                android:layout_marginTop="20dp"
-                android:textSize="32sp"
-                android:textColor="#FFF"
-                android:text="Register to Training"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/mainPicker_subtitlePage"
-                android:textSize="18sp"
-                android:textColor="#4A4E6A"
-                android:layout_marginTop="8dp"
-                android:text=""
-                android:textAlignment="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-</LinearLayout>
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay1"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList1"
-            android:nestedScrollingEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="16dp"
-            android:divider="@null"
-            android:dividerHeight="10.0sp"
-            android:transcriptMode="alwaysScroll"
-            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay2"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/mainPicker_titlePage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Register to Training"
+                    android:textAlignment="textStart"
+                    android:textColor="#FFF"
+                    android:textSize="32sp" />
+
+                <TextView
+                    android:id="@+id/mainPicker_subtitlePage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textAlignment="textStart"
+                    android:textColor="#A9A9A9"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList2"
-            android:nestedScrollingEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="16dp"
-            android:divider="@null"
-            android:dividerHeight="10.0sp"
-            android:transcriptMode="alwaysScroll"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay3"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList3"
-            android:nestedScrollingEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="16dp"
-            android:divider="@null"
-            android:dividerHeight="10.0sp"
-            android:transcriptMode="alwaysScroll"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay4"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList4"
-            android:nestedScrollingEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="16dp"
-            android:divider="@null"
-            android:dividerHeight="10.0sp"
-            android:transcriptMode="alwaysScroll"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay5"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList5"
-            android:nestedScrollingEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="16dp"
-            android:divider="@null"
-            android:dividerHeight="10.0sp"
-            android:transcriptMode="alwaysScroll"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay6"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList6"
-            android:nestedScrollingEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="16dp"
-            android:divider="@null"
-            android:dividerHeight="10.0sp"
-            android:transcriptMode="alwaysScroll"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mainPicker_expandableDay7"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mainPicker_timeSlotsList7"
-            android:nestedScrollingEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="16dp"
-            android:divider="@null"
-            android:dividerHeight="10.0sp"
-            android:transcriptMode="alwaysScroll"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/mainPicker_endPage"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="No More Time Slots"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
-</ScrollView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/mainPicker_expandableDay1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainPicker_timeSlotsList1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:nestedScrollingEnabled="true"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/mainPicker_expandableDay2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainPicker_timeSlotsList2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:nestedScrollingEnabled="true"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/mainPicker_expandableDay3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainPicker_timeSlotsList3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:nestedScrollingEnabled="true"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/mainPicker_expandableDay4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainPicker_timeSlotsList4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:nestedScrollingEnabled="true"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/mainPicker_expandableDay5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainPicker_timeSlotsList5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:nestedScrollingEnabled="true"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/mainPicker_expandableDay6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainPicker_timeSlotsList6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:nestedScrollingEnabled="true"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/mainPicker_expandableDay7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainPicker_timeSlotsList7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="16dp"
+                android:divider="@null"
+                android:dividerHeight="10.0sp"
+                android:nestedScrollingEnabled="true"
+                android:transcriptMode="alwaysScroll"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/mainPicker_endPage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="No More Time Slots"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

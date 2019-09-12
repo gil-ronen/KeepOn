@@ -1,10 +1,13 @@
 package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_schedule_view;
 
 import android.graphics.Typeface;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
@@ -39,6 +42,13 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainings_list_group_participates);
+
+        Toolbar toolbar = findViewById(R.id.training_list_group_toolbar);
+        toolbar.setTitle("Group Training");
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
 
         mTrainingTitle = findViewById(R.id.trainees_trainingTitle);
@@ -102,6 +112,22 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
         traineesListAdapter.clenup();
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
 }
