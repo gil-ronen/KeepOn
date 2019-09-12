@@ -219,7 +219,6 @@ public class MyTrainerProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                //bundle.putString("")
             }
         });
     }
