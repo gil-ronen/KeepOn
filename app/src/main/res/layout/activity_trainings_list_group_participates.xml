@@ -13,22 +13,32 @@ tools:context=".trainings_weekly_schedule.trainer_side.weekly_schedule_view.Trai
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="@color/colorPrimaryDark"
-    android:layout_height="220dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/training_list_group_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
         <LinearLayout
             android:layout_marginLeft="16dp"
+            android:layout_marginBottom="18dp"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+
             <TextView
                 android:id="@+id/trainees_trainingTitle"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="0dp"
                 android:textSize="32sp"
                 android:textColor="#FFF"
                 android:text="Training Title"

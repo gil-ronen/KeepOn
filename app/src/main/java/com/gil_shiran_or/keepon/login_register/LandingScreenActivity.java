@@ -24,7 +24,7 @@ public class LandingScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_langing_screen);
+        setContentView(R.layout.activity_landing_screen);
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();

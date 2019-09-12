@@ -2,6 +2,7 @@ package com.gil_shiran_or.keepon.trainee.my_friends;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.chat.MainChatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -192,6 +194,18 @@ public class MyFriendProfileFragment extends Fragment {
                 });
 
                 alertDialog.show();
+            }
+        });
+
+        chatFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("currentUserType", "Trainees");
+                bundle.putString("otherUserId", mTraineeId);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }

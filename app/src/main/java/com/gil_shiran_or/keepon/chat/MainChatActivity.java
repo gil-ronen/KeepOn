@@ -1,9 +1,13 @@
 package com.gil_shiran_or.keepon.chat;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -11,14 +15,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
-import com.gil_shiran_or.keepon.chat.ChatListAdapter;
-import com.gil_shiran_or.keepon.chat.InstantMessage;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,13 +29,18 @@ import java.util.Date;
 public class MainChatActivity extends AppCompatActivity {
 
     // Add member variables here:
-    private String mDisplayName;
+    private String mUserId1;
+    private String mUserId2;
+    private String mCurrentUserName = "";
+    private String mUserType;
     private ListView mChatListView;
     private EditText mInputText;
     private ImageButton mSendButton;
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabaseReference;
-    private DatabaseReference mDatabaseUsersReference;
+    private DatabaseReference mDatabaseChatsReference;
+    private DatabaseReference mDatabaseCurrentChatReference;
+    private DatabaseReference mDatabaseCurrentUserReference;
+
     private ChatListAdapter mAdapter;
 
     @Override
@@ -41,11 +49,24 @@ public class MainChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_chat);
 
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        mDatabaseUsersReference = FirebaseDatabase.getInstance().getReference().child("Users");
-        mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
+        Toolbar toolbar = findViewById(R.id.chat_toolbar);
+        toolbar.setTitle("Chat");
+        setSupportActionBar(toolbar);
 
-        getDisplayName();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+        mDatabaseChatsReference = FirebaseDatabase.getInstance().getReference().child("Chats");
+        mAuth = FirebaseAuth.getInstance(); // Get hold of an instance of FirebaseAuth
+        mUserId1 = mAuth.getCurrentUser().getUid(); // Current user ID
+        mUserId2 = getIntent().getExtras().getString("otherUserId"); // The other side user ID
+        mUserType = getIntent().getExtras().getString("currentUserType");
+        mDatabaseCurrentUserReference = FirebaseDatabase.getInstance().getReference().child("Users/" + mUserType + "/" + mUserId1 + "/Profile");
+
+
+        getChatRoomDatabaseReference();
+
 
         // Link the Views in the layout to the Java code
         mInputText = (EditText) findViewById(R.id.messageInput);
@@ -62,33 +83,70 @@ public class MainChatActivity extends AppCompatActivity {
         });
 
         // Add an OnClickListener to the sendButton to send a message
-        mSendButton.setOnClickListener(new View.OnClickListener()
-        {
-          @Override
-          public void onClick(View v)
-          {
-              sendMessage();
-          }
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage();
+            }
         });
+
     }
 
 
-    // Retrieve the display name
-    private void getDisplayName(){
-
-        String user_id = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = mDatabaseUsersReference.child(user_id).child("username");
-
-        current_user_db.addValueEventListener(new ValueEventListener() {
+    private void getChatRoomDatabaseReference() {
+        mDatabaseCurrentUserReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mDisplayName = dataSnapshot.getValue().toString();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mCurrentUserName = dataSnapshot.child("name").getValue(String.class);
+                mDatabaseCurrentUserReference.removeEventListener(this);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) { }
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
 
+        mDatabaseChatsReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null)
+                {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        if (dataSnapshot1.child("userId1").getValue() != null && dataSnapshot1.child("userId2").getValue() != null)
+                        {
+                            if ((mUserId1.equals(dataSnapshot1.child("userId1").getValue()) && mUserId2.equals(dataSnapshot1.child("userId2").getValue())) || (mUserId1.equals(dataSnapshot1.child("userId2").getValue()) && mUserId2.equals(dataSnapshot1.child("userId1").getValue()))) {
+                                mDatabaseCurrentChatReference = dataSnapshot1.getRef();
+
+                                mAdapter = new ChatListAdapter(MainChatActivity.this, dataSnapshot1.getRef(), mCurrentUserName);
+                                mChatListView.setAdapter(mAdapter);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (mDatabaseCurrentChatReference == null) {
+                    String key = mDatabaseChatsReference.push().getKey();
+
+                    mDatabaseChatsReference.child(key).child("userId1").setValue(mUserId1);
+                    mDatabaseChatsReference.child(key).child("userId2").setValue(mUserId2);
+
+                    mDatabaseCurrentChatReference = mDatabaseChatsReference.child(key);
+
+                    mAdapter = new ChatListAdapter(MainChatActivity.this, mDatabaseChatsReference.child(key), mCurrentUserName);
+                    mChatListView.setAdapter(mAdapter);
+
+                }
+
+                mDatabaseChatsReference.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        });
     }
 
 
@@ -97,31 +155,35 @@ public class MainChatActivity extends AppCompatActivity {
         String input = mInputText.getText().toString();
         Log.d("KeepOn", "I sent: " + input);
 
-        if(!input.equals(""))
-        {
+        if (!input.equals("")) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a");
             String time = simpleDateFormat.format(new Date());
 
-            InstantMessage chat = new InstantMessage(input, mDisplayName, time);
-            mDatabaseReference.child("messages").push().setValue(chat);
+            Message message = new Message(input, mCurrentUserName, time);
+            mDatabaseCurrentChatReference.child("Messages").push().setValue(message);
             mInputText.setText("");
         }
     }
 
-    // Override the onStart() lifecycle method. Setup the adapter here.
     @Override
-    public void onStart()
-    {
-        super.onStart();
-        mAdapter = new ChatListAdapter(this, mDatabaseReference, mDisplayName);
-        mChatListView.setAdapter(mAdapter);
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return false;
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 
-        // Remove the Firebase event listener on the adapter.
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         mAdapter.clenup();
     }
 
