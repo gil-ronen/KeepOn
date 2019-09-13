@@ -32,16 +32,17 @@ tools:context=".trainings_weekly_schedule.trainee_side.MyTrainingsListActivity">
                 android:textSize="32sp"
                 android:textColor="#FFF"
                 android:text="My Trainings List"
+                android:textAlignment="textStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/trainingsList_subtitlePage"
                 android:textSize="18sp"
-                android:textColor="#4A4E6A"
+                android:textColor="@color/dark_gray"
                 android:layout_marginTop="8dp"
                 android:text=""
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

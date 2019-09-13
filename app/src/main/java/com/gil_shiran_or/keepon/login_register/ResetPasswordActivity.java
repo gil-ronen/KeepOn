@@ -45,8 +45,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(ResetPasswordActivity.this, "Password reset email sent!", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
-                        startActivity(intent);
                         finish();
                     } else {
                         Toast.makeText(ResetPasswordActivity.this, "Error in sending password reset email", Toast.LENGTH_SHORT).show();
@@ -58,8 +56,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     public void backToSignIn(View v)
     {
-        Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
-        startActivity(intent);
         finish();
     }
 

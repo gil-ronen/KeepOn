@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gil_shiran_or.keepon.MyTrainee;
+import com.gil_shiran_or.keepon.trainer.my_trainees.MyTrainee;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.trainee.my_trainers.MyTrainer;
 import com.google.firebase.auth.FirebaseAuth;

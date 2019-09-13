@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void backToSignIn(View v)
     {
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
         finish();
     }

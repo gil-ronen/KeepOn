@@ -1,4 +1,4 @@
-package com.gil_shiran_or.keepon;
+package com.gil_shiran_or.keepon.trainer.my_trainees;
 
 import java.util.HashMap;
 import java.util.Map;

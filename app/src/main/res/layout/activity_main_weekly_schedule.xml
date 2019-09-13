@@ -32,16 +32,17 @@ tools:context=".trainings_weekly_schedule.trainer_side.create_and_edit_time_slot
                     android:textSize="32sp"
                     android:textColor="#FFF"
                     android:text="Plan My Week"
+                    android:textAlignment="textStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/main_subtitlePage"
                     android:textSize="18sp"
-                    android:textColor="#4A4E6A"
+                    android:textColor="@color/dark_gray"
                     android:layout_marginTop="8dp"
                     android:text="Work program for the coming week"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

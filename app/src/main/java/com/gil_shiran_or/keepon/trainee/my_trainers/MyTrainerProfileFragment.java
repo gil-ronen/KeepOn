@@ -16,7 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gil_shiran_or.keepon.MyTrainee;
+import com.gil_shiran_or.keepon.trainer.my_trainees.MyTrainee;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.chat.MainChatActivity;
 import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity;
