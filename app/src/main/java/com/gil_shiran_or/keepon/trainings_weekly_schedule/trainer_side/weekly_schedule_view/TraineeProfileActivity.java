@@ -1,15 +1,19 @@
 package com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.weekly_schedule_view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.chat.MainChatActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +55,7 @@ public class TraineeProfileActivity extends AppCompatActivity {
         final TextView traineeBirthDateTextView = findViewById(R.id.trainee_birth_date);
         final TextView traineePhoneNumberTextView = findViewById(R.id.trainee_phone_number);
         final ImageView traineeGenderImageView = findViewById(R.id.trainee_gender);
+        final FloatingActionButton chatBtn = findViewById(R.id.trainee_profile_chat_button);
 
         mDatabaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mTraineeId + "/Profile");
         mValueEventListener = new ValueEventListener() {
@@ -81,6 +86,18 @@ public class TraineeProfileActivity extends AppCompatActivity {
         };
 
         mDatabaseTraineeReference.addValueEventListener(mValueEventListener);
+
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TraineeProfileActivity.this, MainChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("currentUserType", "Trainers");
+                bundle.putString("otherUserId", mTraineeId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

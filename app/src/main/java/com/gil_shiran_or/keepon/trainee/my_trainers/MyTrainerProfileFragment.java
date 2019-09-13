@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.gil_shiran_or.keepon.MyTrainee;
 import com.gil_shiran_or.keepon.R;
+import com.gil_shiran_or.keepon.chat.MainChatActivity;
 import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -218,7 +219,12 @@ public class MyTrainerProfileFragment extends Fragment {
         chatFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainChatActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("currentUserType", "Trainees");
+                bundle.putString("otherUserId", mTrainerId);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
