@@ -38,6 +38,7 @@ public class TraineeWeeklyTask {
 
         result.put("taskId", taskId);
         result.put("isCompleted", isCompleted);
+        result.put("times", times);
 
         return result;
     }

@@ -9,7 +9,4 @@ public class WeeklyTask {
     public WeeklyTask() {
 
     }
-
-
-
 }
