@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.gil_shiran_or.keepon.R;
 import com.gil_shiran_or.keepon.login_register.LoginActivity;
 import com.gil_shiran_or.keepon.trainee.about.AboutFragment;
+import com.gil_shiran_or.keepon.trainer.my_trainees.MyTraineesFragment;
 import com.gil_shiran_or.keepon.trainer.profile.ProfileFragment;
 import com.gil_shiran_or.keepon.trainer.rating.MyRatingFragment;
 import com.gil_shiran_or.keepon.trainings_weekly_schedule.trainer_side.create_and_edit_time_slots.PlanWeeklyScheduleFragment;
@@ -104,6 +105,10 @@ public class TrainerNavActivity extends AppCompatActivity implements NavigationV
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
+                break;
+            case R.id.nav_my_trainees:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MyTraineesFragment()).commit();
                 break;
             case R.id.nav_my_rating:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

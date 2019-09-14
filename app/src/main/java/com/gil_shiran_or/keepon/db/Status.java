@@ -5,24 +5,24 @@ import java.util.Map;
 
 public class Status
 {
-    private String level;
+    private int level;
     private int totalScore;
     private int scoreToNextLevel;
 
     public Status() {
     }
 
-    public Status(String level, int totalScore, int scoreToNextLevel) {
+    public Status(int level, int totalScore, int scoreToNextLevel) {
         this.level = level;
         this.totalScore = totalScore;
         this.scoreToNextLevel = scoreToNextLevel;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 

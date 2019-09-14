@@ -16,6 +16,11 @@
             android:title="Profile" />
 
         <item
+            android:id="@+id/nav_my_trainees"
+            android:icon="@drawable/ic_group_black_24dp"
+            android:title="My Trainees" />
+
+        <item
             android:id="@+id/nav_my_rating"
             android:icon="@drawable/ic_my_rating"
             android:title="My Rating" />

@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
         startActivity(intent);
-        finish();
     }
 
     // Executed when Register button pressed

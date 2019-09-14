@@ -7,6 +7,7 @@ public class TraineeWeeklyTask {
 
     private String taskId;
     private boolean isCompleted = false;
+    private int times = 0;
 
     public TraineeWeeklyTask() {
 
@@ -22,6 +23,14 @@ public class TraineeWeeklyTask {
 
     public boolean getIsCompleted() {
         return isCompleted;
+    }
+
+    public int getTimes() {
+        return times;
+    }
+
+    public void setTimes(int times) {
+        this.times = times;
     }
 
     public Map<String, Object> toMap() {
