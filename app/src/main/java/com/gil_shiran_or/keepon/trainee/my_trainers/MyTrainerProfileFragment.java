@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -136,6 +141,7 @@ public class MyTrainerProfileFragment extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 final DatabaseReference databaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/MyTrainers");
                                 final DatabaseReference databaseTrainerReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/MyTrainees");
+                                final DatabaseReference databaseTrainerScheduleReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers/" + mTrainerId + "/WeeklySchedule");
 
                                 databaseTraineeReference.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -175,6 +181,40 @@ public class MyTrainerProfileFragment extends Fragment {
                                         databaseTrainerReference.removeEventListener(this);
 
                                         getActivity().finish();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                databaseTrainerScheduleReference.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Calendar calendar = Calendar.getInstance();
+                                        Date date = calendar.getTime();
+                                        
+                                        for (int i = 0; i < 7; i++) {
+                                            String dateFormat = new SimpleDateFormat("yyyy/MM/dd").format(date);
+
+                                            for (DataSnapshot dataSlot : dataSnapshot.child(dateFormat).getChildren()) {
+                                                for (DataSnapshot dataTrainee : dataSlot.child("traineesId").getChildren()) {
+                                                    if (dataTrainee.child("userId").getValue(String.class).equals(mCurrentUserId)) {
+                                                        databaseTrainerScheduleReference.child(dateFormat).child(dataSlot.getKey()).child("traineesId").child(dataTrainee.getKey()).removeValue();
+                                                        databaseTrainerScheduleReference.child(dateFormat).child(dataSlot.getKey()).child("currentSumPeopleInGroup")
+                                                                .setValue(dataSlot.child("currentSumPeopleInGroup").getValue(Integer.class) - 1);
+                                                        databaseTrainerScheduleReference.child(dateFormat).child(dataSlot.getKey()).child("occupied").setValue(false);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            calendar.add(Calendar.DAY_OF_YEAR, 1);
+                                            date = calendar.getTime();
+                                        }
+
+                                        databaseTrainerScheduleReference.removeEventListener(this);
                                     }
 
                                     @Override
