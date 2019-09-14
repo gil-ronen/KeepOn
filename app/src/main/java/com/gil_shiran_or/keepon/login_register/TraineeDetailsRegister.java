@@ -54,8 +54,10 @@ package com.gil_shiran_or.keepon.login_register;
         import com.google.firebase.storage.StorageReference;
         import com.google.firebase.storage.UploadTask;
 
+        import java.util.ArrayList;
         import java.util.Calendar;
         import java.util.HashMap;
+        import java.util.List;
         import java.util.Map;
         import java.util.Random;
 
@@ -371,11 +373,13 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         databaseWeeklyTasksReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<WeeklyTask> weeklyTasksList = new ArrayList<>();
                 Random random = new Random();
                 int num1, num2, weeklyTasksNum = 0;
 
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    data.getValue(WeeklyTask.class);
+                    WeeklyTask weeklyTask = data.getValue(WeeklyTask.class);
+                    weeklyTasksList.add(weeklyTask);
                     weeklyTasksNum++;
                 }
 
@@ -385,8 +389,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                     num2 = random.nextInt(weeklyTasksNum) + 1;
                 } while (num2 == num1);
 
-                setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num1));
-                setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num2));
+                setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num1, weeklyTasksList.get(num1 - 1).getTimes(), weeklyTasksList.get(num1 - 1).getScore()));
+                setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num2, weeklyTasksList.get(num2 - 1).getTimes(), weeklyTasksList.get(num2 - 1).getScore()));
 
                 databaseWeeklyTasksReference.removeEventListener(this);
             }

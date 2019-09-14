@@ -24,9 +24,7 @@ public class MyFriendStatusFragment extends Fragment {
 
     private DatabaseReference mDatabaseStatusReference;
     private MyFriendWeeklyTasksListAdapter mMyFriendWeeklyTasksListAdapter;
-    private ValueEventListener mStatusValueEventListener;
     private String mTraineeId;
-    private Status mStatus;
 
     @Nullable
     @Override
@@ -46,25 +44,27 @@ public class MyFriendStatusFragment extends Fragment {
         final TextView traineeScoreToNextLevelTextView = getView().findViewById(R.id.my_friend_score_to_next_level);
 
         mDatabaseStatusReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mTraineeId + "/Status");
-        mStatusValueEventListener = new ValueEventListener() {
+        mDatabaseStatusReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mStatus = dataSnapshot.getValue(Status.class);
+                String levelId = "Level" + dataSnapshot.child("level").getValue(Integer.class);
+                int totalScore = dataSnapshot.child("totalScore").getValue(Integer.class);
+                int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
 
-                traineeLevelTextView.setText("Level" + mStatus.getLevel());
-                traineeProgressBar.setMaxProgress(mStatus.getTotalScore() + mStatus.getScoreToNextLevel());
-                traineeProgressBar.setProgress(mStatus.getTotalScore());
-                traineeTotalScoreTextView.setText(Integer.toString(mStatus.getTotalScore()));
-                traineeScoreToNextLevelTextView.setText(Integer.toString(mStatus.getScoreToNextLevel()));
+                traineeLevelTextView.setText(levelId);
+                traineeProgressBar.setMaxProgress(100);
+                traineeProgressBar.setProgress((totalScore * 100) / scoreToNextLevel);
+                traineeTotalScoreTextView.setText(Integer.toString(totalScore));
+                traineeScoreToNextLevelTextView.setText(Integer.toString(scoreToNextLevel));
+
+                mDatabaseStatusReference.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        };
-
-        mDatabaseStatusReference.addValueEventListener(mStatusValueEventListener);
+        });
     }
 
     private void buildReviewsRecyclerView() {
@@ -80,7 +80,6 @@ public class MyFriendStatusFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDatabaseStatusReference.removeEventListener(mStatusValueEventListener);
         mMyFriendWeeklyTasksListAdapter.cleanUp();
     }
 }

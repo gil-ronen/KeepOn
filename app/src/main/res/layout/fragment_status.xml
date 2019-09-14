@@ -48,8 +48,8 @@
                         <com.beardedhen.androidbootstrap.BootstrapProgressBarGroup
                             android:layout_width="300dp"
                             android:layout_height="wrap_content"
-                            app:roundedCorners="true"
-                            app:bootstrapSize="sm">
+                            app:bootstrapSize="sm"
+                            app:roundedCorners="true">
 
                             <com.beardedhen.androidbootstrap.BootstrapProgressBar
                                 android:id="@+id/status_progress_bar"

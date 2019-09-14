@@ -8,13 +8,17 @@ public class TraineeWeeklyTask {
     private String taskId;
     private boolean isCompleted = false;
     private int times = 0;
+    private int totalTimes;
+    private int score;
 
     public TraineeWeeklyTask() {
 
     }
 
-    public TraineeWeeklyTask(String taskId) {
+    public TraineeWeeklyTask(String taskId, int totalTimes, int score) {
         this.taskId = taskId;
+        this.totalTimes = totalTimes;
+        this.score = score;
     }
 
     public String getTaskId() {
@@ -29,8 +33,12 @@ public class TraineeWeeklyTask {
         return times;
     }
 
-    public void setTimes(int times) {
-        this.times = times;
+    public int getTotalTimes() {
+        return totalTimes;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public Map<String, Object> toMap() {
@@ -39,6 +47,8 @@ public class TraineeWeeklyTask {
         result.put("taskId", taskId);
         result.put("isCompleted", isCompleted);
         result.put("times", times);
+        result.put("totalTimes", totalTimes);
+        result.put("score", score);
 
         return result;
     }

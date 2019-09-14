@@ -23,8 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 public class StatusFragment extends Fragment {
 
     TraineeWeeklyTasksListAdapter mTraineeWeeklyTasksListAdapter;
-    DatabaseReference mDatabaseTraineeReference;
-    ValueEventListener mValueEventListener;
+    DatabaseReference mDatabaseStatusReference;
     String mCurrentUserId;
 
     @Nullable
@@ -40,7 +39,7 @@ public class StatusFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        mDatabaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/Status");
+        mDatabaseStatusReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/Status");
 
         buildTraineeWeeklyTasksRecyclerView();
 
@@ -49,7 +48,7 @@ public class StatusFragment extends Fragment {
         final TextView statusTotalScoreTextView = view.findViewById(R.id.status_total_score);
         final TextView statusScoreToNextLevelTextView = view.findViewById(R.id.status_score_to_next_level);
 
-        mValueEventListener = new ValueEventListener() {
+        mDatabaseStatusReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String levelId = "Level" + dataSnapshot.child("level").getValue(Integer.class);
@@ -57,19 +56,19 @@ public class StatusFragment extends Fragment {
                 int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
 
                 statusLevelTextView.setText(levelId);
-                statusProgressBar.setMaxProgress(totalScore + scoreToNextLevel);
-                statusProgressBar.setProgress(totalScore);
+                statusProgressBar.setMaxProgress(100);
+                statusProgressBar.setProgress((totalScore * 100) / scoreToNextLevel);
                 statusTotalScoreTextView.setText(Integer.toString(totalScore));
                 statusScoreToNextLevelTextView.setText(Integer.toString(scoreToNextLevel));
+
+                mDatabaseStatusReference.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        };
-
-        mDatabaseTraineeReference.addValueEventListener(mValueEventListener);
+        });
     }
 
     private void buildTraineeWeeklyTasksRecyclerView() {
@@ -85,7 +84,6 @@ public class StatusFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDatabaseTraineeReference.removeEventListener(mValueEventListener);
         mTraineeWeeklyTasksListAdapter.cleanUp();
     }
 }

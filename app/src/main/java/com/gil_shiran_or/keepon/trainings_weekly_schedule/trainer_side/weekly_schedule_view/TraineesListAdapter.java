@@ -210,78 +210,37 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
                                         databaseTraineeStatusReference.addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(final @NonNull DataSnapshot dataSnapshotStatus) {
+                                                int totalScore = dataSnapshotStatus.child("totalScore").getValue(Integer.class) + 10;
 
-                                                for (final DataSnapshot dataSnapshot1 : dataSnapshotStatus.child("weeklyTasks").getChildren()) {
-                                                    TraineeWeeklyTask traineeWeeklyTask = dataSnapshot1.getValue(TraineeWeeklyTask.class);
+                                                for (DataSnapshot data : dataSnapshotStatus.child("weeklyTasks").getChildren()) {
+                                                    TraineeWeeklyTask traineeWeeklyTask = data.getValue(TraineeWeeklyTask.class);
 
                                                     if (traineeWeeklyTask.getIsCompleted()) {
-                                                        int totalScore = dataSnapshotStatus.child("totalScore").getValue(Integer.class) + 10;
-
-                                                        databaseTraineeStatusReference.child("totalScore").setValue(totalScore);
-                                                        if (totalScore >= dataSnapshotStatus.child("scoreToNextLevel").getValue(Integer.class)) {
-                                                            int level = dataSnapshotStatus.child("level").getValue(Integer.class) + 1;
-                                                            databaseTraineeStatusReference.child("level").setValue(level);
-                                                            String levelId = "Level" + level;
-                                                            final DatabaseReference databaseLevelsReference = FirebaseDatabase.getInstance().getReference().child("Levels").child(levelId);
-                                                            databaseLevelsReference.addValueEventListener(new ValueEventListener() {
-                                                                @Override
-                                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                                    int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
-                                                                    databaseTraineeStatusReference.child("scoreToNextLevel").setValue(scoreToNextLevel);
-                                                                    databaseLevelsReference.removeEventListener(this);
-                                                                }
-
-                                                                @Override
-                                                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                                }
-                                                            });
-                                                        }
-
                                                         continue;
                                                     }
 
-                                                    final int times = traineeWeeklyTask.getTimes() + 1;
-                                                    databaseTraineeStatusReference.child("weeklyTasks").child(dataSnapshot1.getKey()).child("times").setValue(times);
+                                                    int times = traineeWeeklyTask.getTimes() + 1;
+                                                    databaseTraineeStatusReference.child("weeklyTasks").child(data.getKey()).child("times").setValue(times);
 
-                                                    final DatabaseReference databaseWeeklyTasksReference = FirebaseDatabase.getInstance().getReference().child(traineeWeeklyTask.getTaskId());
+                                                    if (times == traineeWeeklyTask.getTotalTimes()) {
+                                                        databaseTraineeStatusReference.child("weeklyTasks").child(data.getKey()).child("isCompleted").setValue(true);
+                                                        totalScore += traineeWeeklyTask.getScore();
+                                                    }
+                                                }
 
-                                                    databaseWeeklyTasksReference.addValueEventListener(new ValueEventListener() {
+                                                final int totalScorreToChange = totalScore;
+                                                if (totalScore >= dataSnapshotStatus.child("scoreToNextLevel").getValue(Integer.class)) {
+                                                    int level = dataSnapshotStatus.child("level").getValue(Integer.class) + 1;
+                                                    databaseTraineeStatusReference.child("level").setValue(level);
+                                                    String levelId = "Level" + level;
+                                                    final DatabaseReference databaseLevelsReference = FirebaseDatabase.getInstance().getReference().child("Levels").child(levelId);
+                                                    databaseLevelsReference.addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                            int maxTimes = dataSnapshot.child("times").getValue(Integer.class);
-                                                            int totalScore;
-
-                                                            if (maxTimes == times) {
-                                                                databaseTraineeStatusReference.child("weeklyTasks").child(dataSnapshot1.getKey()).child("isCompleted").setValue(true);
-                                                                totalScore = dataSnapshotStatus.child("totalScore").getValue(Integer.class) + 10 + dataSnapshot.child("score").getValue(Integer.class);
-                                                            }
-                                                            else {
-                                                                totalScore = dataSnapshotStatus.child("totalScore").getValue(Integer.class) + 10;
-                                                            }
-
-                                                            databaseTraineeStatusReference.child("totalScore").setValue(totalScore);
-                                                            if (totalScore >= dataSnapshotStatus.child("scoreToNextLevel").getValue(Integer.class)) {
-                                                                int level = dataSnapshotStatus.child("level").getValue(Integer.class) + 1;
-                                                                databaseTraineeStatusReference.child("level").setValue(level);
-                                                                String levelId = "Level" + level;
-                                                                final DatabaseReference databaseLevelsReference = FirebaseDatabase.getInstance().getReference().child("Levels").child(levelId);
-                                                                databaseLevelsReference.addValueEventListener(new ValueEventListener() {
-                                                                    @Override
-                                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                                        int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
-                                                                        databaseTraineeStatusReference.child("scoreToNextLevel").setValue(scoreToNextLevel);
-                                                                        databaseLevelsReference.removeEventListener(this);
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                                    }
-                                                                });
-                                                            }
-
-                                                            databaseWeeklyTasksReference.removeEventListener(this);
+                                                            int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
+                                                            databaseTraineeStatusReference.child("scoreToNextLevel").setValue(scoreToNextLevel);
+                                                            databaseTraineeStatusReference.child("totalScore").setValue(totalScorreToChange);
+                                                            databaseLevelsReference.removeEventListener(this);
                                                         }
 
                                                         @Override
@@ -289,7 +248,6 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
 
                                                         }
                                                     });
-
                                                 }
 
                                                 databaseTraineeStatusReference.removeEventListener(this);
@@ -302,9 +260,11 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
                                             }
                                         });
                                     }
+
                                     break;
                                 }
                             }
+
                             mDatabaseReference.removeEventListener(this);
                         }
 
@@ -314,7 +274,6 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
                         }
                     });
                 }
-
 
                 return true;
             }
