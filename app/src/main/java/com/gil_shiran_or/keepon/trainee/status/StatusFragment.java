@@ -52,7 +52,7 @@ public class StatusFragment extends Fragment {
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String levelId = dataSnapshot.child("level").getValue(String.class);
+                String levelId = "Level" + dataSnapshot.child("level").getValue(Integer.class);
                 int totalScore = dataSnapshot.child("totalScore").getValue(Integer.class);
                 int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
 
