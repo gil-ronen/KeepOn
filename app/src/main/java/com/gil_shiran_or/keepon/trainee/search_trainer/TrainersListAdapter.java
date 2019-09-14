@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
     private List<Trainer> optionsFilteredTrainersList = new ArrayList<>();
     private DatabaseReference mDatabaseTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers");
     private ChildEventListener mChildEventListener;
+    private ValueEventListener mValueEventListener;
     private Fragment mSearchTrainerFragment;
     private int mMaxPrice = 0;
     private int mMinPrice = Integer.MAX_VALUE;
@@ -72,66 +74,30 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
 
     public TrainersListAdapter(Fragment searchTrainerFragment) {
         mSearchTrainerFragment = searchTrainerFragment;
-        mChildEventListener = new ChildEventListener() {
+        mValueEventListener = new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Trainer trainer = dataSnapshot.child("Profile").getValue(Trainer.class);
-                Rating rating = dataSnapshot.child("Rating").getValue(Rating.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Trainer trainer = data.child("Profile").getValue(Trainer.class);
+                    Rating rating = data.child("Rating").getValue(Rating.class);
 
-                trainer.setUserId(dataSnapshot.getKey());
-                trainer.setRating(rating);
-                mFullTrainersList.add(trainer);
-                mTrainersList = new ArrayList<>(mFullTrainersList);
+                    trainer.setUserId(dataSnapshot.getKey());
+                    trainer.setRating(rating);
+                    mFullTrainersList.add(trainer);
+                    mTrainersList = new ArrayList<>(mFullTrainersList);
 
-                if (trainer.getPrice() > mMaxPrice) {
-                    mMaxPrice = trainer.getPrice();
-                }
-
-                if (trainer.getPrice() < mMinPrice) {
-                    mMinPrice = trainer.getPrice();
-                }
-
-                ((SearchTrainerFragment) mSearchTrainerFragment).setPriceRange();
-
-                notifyItemInserted(mTrainersList.size() - 1);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for (int i = 0; i < mFullTrainersList.size(); i++) {
-                    if (mFullTrainersList.get(i).getUserId().equals(dataSnapshot.getKey())) {
-                        Trainer trainer = dataSnapshot.child("Profile").getValue(Trainer.class);
-                        Rating rating = dataSnapshot.child("Rating").getValue(Rating.class);
-
-                        trainer.setUserId(dataSnapshot.getKey());
-                        trainer.setRating(rating);
-                        mFullTrainersList.set(i, trainer);
-                        mTrainersList = new ArrayList<>(mFullTrainersList);
-
-                        if (trainer.getPrice() > mMaxPrice) {
-                            mMaxPrice = trainer.getPrice();
-                        }
-
-                        if (trainer.getPrice() < mMinPrice) {
-                            mMinPrice = trainer.getPrice();
-                        }
-
-                        ((SearchTrainerFragment) mSearchTrainerFragment).setPriceRange();
-
-                        notifyItemChanged(i);
-                        break;
+                    if (trainer.getPrice() > mMaxPrice) {
+                        mMaxPrice = trainer.getPrice();
                     }
+
+                    if (trainer.getPrice() < mMinPrice) {
+                        mMinPrice = trainer.getPrice();
+                    }
+
+                    ((SearchTrainerFragment) mSearchTrainerFragment).setPriceRange();
+
+                    notifyItemInserted(mTrainersList.size() - 1);
                 }
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
             }
 
             @Override
@@ -140,7 +106,7 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
             }
         };
 
-        mDatabaseTrainersReference.addChildEventListener(mChildEventListener);
+        mDatabaseTrainersReference.addValueEventListener(mValueEventListener);
 
         mFilter = new Filter() {
             @Override
@@ -332,6 +298,6 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
     }
 
     public void cleanUp() {
-        mDatabaseTrainersReference.removeEventListener(mChildEventListener);
+        mDatabaseTrainersReference.addValueEventListener(mValueEventListener);
     }
 }

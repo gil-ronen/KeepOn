@@ -28,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
     private List<Trainee> mTraineesList = new ArrayList<>();
     private List<Trainee> mFullTraineesList = new ArrayList<>();
     private DatabaseReference mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
-    private ChildEventListener mChildEventListener;
+    private ValueEventListener mValueEventListener;
     private Fragment mSearchTraineeFragment;
     private Filter mFilter;
     private String mCurrentUserId;
@@ -71,47 +72,22 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        mChildEventListener = new ChildEventListener() {
+        mValueEventListener = new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if (!dataSnapshot.getKey().equals(mCurrentUserId)) {
-                    Trainee trainee = dataSnapshot.child("Profile").getValue(Trainee.class);
-                    Status status = dataSnapshot.child("Status").getValue(Status.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    if (!data.getKey().equals(mCurrentUserId)) {
+                        Trainee trainee = data.child("Profile").getValue(Trainee.class);
+                        Status status = data.child("Status").getValue(Status.class);
 
-                    trainee.setUserId(dataSnapshot.getKey());
-                    trainee.setStatus(status);
-                    mFullTraineesList.add(trainee);
-                    mTraineesList = new ArrayList<>(mFullTraineesList);
-
-                    notifyItemInserted(mTraineesList.size() - 1);
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for (int i = 0; i < mFullTraineesList.size(); i++) {
-                    if (mFullTraineesList.get(i).getUserId().equals(dataSnapshot.getKey())) {
-                        Trainee trainee = dataSnapshot.child("Profile").getValue(Trainee.class);
-                        Status status = dataSnapshot.child("Status").getValue(Status.class);
-
-                        trainee.setUserId(dataSnapshot.getKey());
+                        trainee.setUserId(data.getKey());
                         trainee.setStatus(status);
-                        mFullTraineesList.set(i, trainee);
+                        mFullTraineesList.add(trainee);
                         mTraineesList = new ArrayList<>(mFullTraineesList);
-                        notifyItemChanged(i);
-                        break;
+
+                        notifyItemInserted(mTraineesList.size() - 1);
                     }
                 }
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
             }
 
             @Override
@@ -120,7 +96,7 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
             }
         };
 
-        mDatabaseTraineesReference.addChildEventListener(mChildEventListener);
+        mDatabaseTraineesReference.addValueEventListener(mValueEventListener);
 
         mFilter = new Filter() {
             @Override
@@ -196,6 +172,6 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
     }
 
     public void cleanUp() {
-        mDatabaseTraineesReference.removeEventListener(mChildEventListener);
+        mDatabaseTraineesReference.removeEventListener(mValueEventListener);
     }
 }

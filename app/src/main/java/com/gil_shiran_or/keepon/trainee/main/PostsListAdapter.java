@@ -105,14 +105,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 post.setPostId(dataSnapshot.getKey());
                 mPostsList.add(0, post);
                 notifyItemInserted(0);
-
-                final RecyclerView postsRecyclerView = mMainFragment.getView().findViewById(R.id.posts_list);
-                postsRecyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        postsRecyclerView.smoothScrollToPosition(0);
-                    }
-                });
             }
 
             @Override
@@ -322,6 +314,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             mDatabasePostsReference.updateChildren(childUpdates);
         }
+
+        final RecyclerView postsRecyclerView = mMainFragment.getView().findViewById(R.id.posts_list);
+        postsRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                postsRecyclerView.smoothScrollToPosition(0);
+            }
+        });
     }
 
     private void uploadPostPhoto(final Post post, final String postId, Uri imageUri) {
