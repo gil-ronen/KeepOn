@@ -40,11 +40,13 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
     private ArrayList<TraineeRegisterTimeSlot> mTraineesId;
     private ChildEventListener mChildEventListener;
     private DatabaseReference mDatabaseReference;
+    private String mDateForApp;
 
 
-    public TraineesListAdapter(Activity activity, DatabaseReference ref) {
+    public TraineesListAdapter(Activity activity, DatabaseReference ref, String dateForApp) {
         mActivity = activity;
         mDatabaseReference = ref;
+        mDateForApp = dateForApp;
         mTraineesId = new ArrayList<>();
 
         mChildEventListener = new ChildEventListener() {
@@ -116,6 +118,7 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
         TextView mTraineeNameSlot;
         CircleImageView mImageView;
         LinearLayout mTimeSlotLinearLayout;
+        LinearLayout mTraineeScoredLinearLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -123,6 +126,7 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
             mTraineeNameSlot = (TextView) itemView.findViewById(R.id.trainee_name);
             mImageView = (CircleImageView) itemView.findViewById(R.id.profile_img_trainee_list);
             mTimeSlotLinearLayout = (LinearLayout) itemView.findViewById(R.id.all_training_slot);
+            mTraineeScoredLinearLayout = (LinearLayout) itemView.findViewById(R.id.is_trainee_got_score);
         }
     }
 
@@ -146,6 +150,16 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
         */
 
         final String getTraineeId = mTraineesId.get(i).getUserId();
+        final boolean isScored = mTraineesId.get(i).getIsGotScore();
+
+        if(isScored)
+        {
+            myViewHolder.mTraineeScoredLinearLayout.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            myViewHolder.mTraineeScoredLinearLayout.setVisibility(View.INVISIBLE);
+        }
 
 
         myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_registered_slot);
@@ -177,27 +191,33 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
             @Override
             public boolean onLongClick(View view) {
 
-                mDatabaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                            if (dataSnapshot1.child("userId").getValue(String.class).equals(getTraineeId))
-                            {
-                                if (dataSnapshot1.child("isGotScore").getValue(boolean.class))
-                                {
-                                    Toast.makeText(mActivity, "This trainee already got his score for this training!", Toast.LENGTH_LONG).show();
+                if(!mDateForApp.equals("TODAY"))
+                {
+                    Toast.makeText(mActivity, "Score cannot be given for future training", Toast.LENGTH_LONG).show();
+                }
+                else {
 
-                                }
-                                //else if() TODO: GET CURRENT DATE OF THIS DAY, IF DATE IS NOT TODAY, HE CANT GIVE SCORE
-                                else {
-                                    mDatabaseReference.child(dataSnapshot1.getKey()).child("isGotScore").setValue(true);
-                                    Toast.makeText(mActivity, "Trainee's score updated successfully!", Toast.LENGTH_LONG).show();
-                                    //TODO: ADD ICON THAT INDICATE THAT THIS USER GOT SCORE
 
-                                    final DatabaseReference databaseTraineeStatusReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees").child(getTraineeId).child("Status");
-                                    databaseTraineeStatusReference.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                if (dataSnapshot1.child("userId").getValue(String.class).equals(getTraineeId)) {
+                                    if (dataSnapshot1.child("isGotScore").getValue(boolean.class))
+                                    {
+                                        Toast.makeText(mActivity, "This trainee already got his score for this training!", Toast.LENGTH_LONG).show();
+
+                                    }
+                                    else
+                                    {
+                                        mDatabaseReference.child(dataSnapshot1.getKey()).child("isGotScore").setValue(true);
+                                        Toast.makeText(mActivity, "Trainee's score updated successfully!", Toast.LENGTH_LONG).show();
+                                        myViewHolder.mTraineeScoredLinearLayout.setVisibility(View.VISIBLE);
+
+                                        final DatabaseReference databaseTraineeStatusReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees").child(getTraineeId).child("Status");
+                                        databaseTraineeStatusReference.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         /*for(DataSnapshot dataSnapshot1 : dataSnapshot.child("WeeklyTasks").getChildren())
                         {
@@ -207,49 +227,51 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
 
                         }*/
 
-                                            int totalScore = dataSnapshot.child("totalScore").getValue(Integer.class) + 10;
-                                            databaseTraineeStatusReference.child("totalScore").setValue(totalScore);
-                                            if (totalScore >= dataSnapshot.child("scoreToNextLevel").getValue(Integer.class)) {
-                                                int level = dataSnapshot.child("level").getValue(Integer.class) + 1;
-                                                databaseTraineeStatusReference.child("level").setValue(level);
-                                                String levelId = "Level" + level;
-                                                final DatabaseReference databaseLevelsReference = FirebaseDatabase.getInstance().getReference().child("Levels").child(levelId);
-                                                databaseLevelsReference.addValueEventListener(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                        int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
-                                                        databaseTraineeStatusReference.child("scoreToNextLevel").setValue(scoreToNextLevel);
-                                                        databaseLevelsReference.removeEventListener(this);
-                                                    }
+                                                int totalScore = dataSnapshot.child("totalScore").getValue(Integer.class) + 10;
+                                                databaseTraineeStatusReference.child("totalScore").setValue(totalScore);
+                                                if (totalScore >= dataSnapshot.child("scoreToNextLevel").getValue(Integer.class)) {
+                                                    int level = dataSnapshot.child("level").getValue(Integer.class) + 1;
+                                                    databaseTraineeStatusReference.child("level").setValue(level);
+                                                    String levelId = "Level" + level;
+                                                    final DatabaseReference databaseLevelsReference = FirebaseDatabase.getInstance().getReference().child("Levels").child(levelId);
+                                                    databaseLevelsReference.addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
+                                                            databaseTraineeStatusReference.child("scoreToNextLevel").setValue(scoreToNextLevel);
+                                                            databaseLevelsReference.removeEventListener(this);
+                                                        }
 
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                                    }
-                                                });
+                                                        }
+                                                    });
+                                                }
+
+
+                                                databaseTraineeStatusReference.removeEventListener(this);
+
                                             }
 
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                            databaseTraineeStatusReference.removeEventListener(this);
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
+                                            }
+                                        });
+                                    }
+                                    break;
                                 }
-                                break;
                             }
+                            mDatabaseReference.removeEventListener(this);
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+                }
 
 
                 return true;

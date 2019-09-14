@@ -30,7 +30,7 @@ import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerViewTimeSlotsAdapter.MyViewHolder>{
+public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerViewTimeSlotsAdapter.MyViewHolder> {
 
     private Fragment mFragment;
     private ArrayList<TimeSlot> mTimeSlots;
@@ -39,7 +39,6 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
 
     private String mDateForApp;
     private String mDateForDB;
-
 
 
     public TrainerViewTimeSlotsAdapter(Fragment fragment, DatabaseReference ref, String dateForApp, String dateForDB) {
@@ -53,8 +52,7 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                if(dataSnapshot.child("currentSumPeopleInGroup").getValue(Integer.class)>0)
-                {
+                if (dataSnapshot.child("currentSumPeopleInGroup").getValue(Integer.class) > 0) {
                     TimeSlot timeSlot = dataSnapshot.getValue(TimeSlot.class);
                     timeSlot.setTimeSlotId(dataSnapshot.getKey());
                     for (DataSnapshot data : dataSnapshot.child("traineesId").getChildren()) {
@@ -69,12 +67,9 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                for(int i=0; i<mTimeSlots.size(); i++)
-                {
-                    if(mTimeSlots.get(i).getTimeSlotId().equals(dataSnapshot.getKey()))
-                    {
-                        if(dataSnapshot.child("currentSumPeopleInGroup").getValue(Integer.class)>0)
-                        {
+                for (int i = 0; i < mTimeSlots.size(); i++) {
+                    if (mTimeSlots.get(i).getTimeSlotId().equals(dataSnapshot.getKey())) {
+                        if (dataSnapshot.child("currentSumPeopleInGroup").getValue(Integer.class) > 0) {
                             TimeSlot timeSlot = dataSnapshot.getValue(TimeSlot.class);
                             timeSlot.setTimeSlotId(dataSnapshot.getKey());
                             for (DataSnapshot data : dataSnapshot.child("traineesId").getChildren()) {
@@ -82,9 +77,7 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
 
                             }
                             mTimeSlots.set(i, timeSlot);
-                        }
-                        else
-                        {
+                        } else {
                             mTimeSlots.remove(i);
                         }
                         notifyDataSetChanged();
@@ -97,12 +90,9 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                for(int i=0; i<mTimeSlots.size(); i++)
-                {
-                    if(mTimeSlots.get(i).getTimeSlotId().equals(dataSnapshot.getKey()))
-                    {
-                        if(dataSnapshot.child("currentSumPeopleInGroup").getValue(Integer.class)>0)
-                        {
+                for (int i = 0; i < mTimeSlots.size(); i++) {
+                    if (mTimeSlots.get(i).getTimeSlotId().equals(dataSnapshot.getKey())) {
+                        if (dataSnapshot.child("currentSumPeopleInGroup").getValue(Integer.class) > 0) {
                             mTimeSlots.remove(i);
                             Collections.sort(mTimeSlots, new TimeComparator());
                             notifyDataSetChanged();
@@ -130,7 +120,7 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_trainee_fragment_time_slot,viewGroup, false));
+        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_trainee_fragment_time_slot, viewGroup, false));
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -174,23 +164,23 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
 
         */
 
-        if(getGroupSession)
-        {
+        if (getGroupSession) {
             myViewHolder.mTraineeNameSlot.setText("Group Training");
             myViewHolder.mImageView.setImageResource(R.drawable.group);
-            if(getCurrentSumPeopleInGroup == getGroupLimit)
-            {
+            if (getCurrentSumPeopleInGroup == getGroupLimit) {
                 myViewHolder.mIsFull.setVisibility(View.VISIBLE);
-            }
-            else
-            {
+            } else {
                 myViewHolder.mIsFull.setVisibility(View.INVISIBLE);
             }
-        }
-        else
-        {
-            if(mTimeSlots.get(i).getSizeOfTraineesList() > 0)
-            {
+        } else {
+
+            myViewHolder.mTraineeNameSlot.setText("Personal Training");
+            myViewHolder.mImageView.setImageResource(R.drawable.one_person);
+            myViewHolder.mIsFull.setVisibility(View.INVISIBLE);
+
+
+            /*
+            if (mTimeSlots.get(i).getSizeOfTraineesList() > 0) {
                 final String traineeId = mTimeSlots.get(i).getTraineeId(0);
                 final DatabaseReference databaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees").child(traineeId);
                 databaseTraineeReference.addValueEventListener(new ValueEventListener() {
@@ -211,10 +201,9 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
                     }
                 });
             }
-
+            */
 
         }
-
 
 
         myViewHolder.mTitleSlot.setText(mTimeSlots.get(i).getTitle());
@@ -222,44 +211,24 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
         myViewHolder.mTimeSlotLinearLayout.setBackgroundResource(R.drawable.bg_item_registered_slot);
 
 
-
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(getGroupSession)
-                {
+                Intent groupListIntent = new Intent(mFragment.getContext(), TrainingsListGroupParticipatesActivity.class);
+                Bundle bundle = new Bundle();
 
-                    Intent groupListIntent = new Intent(mFragment.getContext() , TrainingsListGroupParticipatesActivity.class);
-                    Bundle bundle = new Bundle();
-
-                    bundle.putString("slotId", getSlotId);
-                    bundle.putString("dateForDB", mDateForDB);
-                    bundle.putString("trainingDate", mDateForApp);
-                    bundle.putString("trainingTitle", getTitleSlot);
-                    bundle.putString("trainingDesc", getDescSlot);
-                    bundle.putString("trainingTime", getTimes);
-                    bundle.putString("sumTrainees", "Total registered "+ getCurrentSumPeopleInGroup +" participants out of " + getGroupLimit);
+                bundle.putString("slotId", getSlotId);
+                bundle.putString("dateForDB", mDateForDB);
+                bundle.putString("trainingDate", mDateForApp);
+                bundle.putString("trainingTitle", getTitleSlot);
+                bundle.putString("trainingDesc", getDescSlot);
+                bundle.putString("trainingTime", getTimes);
+                bundle.putString("sumTrainees", "Total registered " + getCurrentSumPeopleInGroup + " participants out of " + getGroupLimit);
 
 
-                    groupListIntent.putExtras(bundle);
-                    mFragment.getContext().startActivity(groupListIntent);
-
-                }
-                else
-                {
-                    if(mTimeSlots.get(index).getSizeOfTraineesList() > 0)
-                    {
-                        final String traineeId = mTimeSlots.get(index).getTraineeId(0);
-                        //TODO: OnItemClicked move to profile trainee page
-                        Intent traineeProfile = new Intent(mFragment.getContext() , TraineeProfileActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("traineeId", traineeId);
-                        traineeProfile.putExtras(bundle);
-                        mFragment.getContext().startActivity(traineeProfile);
-                    }
-
-                }
+                groupListIntent.putExtras(bundle);
+                mFragment.getContext().startActivity(groupListIntent);
 
 
             }
@@ -287,9 +256,7 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
     }
 
 
-
-    public void clenup()
-    {
+    public void clenup() {
         mDatabaseReference.removeEventListener(mChildEventListener);
     }
 

@@ -18,8 +18,8 @@ android:layout_height="100dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/fragment_profile_img_trainee_list"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:elevation="1dp" />
 
     </LinearLayout>

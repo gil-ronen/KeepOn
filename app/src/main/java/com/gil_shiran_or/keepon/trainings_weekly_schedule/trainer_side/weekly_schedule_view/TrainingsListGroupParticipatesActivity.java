@@ -24,6 +24,7 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
     private TextView mTrainingTime;
     private TextView mSumTrainees;
     private TextView mEndPage;
+    private TextView mNoticePage;
 
     private RecyclerView mTraineesRecyclerView;
 
@@ -35,6 +36,7 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
 
     private TraineesListAdapter traineesListAdapter;
 
+    private String mDateForApp;
     private String mDateForDB;
     private String mTimeSlotId;
 
@@ -44,7 +46,7 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trainings_list_group_participates);
 
         Toolbar toolbar = findViewById(R.id.training_list_group_toolbar);
-        toolbar.setTitle("Group Training");
+        toolbar.setTitle("List of participants");
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -56,6 +58,7 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
         mTrainingDate = findViewById(R.id.trainees_trainingDate);
         mTrainingTime = findViewById(R.id.trainees_trainingTime);
         mSumTrainees = findViewById(R.id.trainees_counting);
+        mNoticePage = findViewById(R.id.trainees_noticePage);
         mEndPage = findViewById(R.id.trainees_endPage);
 
 
@@ -64,13 +67,13 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainers").child(mTrainerId).child("WeeklySchedule");
 
         mDateForDB = getIntent().getExtras().getString("dateForDB");
+        mDateForApp = getIntent().getExtras().getString("trainingDate");
         mTimeSlotId = getIntent().getExtras().getString("slotId");
         mTrainingTitle.setText(getIntent().getExtras().getString("trainingTitle"));
         mTrainingDesc.setText(getIntent().getExtras().getString("trainingDesc"));
         mTrainingDate.setText(getIntent().getExtras().getString("trainingDate"));
         mTrainingTime.setText(getIntent().getExtras().getString("trainingTime"));
         mSumTrainees.setText(getIntent().getExtras().getString("sumTrainees"));
-
 
 
         mTraineesRecyclerView = findViewById(R.id.trainees_traineesList);
@@ -90,6 +93,7 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
         mTrainingTime.setTypeface(MLight);
         mSumTrainees.setTypeface(MLight);
         mEndPage.setTypeface(MMedium);
+        mNoticePage.setTypeface(MMedium);
 
 
     }
@@ -98,7 +102,7 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        traineesListAdapter = new TraineesListAdapter(this, databaseReference.child(mDateForDB).child(mTimeSlotId).child("traineesId"));
+        traineesListAdapter = new TraineesListAdapter(this, databaseReference.child(mDateForDB).child(mTimeSlotId).child("traineesId"), mDateForApp);
         mTraineesRecyclerView.setAdapter(traineesListAdapter);
 
 
@@ -115,7 +119,7 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;

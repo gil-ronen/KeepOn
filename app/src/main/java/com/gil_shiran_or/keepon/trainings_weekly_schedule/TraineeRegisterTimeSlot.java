@@ -22,11 +22,11 @@ public class TraineeRegisterTimeSlot
         this.userId = userId;
     }
 
-    public boolean isGotScore() {
+    public boolean getIsGotScore() {
         return isGotScore;
     }
 
-    public void setGotScore(boolean gotScore) {
+    public void setIsGotScore(boolean gotScore) {
         isGotScore = gotScore;
     }
 
