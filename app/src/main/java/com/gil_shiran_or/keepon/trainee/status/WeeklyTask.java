@@ -9,4 +9,16 @@ public class WeeklyTask {
     public WeeklyTask() {
 
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getTimes() {
+        return times;
+    }
 }
