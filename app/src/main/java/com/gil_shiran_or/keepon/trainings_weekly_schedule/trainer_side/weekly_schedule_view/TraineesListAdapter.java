@@ -228,7 +228,7 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
                                                     }
                                                 }
 
-                                                final int totalScorreToChange = totalScore;
+                                                databaseTraineeStatusReference.child("totalScore").setValue(totalScore);
                                                 if (totalScore >= dataSnapshotStatus.child("scoreToNextLevel").getValue(Integer.class)) {
                                                     int level = dataSnapshotStatus.child("level").getValue(Integer.class) + 1;
                                                     databaseTraineeStatusReference.child("level").setValue(level);
@@ -239,7 +239,6 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
                                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                             int scoreToNextLevel = dataSnapshot.child("scoreToNextLevel").getValue(Integer.class);
                                                             databaseTraineeStatusReference.child("scoreToNextLevel").setValue(scoreToNextLevel);
-                                                            databaseTraineeStatusReference.child("totalScore").setValue(totalScorreToChange);
                                                             databaseLevelsReference.removeEventListener(this);
                                                         }
 
