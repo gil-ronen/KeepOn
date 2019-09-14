@@ -344,7 +344,7 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
                 String user_id = mAuth.getCurrentUser().getUid();
                 DatabaseReference current_user_db = mDatabase.child(user_id);
 
-                Status status = new Status("Level1",0,dataSnapshot.getValue(Integer.class));
+                Status status = new Status(1,0,dataSnapshot.getValue(Integer.class));
                 mTrainee = new Trainee(traineeName, mEmail, mPassword, mPhoneCode + "-" + traineePhoneNumber, traineeBirthDate, traineeGender, "", traineeCity, traineeStreet, status );
 
                 Map<String, Object> traineeValues = mTrainee.toMap();

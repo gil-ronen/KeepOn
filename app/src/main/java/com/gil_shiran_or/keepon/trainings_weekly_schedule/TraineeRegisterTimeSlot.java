@@ -6,6 +6,7 @@ import java.util.Map;
 public class TraineeRegisterTimeSlot
 {
     private String userId;
+    private boolean isGotScore = false;
 
     public TraineeRegisterTimeSlot() {}
 
@@ -21,10 +22,19 @@ public class TraineeRegisterTimeSlot
         this.userId = userId;
     }
 
+    public boolean isGotScore() {
+        return isGotScore;
+    }
+
+    public void setGotScore(boolean gotScore) {
+        isGotScore = gotScore;
+    }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
 
         result.put("userId", userId);
+        result.put("isGotScore", isGotScore);
 
         return result;
     }
