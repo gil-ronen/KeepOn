@@ -269,6 +269,5 @@ public class SearchTrainerFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         mDatabaseTrainersReference.removeEventListener(mValueEventListener);
-        mTrainersListAdapter.cleanUp();
     }
 }

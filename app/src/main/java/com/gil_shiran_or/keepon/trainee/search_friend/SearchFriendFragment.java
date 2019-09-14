@@ -84,6 +84,5 @@ public class SearchFriendFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mTraineesListAdapter.cleanUp();
     }
 }

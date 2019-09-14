@@ -43,7 +43,6 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
     private List<Trainee> mTraineesList = new ArrayList<>();
     private List<Trainee> mFullTraineesList = new ArrayList<>();
     private DatabaseReference mDatabaseTraineesReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees");
-    private ValueEventListener mValueEventListener;
     private Fragment mSearchTraineeFragment;
     private Filter mFilter;
     private String mCurrentUserId;
@@ -72,7 +71,7 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
-        mValueEventListener = new ValueEventListener() {
+        mDatabaseTraineesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -88,15 +87,15 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
                         notifyItemInserted(mTraineesList.size() - 1);
                     }
                 }
+
+                mDatabaseTraineesReference.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        };
-
-        mDatabaseTraineesReference.addValueEventListener(mValueEventListener);
+        });
 
         mFilter = new Filter() {
             @Override
@@ -169,9 +168,5 @@ public class TraineesListAdapter extends RecyclerView.Adapter<TraineesListAdapte
     @Override
     public Filter getFilter() {
         return mFilter;
-    }
-
-    public void cleanUp() {
-        mDatabaseTraineesReference.removeEventListener(mValueEventListener);
     }
 }

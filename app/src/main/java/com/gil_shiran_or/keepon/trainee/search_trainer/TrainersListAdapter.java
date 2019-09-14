@@ -39,8 +39,6 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
     private List<Trainer> mFullTrainersList = new ArrayList<>();
     private List<Trainer> optionsFilteredTrainersList = new ArrayList<>();
     private DatabaseReference mDatabaseTrainersReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainers");
-    private ChildEventListener mChildEventListener;
-    private ValueEventListener mValueEventListener;
     private Fragment mSearchTrainerFragment;
     private int mMaxPrice = 0;
     private int mMinPrice = Integer.MAX_VALUE;
@@ -74,14 +72,15 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
 
     public TrainersListAdapter(Fragment searchTrainerFragment) {
         mSearchTrainerFragment = searchTrainerFragment;
-        mValueEventListener = new ValueEventListener() {
+
+        mDatabaseTrainersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Trainer trainer = data.child("Profile").getValue(Trainer.class);
                     Rating rating = data.child("Rating").getValue(Rating.class);
 
-                    trainer.setUserId(dataSnapshot.getKey());
+                    trainer.setUserId(data.getKey());
                     trainer.setRating(rating);
                     mFullTrainersList.add(trainer);
                     mTrainersList = new ArrayList<>(mFullTrainersList);
@@ -98,15 +97,15 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
 
                     notifyItemInserted(mTrainersList.size() - 1);
                 }
+
+                mDatabaseTrainersReference.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        };
-
-        mDatabaseTrainersReference.addValueEventListener(mValueEventListener);
+        });
 
         mFilter = new Filter() {
             @Override
@@ -295,9 +294,5 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
         notifyDataSetChanged();
 
         return true;
-    }
-
-    public void cleanUp() {
-        mDatabaseTrainersReference.addValueEventListener(mValueEventListener);
     }
 }

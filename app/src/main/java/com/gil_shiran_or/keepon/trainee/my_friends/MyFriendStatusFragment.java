@@ -51,7 +51,7 @@ public class MyFriendStatusFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mStatus = dataSnapshot.getValue(Status.class);
 
-                traineeLevelTextView.setText(mStatus.getLevel());
+                traineeLevelTextView.setText("Level" + mStatus.getLevel());
                 traineeProgressBar.setMaxProgress(mStatus.getTotalScore() + mStatus.getScoreToNextLevel());
                 traineeProgressBar.setProgress(mStatus.getTotalScore());
                 traineeTotalScoreTextView.setText(Integer.toString(mStatus.getTotalScore()));
