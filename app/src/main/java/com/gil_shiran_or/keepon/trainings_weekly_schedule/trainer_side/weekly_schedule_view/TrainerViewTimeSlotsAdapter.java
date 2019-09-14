@@ -178,31 +178,6 @@ public class TrainerViewTimeSlotsAdapter extends RecyclerView.Adapter<TrainerVie
             myViewHolder.mImageView.setImageResource(R.drawable.one_person);
             myViewHolder.mIsFull.setVisibility(View.INVISIBLE);
 
-
-            /*
-            if (mTimeSlots.get(i).getSizeOfTraineesList() > 0) {
-                final String traineeId = mTimeSlots.get(i).getTraineeId(0);
-                final DatabaseReference databaseTraineeReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Trainees").child(traineeId);
-                databaseTraineeReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String traineeName = dataSnapshot.child("/Profile/name").getValue(String.class);
-                        String traineeImageUrl = dataSnapshot.child("/Profile/profilePhotoUrl").getValue(String.class);
-
-                        myViewHolder.mTraineeNameSlot.setText(traineeName);
-                        Picasso.with(mFragment.getContext()).load(traineeImageUrl).fit().into(myViewHolder.mImageView);
-
-                        databaseTraineeReference.removeEventListener(this);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-            */
-
         }
 
 
