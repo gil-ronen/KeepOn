@@ -47,6 +47,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
+
         mEmailView = findViewById(R.id.register_email);
         mPasswordView = findViewById(R.id.register_password);
         mConfirmPasswordView =findViewById(R.id.register_confirm_password);

@@ -14,7 +14,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".trainer.profile.EditTrainerProfileActivity"/>
-        <activity android:name=".trainings_weekly_schedule.trainee_side.MyTrainingsListActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.RegisterSlotActivity" />
         <activity android:name=".trainings_weekly_schedule.trainee_side.MainWeeklySlotsPickerActivity" />
         <activity

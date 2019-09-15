@@ -45,6 +45,8 @@ public class TrainingsListGroupParticipatesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainings_list_group_participates);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
+
         Toolbar toolbar = findViewById(R.id.training_list_group_toolbar);
         toolbar.setTitle("List of participants");
         setSupportActionBar(toolbar);

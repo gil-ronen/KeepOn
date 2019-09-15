@@ -65,6 +65,7 @@ public class RegisterSlotActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_slot);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
 
         mTitlePage = findViewById(R.id.register_titlePage);
         mTraineeAreRegisteredLabel = findViewById(R.id.register_traineeAreRegistered);

@@ -98,7 +98,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
 
 
 
-        getWindow().setBackgroundDrawableResource(R.drawable.background_trainee);
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
         Toolbar toolbar = findViewById(R.id.edit_profile_toolbar);
         toolbar.setTitle("Edit My Profile");
         setSupportActionBar(toolbar);

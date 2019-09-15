@@ -66,6 +66,8 @@ public class EditSlotActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_slot);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
+
         mTitlePage = findViewById(R.id.edit_titlePage);
         mAddTitle = findViewById(R.id.edit_addTitle);
         mAddDesc = findViewById(R.id.edit_addDesc);

@@ -48,7 +48,7 @@ public class MainChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chat);
 
-
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
         Toolbar toolbar = findViewById(R.id.chat_toolbar);
         toolbar.setTitle("Chat");
         setSupportActionBar(toolbar);
