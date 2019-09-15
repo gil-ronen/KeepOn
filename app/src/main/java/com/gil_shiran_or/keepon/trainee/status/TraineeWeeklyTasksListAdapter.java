@@ -33,11 +33,6 @@ public class TraineeWeeklyTasksListAdapter extends RecyclerView.Adapter<TraineeW
     private DatabaseReference mDatabaseWeeklyTasksReference = FirebaseDatabase.getInstance().getReference().child("WeeklyTasks");
     private String mCurrentUserId;
     private int mWeeklyTasksNum = 0;
-    private static boolean isRefreshedTasks;
-
-    static {
-        isRefreshedTasks = false;
-    }
 
     public static class WeeklyTasksListViewHolder extends RecyclerView.ViewHolder {
 
@@ -97,43 +92,61 @@ public class TraineeWeeklyTasksListAdapter extends RecyclerView.Adapter<TraineeW
 
         mDatabaseTraineeWeeklyTasksReference.addChildEventListener(mChildEventListener);
 
-        Calendar calendar = Calendar.getInstance();
+        final DatabaseReference databaseStatusReference = FirebaseDatabase.getInstance().getReference().child("Users/Trainees/" + mCurrentUserId + "/Status");
+        databaseStatusReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Calendar calendar = Calendar.getInstance();
 
-        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !isRefreshedTasks) {
-            isRefreshedTasks = true;
-            mDatabaseTraineeWeeklyTasksReference.removeValue();
+                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                    if (!dataSnapshot.child("isRefreshedTasks").getValue(boolean.class)) {
+                        databaseStatusReference.child("isRefreshedTasks").setValue(true);
+                        mDatabaseTraineeWeeklyTasksReference.removeValue();
 
-            mDatabaseWeeklyTasksReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    List<WeeklyTask> weeklyTasksList = new ArrayList<>();
-                    Random random = new Random();
-                    int num1, num2;
+                        mDatabaseWeeklyTasksReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                List<WeeklyTask> weeklyTasksList = new ArrayList<>();
+                                Random random = new Random();
+                                int num1, num2;
 
-                    for (DataSnapshot data : dataSnapshot.getChildren()) {
-                        WeeklyTask weeklyTask = data.getValue(WeeklyTask.class);
-                        weeklyTasksList.add(weeklyTask);
-                        mWeeklyTasksNum++;
+                                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                                    WeeklyTask weeklyTask = data.getValue(WeeklyTask.class);
+                                    weeklyTasksList.add(weeklyTask);
+                                    mWeeklyTasksNum++;
+                                }
+
+                                num1 = random.nextInt(mWeeklyTasksNum) + 1;
+
+                                do {
+                                    num2 = random.nextInt(mWeeklyTasksNum) + 1;
+                                } while (num2 == num1);
+
+                                setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num1, weeklyTasksList.get(num1 - 1).getTimes(), weeklyTasksList.get(num1 - 1).getScore()));
+                                setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num2, weeklyTasksList.get(num2 - 1).getTimes(), weeklyTasksList.get(num2 - 1).getScore()));
+
+                                mDatabaseWeeklyTasksReference.removeEventListener(this);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
-
-                    num1 = random.nextInt(mWeeklyTasksNum) + 1;
-
-                    do {
-                        num2 = random.nextInt(mWeeklyTasksNum) + 1;
-                    } while (num2 == num1);
-
-                    setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num1, weeklyTasksList.get(num1 - 1).getTimes(), weeklyTasksList.get(num1 - 1).getScore()));
-                    setWeeklyTaskToFirebase(new TraineeWeeklyTask("Task" + num2, weeklyTasksList.get(num2 - 1).getTimes(), weeklyTasksList.get(num2 - 1).getScore()));
-
-                    mDatabaseWeeklyTasksReference.removeEventListener(this);
+                }
+                else {
+                    databaseStatusReference.child("isRefreshedTasks").setValue(false);
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                databaseStatusReference.removeEventListener(this);
+            }
 
-                }
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

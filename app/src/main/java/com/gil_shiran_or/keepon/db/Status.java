@@ -8,6 +8,7 @@ public class Status
     private int level;
     private int totalScore;
     private int scoreToNextLevel;
+    private boolean isRefreshedTasks = false;
 
     public Status() {
     }
@@ -42,6 +43,10 @@ public class Status
         this.scoreToNextLevel = scoreToNextLevel;
     }
 
+    public boolean getIsRefreshedTasks() {
+        return isRefreshedTasks;
+    }
+
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -49,6 +54,7 @@ public class Status
         result.put("level", level);
         result.put("totalScore", totalScore);
         result.put("scoreToNextLevel", scoreToNextLevel);
+        result.put("isRefreshedTasks", isRefreshedTasks);
 
         return result;
     }
