@@ -54,7 +54,6 @@ public class PostRepliesActivity extends AppCompatActivity implements AddReplyDi
         mCurrentUserId = firebaseAuth.getCurrentUser().getUid();
 
         setToolbar();
-        setPost();
         adjustAddReplyButton();
         buildPostRepliesRecyclerView();
     }
@@ -66,149 +65,6 @@ public class PostRepliesActivity extends AppCompatActivity implements AddReplyDi
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void setPost() {
-        ViewGroup postLayout = findViewById(R.id.post_layout);
-        View postView = getLayoutInflater().inflate(R.layout.post_item, postLayout, false);
-
-        postLayout.addView(postView, 0);
-
-        CardView postCardView = findViewById(R.id.post_item);
-        final CircleImageView authorCircleImageView = findViewById(R.id.post_author_img);
-        final TextView authorTextView = findViewById(R.id.post_author);
-        final TextView dateTextView = findViewById(R.id.post_date);
-        final TextView titleTextView = findViewById(R.id.post_title);
-        final TextView bodyTextView = findViewById(R.id.post_body);
-        final Activity activity = this;
-
-        postCardView.setClickable(false);
-        postCardView.setFocusable(false);
-
-        mValueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Post post = dataSnapshot.getValue(Post.class);
-
-                for (DataSnapshot usersLikedData : dataSnapshot.child("usersLiked").getChildren()) {
-                    if (usersLikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
-                        post.setIsLiked(true);
-                        break;
-                    }
-                }
-
-                if (!post.getIsLiked()) {
-                    for (DataSnapshot usersDislikedData : dataSnapshot.child("usersDisliked").getChildren()) {
-                        if (usersDislikedData.child("userId").getValue(String.class).equals(mCurrentUserId)) {
-                            post.setIsDisliked(true);
-                            break;
-                        }
-                    }
-                }
-
-                mDatabaseTraineesReference.child(post.getUserId()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String author = dataSnapshot.child("Profile/name").getValue(String.class);
-                        String authorImageUrl = dataSnapshot.child("Profile/profilePhotoUrl").getValue(String.class);
-
-                        authorTextView.setText(author);
-                        Picasso.with(activity).load(authorImageUrl).fit().into(authorCircleImageView);
-
-                        mDatabaseTraineesReference.removeEventListener(this);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-                titleTextView.setText(post.getTitle());
-                dateTextView.setText(post.getDate());
-                bodyTextView.setText(post.getBody());
-
-                setPostImage(post);
-                setPostLikes(post);
-                setPostDislikes(post);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-
-        mDatabasePostReference.addValueEventListener(mValueEventListener);
-    }
-
-    private void setPostImage(Post post) {
-        ImageView imageView = findViewById(R.id.post_img);
-
-        if (!post.getImageUrl().isEmpty()) {
-            imageView.setVisibility(View.VISIBLE);
-            Picasso.with(this).load(post.getImageUrl()).fit().into(imageView);
-        }
-    }
-
-    private void setPostLikes(final Post post) {
-        final ImageView likeImageView = findViewById(R.id.post_like_img);
-        final ImageView dislikeImageView = findViewById(R.id.post_dislike_img);
-        TextView likesTextView = findViewById(R.id.post_likes);
-        final Activity activity = this;
-
-        likesTextView.setText(Integer.toString(post.getLikes()));
-
-        if (post.getIsLiked()) {
-            likeImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_like_pressed));
-            likeImageView.setClickable(false);
-            likeImageView.setFocusable(false);
-            dislikeImageView.setClickable(false);
-            dislikeImageView.setFocusable(false);
-        } else if (!post.getIsDisliked()) {
-            likeImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    likeImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_pressed));
-                    likeImageView.setClickable(false);
-                    likeImageView.setFocusable(false);
-                    dislikeImageView.setClickable(false);
-                    dislikeImageView.setFocusable(false);
-
-                    changePostLikesInFirebase(post);
-                }
-            });
-        }
-    }
-
-    private void setPostDislikes(final Post post) {
-        final ImageView likeImageView = findViewById(R.id.post_like_img);
-        final ImageView dislikeImageView = findViewById(R.id.post_dislike_img);
-        TextView dislikesTextView = findViewById(R.id.post_dislikes);
-        final Activity activity = this;
-
-        dislikesTextView.setText(Integer.toString(post.getDislikes()));
-
-        if (post.getIsDisliked()) {
-            dislikeImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_dislike_pressed));
-            likeImageView.setClickable(false);
-            likeImageView.setFocusable(false);
-            dislikeImageView.setClickable(false);
-            dislikeImageView.setFocusable(false);
-        } else if (!post.getIsLiked()) {
-            dislikeImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dislikeImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_dislike_pressed));
-                    likeImageView.setClickable(false);
-                    likeImageView.setFocusable(false);
-                    dislikeImageView.setClickable(false);
-                    dislikeImageView.setFocusable(false);
-
-                    changePostDislikesInFirebase(post);
-                }
-            });
-        }
     }
 
     private void adjustAddReplyButton() {
@@ -223,29 +79,6 @@ public class PostRepliesActivity extends AppCompatActivity implements AddReplyDi
                 addReplyDialog.show(activity.getSupportFragmentManager(), "add reply dialog");
             }
         });
-    }
-
-    private void changePostLikesInFirebase(Post post) {
-        String key = mDatabasePostReference.child("usersLiked").push().getKey();
-        UserLikedDisliked userLikedDisliked = new UserLikedDisliked(mCurrentUserId);
-        Map<String, Object> usersLikedValues = userLikedDisliked.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
-
-        childUpdates.put("likes", post.getLikes() + 1);
-        childUpdates.put("usersLiked/" + key, usersLikedValues);
-
-        mDatabasePostReference.updateChildren(childUpdates);
-    }
-
-    private void changePostDislikesInFirebase(Post post) {
-        String key = mDatabasePostReference.child("usersDisliked").push().getKey();
-        UserLikedDisliked usersDislikedValues = new UserLikedDisliked(mCurrentUserId);
-        Map<String, Object> childUpdates = new HashMap<>();
-
-        childUpdates.put("dislikes", post.getDislikes() + 1);
-        childUpdates.put("usersDisliked/" + key, usersDislikedValues);
-
-        mDatabasePostReference.updateChildren(childUpdates);
     }
 
     private void buildPostRepliesRecyclerView() {
@@ -285,7 +118,7 @@ public class PostRepliesActivity extends AppCompatActivity implements AddReplyDi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDatabasePostReference.removeEventListener(mValueEventListener);
+        //mDatabasePostReference.removeEventListener(mValueEventListener);
         mRepliesListAdapter.cleanUp();
     }
 }
