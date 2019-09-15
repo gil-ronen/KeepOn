@@ -1,275 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@drawable/background_profile_blur"
-tools:context=".trainer.profile.EditTrainerProfileActivity">
-
-<android.support.constraint.ConstraintLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@drawable/background_profile_blur"
+    android:orientation="vertical"
+    tools:context=".trainer.profile.EditTrainerProfileActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/trainerEditProfile_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/trainerEditProfile_user_photo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:elevation="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_trainerName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_toolbar" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/trainerEditProfile_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
-
-    <EditText
-        android:id="@+id/trainerEditProfile_trainerName"
-        android:layout_width="265dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/reg_edittext_style"
-        android:ems="10"
-        android:hint="@string/prompt_fullname"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_company_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/trainerEditProfile_company_name"
-        android:layout_width="265dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/reg_edittext_style"
-        android:ems="10"
-        android:hint="@string/prompt_company_name"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_trainingCity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/trainerEditProfile_trainingCity"
-        android:layout_width="265dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/reg_edittext_style"
-        android:ems="10"
-        android:hint="City of the trainings"
-        android:inputType="textPostalAddress"
-        app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_trainingStreet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/trainerEditProfile_trainingStreet"
-        android:layout_width="265dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/reg_edittext_style"
-        android:ems="10"
-        android:hint="Street of the trainings"
-        android:inputType="textPostalAddress"
-        app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <EditText
-        android:id="@+id/trainerEditProfile_price"
-        android:layout_width="265dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/reg_edittext_style"
-        android:ems="10"
-        android:hint="@string/prompt_price"
-        android:inputType="numberSigned"
-        app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <RelativeLayout
-        android:id="@+id/trainerEditProfile_mobile_phone"
-        android:layout_width="265dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_guideline" >
-
-
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content">
 
-            <Spinner
-                android:id="@+id/trainerEditProfile_spinnerPhoneCode"
-                android:layout_width="75dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/reg_edittext_style" />
 
-            <TextView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/trainerEditProfile_user_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="1dp"
+                app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_trainerName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <android.support.constraint.Guideline
+                android:id="@+id/trainerEditProfile_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint=" - "
-                android:textColor="@color/white"
-                android:textColorHint="@color/white" />
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.55" />
 
             <EditText
-                android:id="@+id/trainerEditProfile_phoneText"
-                android:layout_width="match_parent"
+                android:id="@+id/trainerEditProfile_trainerName"
+                android:layout_width="265dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/reg_edittext_style"
-                android:hint="@string/prompt_phone"
-                android:maxLength="7"
-                android:inputType="phone"
-                android:singleLine="true" />
-        </LinearLayout>
-    </RelativeLayout>
+                android:ems="10"
+                android:hint="@string/prompt_fullname"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_company_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/trainerEditProfile_birthdate"
-        android:layout_width="265dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/reg_edittext_style"
-        android:ems="10"
-        android:hint="@string/prompt_birthdate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_mobile_phone" />
+            <EditText
+                android:id="@+id/trainerEditProfile_company_name"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/reg_edittext_style"
+                android:ems="10"
+                android:hint="@string/prompt_company_name"
+                android:inputType="text"
+                app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_trainingCity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/trainerEditProfile_update_button"
-        android:layout_width="151dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/reg_btn_style"
-        android:onClick="onUpdateUserDetailsClicked"
-        android:text="Update details"
-        android:textColor="#ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_aboutme" />
+            <EditText
+                android:id="@+id/trainerEditProfile_trainingCity"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/reg_edittext_style"
+                android:ems="10"
+                android:hint="City of the trainings"
+                android:inputType="textPostalAddress"
+                app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_trainingStreet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    <ProgressBar
-        android:id="@+id/trainerEditProfile_ProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/trainerEditProfile_update_button"
-        app:layout_constraintEnd_toEndOf="@+id/trainerEditProfile_update_button"
-        app:layout_constraintStart_toStartOf="@+id/trainerEditProfile_update_button"
-        app:layout_constraintTop_toTopOf="@+id/trainerEditProfile_update_button" />
-
-    <RadioGroup
-        android:id="@+id/trainerEditProfile_user_gender_radioGroup"
-        android:layout_width="276dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_aboutme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_birthdate">
-
-        <RadioButton
-            android:id="@+id/trainerEditProfile_femaleRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="maleOrFemaleButton"
-            android:text="@string/prompt_female" />
-
-        <RadioButton
-            android:id="@+id/trainerEditProfile_maleRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="maleOrFemaleButton"
-            android:text="@string/prompt_male" />
-    </RadioGroup>
-
-    <EditText
-        android:id="@+id/trainerEditProfile_aboutme"
-        android:layout_width="265dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/reg_edittext_style"
-        android:ems="10"
-        android:lines="5"
-        android:hint="@string/prompt_aboutme"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_update_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_user_gender_radioGroup" />
+            <EditText
+                android:id="@+id/trainerEditProfile_trainingStreet"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/reg_edittext_style"
+                android:ems="10"
+                android:hint="Street of the trainings"
+                android:inputType="textPostalAddress"
+                app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_price"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
+            <EditText
+                android:id="@+id/trainerEditProfile_price"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/reg_edittext_style"
+                android:ems="10"
+                android:hint="@string/prompt_price"
+                android:inputType="numberSigned"
+                app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
-</ScrollView>
+
+            <RelativeLayout
+                android:id="@+id/trainerEditProfile_mobile_phone"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_guideline">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <Spinner
+                        android:id="@+id/trainerEditProfile_spinnerPhoneCode"
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/reg_edittext_style" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint=" - "
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/trainerEditProfile_phoneText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/reg_edittext_style"
+                        android:hint="@string/prompt_phone"
+                        android:inputType="phone"
+                        android:maxLength="7"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/trainerEditProfile_birthdate"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/reg_edittext_style"
+                android:ems="10"
+                android:hint="@string/prompt_birthdate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_mobile_phone" />
+
+            <Button
+                android:id="@+id/trainerEditProfile_update_button"
+                android:layout_width="151dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/reg_btn_style"
+                android:onClick="onUpdateUserDetailsClicked"
+                android:text="Update details"
+                android:textColor="#ffffff"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_aboutme" />
+
+            <ProgressBar
+                android:id="@+id/trainerEditProfile_ProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/trainerEditProfile_update_button"
+                app:layout_constraintEnd_toEndOf="@+id/trainerEditProfile_update_button"
+                app:layout_constraintStart_toStartOf="@+id/trainerEditProfile_update_button"
+                app:layout_constraintTop_toTopOf="@+id/trainerEditProfile_update_button" />
+
+            <RadioGroup
+                android:id="@+id/trainerEditProfile_user_gender_radioGroup"
+                android:layout_width="276dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_aboutme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_birthdate">
+
+                <RadioButton
+                    android:id="@+id/trainerEditProfile_femaleRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="maleOrFemaleButton"
+                    android:text="@string/prompt_female" />
+
+                <RadioButton
+                    android:id="@+id/trainerEditProfile_maleRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="maleOrFemaleButton"
+                    android:text="@string/prompt_male" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/trainerEditProfile_aboutme"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/reg_edittext_style"
+                android:ems="10"
+                android:hint="@string/prompt_aboutme"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                app:layout_constraintBottom_toTopOf="@+id/trainerEditProfile_update_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trainerEditProfile_user_gender_radioGroup" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>
