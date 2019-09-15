@@ -69,22 +69,19 @@
                         android:id="@+id/gold_place_trainee_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Shiran Avidov" />
+                        android:layout_gravity="center" />
 
                     <TextView
                         android:id="@+id/silver_place_trainee_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Or Fisher" />
+                        android:layout_gravity="center" />
 
                     <TextView
                         android:id="@+id/bronze_place_trainee_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Gil Ronen" />
+                        android:layout_gravity="center" />
 
                 </TableRow>
 
@@ -97,22 +94,19 @@
                         android:id="@+id/gold_place_trainee_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="250" />
+                        android:layout_gravity="center" />
 
                     <TextView
                         android:id="@+id/silver_place_trainee_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="125" />
+                        android:layout_gravity="center" />
 
                     <TextView
                         android:id="@+id/bronze_place_trainee_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="100" />
+                        android:layout_gravity="center" />
 
                 </TableRow>
 
@@ -126,16 +120,6 @@
             android:layout_height="match_parent"
             android:padding="4dp"
             android:scrollbars="vertical" />
-
-
-        <!--<ListView
-            android:id="@+id/posts_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="10dp"
-            android:padding="4dp"
-            android:scrollbars="vertical" />-->
 
     </LinearLayout>
 

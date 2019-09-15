@@ -33,6 +33,11 @@ public class TraineeWeeklyTasksListAdapter extends RecyclerView.Adapter<TraineeW
     private DatabaseReference mDatabaseWeeklyTasksReference = FirebaseDatabase.getInstance().getReference().child("WeeklyTasks");
     private String mCurrentUserId;
     private int mWeeklyTasksNum = 0;
+    private static boolean isRefreshedTasks;
+
+    static {
+        isRefreshedTasks = false;
+    }
 
     public static class WeeklyTasksListViewHolder extends RecyclerView.ViewHolder {
 
@@ -94,7 +99,8 @@ public class TraineeWeeklyTasksListAdapter extends RecyclerView.Adapter<TraineeW
 
         Calendar calendar = Calendar.getInstance();
 
-        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !isRefreshedTasks) {
+            isRefreshedTasks = true;
             mDatabaseTraineeWeeklyTasksReference.removeValue();
 
             mDatabaseWeeklyTasksReference.addValueEventListener(new ValueEventListener() {
