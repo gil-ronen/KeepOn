@@ -46,14 +46,14 @@
                         android:gravity="center">
 
                         <com.beardedhen.androidbootstrap.BootstrapProgressBarGroup
-                            android:layout_width="300dp"
+                            android:layout_width="250dp"
                             android:layout_height="wrap_content"
                             app:roundedCorners="true"
                             app:bootstrapSize="sm">
 
                             <com.beardedhen.androidbootstrap.BootstrapProgressBar
                                 android:id="@+id/my_friend_progress_bar"
-                                android:layout_width="300dp"
+                                android:layout_width="250dp"
                                 android:layout_height="wrap_content"
                                 app:animated="true"
                                 app:bootstrapBrand="primary"

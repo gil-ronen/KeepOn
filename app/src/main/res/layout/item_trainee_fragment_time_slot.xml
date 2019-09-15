@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:background="@drawable/bg_item_time_available"
-android:orientation="horizontal"
-android:layout_marginBottom="20dp"
-android:id="@+id/fragment_all_training_slot"
-android:layout_height="100dp">
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_all_training_slot"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/bg_item_time_available"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,65 +16,56 @@ android:layout_height="100dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/fragment_profile_img_trainee_list"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:elevation="1dp" />
 
     </LinearLayout>
 
-
     <LinearLayout
-        android:layout_marginLeft="16dp"
-        android:orientation="vertical"
-        android:layout_width="220dp"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:gravity="center|start"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/fragment_trainee_name"
-            android:layout_marginTop="19dp"
-            android:textSize="22sp"
-            android:textColor="#000C5D"
-            android:text="Trainee Name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#000C5D"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/fragment_training_title"
-            android:textSize="18sp"
-            android:textColor="#ADADAD"
-            android:layout_marginTop="8dp"
-            android:text="some details about training"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#ADADAD"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_width="125dp"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/fragment_training_time"
-            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="#F63EA5"
-            android:layout_marginTop="8dp"
-            android:text="Tomorrow"
-            android:gravity="right"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/fragment_if_slot_occupied"
-            android:textSize="12sp"
-            android:textColor="#000C5D"
-            android:layout_marginTop="8dp"
-            android:text="This training is full"
-            android:gravity="right"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"/>
+            android:text="This training is full"
+            android:textColor="#000C5D"
+            android:textSize="12sp"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

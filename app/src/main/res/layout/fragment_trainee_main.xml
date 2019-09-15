@@ -16,7 +16,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="30dp"
             app:cardCornerRadius="10dp"
             app:contentPaddingBottom="15dp"
             app:contentPaddingLeft="15dp"
@@ -34,16 +34,16 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/gold_place_trainee_img"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:elevation="1dp"
                         app:civ_border_color="@color/gold"
                         app:civ_border_width="10dp" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/silver_place_trainee_img"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:elevation="1dp"
@@ -52,8 +52,8 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/bronze_place_trainee_img"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:elevation="1dp"
                         app:civ_border_color="@color/bronze"
                         app:civ_border_width="10dp" />

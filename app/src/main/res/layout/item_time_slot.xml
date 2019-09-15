@@ -1,82 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:background="@drawable/bg_item_time_available"
-android:orientation="horizontal"
-android:layout_marginBottom="20dp"
-android:id="@+id/all_time_slot"
-android:layout_height="100dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/all_time_slot"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/bg_item_time_available"
+    android:orientation="horizontal">
 
-
-    <LinearLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="20dp">
-
-        <ImageView
-            android:id="@+id/slot_group_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/one_person" />
-
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/slot_group_icon"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
 
     <LinearLayout
-        android:layout_marginLeft="16dp"
-        android:orientation="vertical"
-        android:layout_width="220dp"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center|start"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/slot_title"
-            android:layout_marginTop="19dp"
-            android:textSize="22sp"
-            android:textColor="#000C5D"
-            android:text="Training Title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#000C5D"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/slot_desc"
-            android:textSize="18sp"
-            android:textColor="#ADADAD"
-            android:layout_marginTop="8dp"
-            android:text="some details about training"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#ADADAD"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_width="125dp"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/slot_date_time"
-            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="#F63EA5"
-            android:layout_marginTop="8dp"
-            android:text="Tomorrow"
-            android:gravity="right"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/if_slot_occupied_by_user"
-            android:textSize="12sp"
-            android:textColor="#000C5D"
-            android:layout_marginTop="8dp"
-            android:text="This training is yours"
-            android:gravity="right"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"/>
+            android:text="This training is yours"
+            android:textColor="#000C5D"
+            android:textSize="12sp"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

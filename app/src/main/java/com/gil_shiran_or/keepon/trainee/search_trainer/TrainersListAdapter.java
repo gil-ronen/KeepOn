@@ -52,9 +52,6 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
         public TextView trainerGymTextView;
         public TextView trainerCityTextView;
         public TextView trainerPriceTextView;
-        public RatingBar trainerRatingBar;
-        public TextView trainerRatingScoreTextView;
-        public TextView trainerRatingReviewersTextView;
 
         public TrainersViewHolder(View itemView) {
             super(itemView);
@@ -64,9 +61,6 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
             trainerGymTextView = itemView.findViewById(R.id.trainer_gym);
             trainerCityTextView = itemView.findViewById(R.id.trainer_city);
             trainerPriceTextView = itemView.findViewById(R.id.trainer_price);
-            trainerRatingBar = itemView.findViewById(R.id.trainer_rating);
-            trainerRatingScoreTextView = itemView.findViewById(R.id.trainer_rating_score);
-            trainerRatingReviewersTextView = itemView.findViewById(R.id.trainer_rating_reviewers);
         }
     }
 
@@ -179,10 +173,6 @@ public class TrainersListAdapter extends RecyclerView.Adapter<TrainersListAdapte
         holder.trainerGymTextView.setText(currentTrainer.getCompanyName());
         holder.trainerCityTextView.setText(currentTrainer.getTrainingCity());
         holder.trainerPriceTextView.setText(currentTrainer.getPrice() + "\u20aa");
-
-        holder.trainerRatingBar.setRating(currentTrainer.getRating().getRating());
-        holder.trainerRatingScoreTextView.setText(String.format("%,.2f", currentTrainer.getRating().getRating()));
-        holder.trainerRatingReviewersTextView.setText(" (" + currentTrainer.getRating().getTotalRaters() + ")");
     }
 
     @Override
