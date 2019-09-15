@@ -88,6 +88,8 @@ public class MainWeeklySlotsPickerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_weekly_slots_picker);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
+
         Toolbar toolbar = findViewById(R.id.main_weekly_slots_picker_toolbar);
         toolbar.setTitle("Trainer Weekly Schedule");
         setSupportActionBar(toolbar);

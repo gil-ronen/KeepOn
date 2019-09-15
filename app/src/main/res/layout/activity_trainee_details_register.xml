@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_profile_blur"
     tools:context=".login_register.TraineeDetailsRegister">
 
     <android.support.constraint.ConstraintLayout

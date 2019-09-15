@@ -93,6 +93,8 @@ public class TrainerDetailsRegister extends AppCompatActivity implements Adapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_details_register);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
+
         mImageUserPhoto = findViewById(R.id.settings_user_photo);
         mNameView = findViewById(R.id.settings_trainerName);
         mCompanyNameView = findViewById(R.id.settings_company_name);

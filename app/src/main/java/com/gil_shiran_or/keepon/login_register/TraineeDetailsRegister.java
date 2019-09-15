@@ -105,6 +105,8 @@ public class TraineeDetailsRegister extends AppCompatActivity implements Adapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainee_details_register);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
+
         mImageUserPhoto = findViewById(R.id.settings_user_photo);
         mNameView = findViewById(R.id.settings_name);
         mCityView = findViewById(R.id.settings_city);

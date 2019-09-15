@@ -72,6 +72,8 @@ public class AddNewSlotActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_slot);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
+
         mTitlePage = findViewById(R.id.add_titlePage);
         mAddTitle = findViewById(R.id.add_addTitle);
         mAddDesc = findViewById(R.id.add_addDesc);

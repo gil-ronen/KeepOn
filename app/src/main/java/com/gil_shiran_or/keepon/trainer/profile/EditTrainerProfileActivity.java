@@ -103,7 +103,7 @@ public class EditTrainerProfileActivity extends AppCompatActivity implements Ada
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_trainer_profile);
 
-        getWindow().setBackgroundDrawableResource(R.drawable.background_trainee);
+        getWindow().setBackgroundDrawableResource(R.drawable.background_profile_blur);
         Toolbar toolbar = findViewById(R.id.trainerEditProfile_toolbar);
         toolbar.setTitle("Edit My Profile");
         setSupportActionBar(toolbar);
